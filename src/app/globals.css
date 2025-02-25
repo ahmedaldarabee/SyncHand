@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.poppins {
+  font-family: var(--font-poppins);
+}
+
+.projects-bar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.projects-bar::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.projects-bar::-webkit-scrollbar-thumb {
+  background-color: #0369A1;
+  cursor: pointer;
+  border-radius:8px;
+}
