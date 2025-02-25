@@ -2,8 +2,8 @@ import React from 'react'
 import { ShieldCheck,Bolt,Target } from 'lucide-react';
 const ProjectCard = () => {
     return (
-        <ul>
-            <li className='w-[280px] max-sm:w-[240px] cursor-pointer flex flex-col max-sm:gap-0 md:gap-y-1 rounded-lg max-sm:p-1 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
+        <ul className='max-sm:m-auto max-sm:mt-3'>
+            <li className='w-[280px] cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
                 <ProjectHeader />
                 <ProjectBody />
                 <ProjectFooter />

@@ -6,7 +6,7 @@ import AllProjectsSection from './components/AllProjectsSection';
 const AllProjects = () => {
     return (
         // bg-slate-50 w-[78%]  min-h-screen flex
-        <div className='bg-slate-50 w-[78%] sm:w-[100%] sm:flex-col min-h-screen flex'>
+        <div className='bg-slate-50 max-sm:w-[100%] w-[78%] sm:w-[100%] sm:flex-col min-h-screen flex'>
             <AllProjectArea/>
         </div>
     )

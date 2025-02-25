@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter,Poppins } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./components/Sidebar";
-import ProjectsHeader from "./pages/AllProjects/components/ProjectsHeader";
+import ContextAppProvider from "./pages/contextApp";
 
 const inter = Inter({
   subsets:['latin']
@@ -26,9 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.variable}>
-      {children}
-      </body>
+
+      <ContextAppProvider>
+          <body className={poppins.variable}>
+            {children}
+          </body>
+      </ContextAppProvider>
     </html>
   );
 }

@@ -35,7 +35,7 @@ export default function ContextAppProvider({
     )
 };
 
+// -> C O R E <- main context to do manager operations on components!
 export function useContextApp(){
     return useContext(ContextApp);
 }
-
