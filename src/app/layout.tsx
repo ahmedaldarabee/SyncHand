@@ -19,13 +19,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children, // main children's
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode; // type of these children's
 }>) {
   return (
     <html lang="en">
-
       <ContextAppProvider>
           <body className={poppins.variable}>
             {children}
