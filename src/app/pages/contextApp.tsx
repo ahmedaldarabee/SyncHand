@@ -1,7 +1,8 @@
 "use client"
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { AppType, SidebarMenuItem } from './types/AppTypes';
+import { AppType, IconData, SidebarMenuItem } from './types/AppTypes';
+import { allIconsArray } from '../Data/AllIcons';
 
 // setting the default state
 const defaultState: AppType = {
@@ -45,6 +46,8 @@ export default function ContextAppProvider({
 
     const [openProjectWindow, setOpenProjectWindow] = useState(false);
 
+    const [ allIconsData , setAllIconsData ] = useState<IconData[]>(allIconsArray);
+    
     useEffect(() => {
         setOpenSideBar(false);  
     },[sideBarMenu])
@@ -64,7 +67,6 @@ export default function ContextAppProvider({
 }
 
 // ContextAppProvider that define children's and data that we needed to moved between components.
-
 // -> C O R E <- main context to do manager operations on components!
 export function useContextApp(){
     return useContext(ContextApp);

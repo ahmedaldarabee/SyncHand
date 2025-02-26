@@ -1,10 +1,16 @@
 // structure of the context!
 
-export type SidebarMenuItem = {
+import { ReactNode } from "react";
+
+export interface SidebarMenuItem  {
     id:number,
     name:string,
     isSelected:boolean
 };
+
+export interface IconData extends SidebarMenuItem{
+    icon:ReactNode
+}
 
 export type AppType = {
     openSideBarObject : {
@@ -21,5 +27,10 @@ export type AppType = {
     openProjectWindowObject:{
         openProjectWindow:boolean,
         setOpenProjectWindow:React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    allIconDataObject?: {
+        allIconsData: IconData[],
+        setAllIconsData:React.Dispatch <React.SetStateAction<IconData[]>>
     }
 }
