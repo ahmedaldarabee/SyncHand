@@ -30,11 +30,13 @@ function SearchBar(){
 
 function AddProject(){
     const {
-        openSideBarObject: {openSideBar , setOpenSideBar},
+        openSideBarObject: { openSideBar, setOpenSideBar },
+        openProjectWindowObject: { openProjectWindow, setOpenProjectWindow }
     } = useContextApp();
 
     return(
         <div className='flex items-center gap-2 max-sm:ml-auto md:ml-auto'>
+            {/* onClick={setOpenProjectWindow(true)} */}
             <button type='button' className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
                 <ListPlus />
                 <span className='capitalize'> new project </span>

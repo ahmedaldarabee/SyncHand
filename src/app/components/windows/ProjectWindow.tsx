@@ -1,30 +1,71 @@
 "use client"
 
 import { useContextApp } from '@/app/pages/contextApp';
-import React from 'react'
-import { BookmarkX, Wrench } from 'lucide-react';
+import React, { useEffect, useLayoutEffect } from 'react'
+import { BookMarked, BookmarkX, Wrench } from 'lucide-react';
 
+// for input verifications
+import {useForm , SubmitHandler, UseFormRegister , FieldErrors} from 'react-hook-form'
+import { zodResolver }  from '@hookform/resolvers/zod';
+import * as z from 'zod'
+
+const schema = z.object({
+    projectName:z.string()
+    .min(1,{message:"project name is required!"})
+    .max(35,{message:"project name must be less than or equal 35 character"})
+})
+
+type FormData = z.infer<typeof schema>;
 
 const ProjectWindow = () => {
     const {
         openSideBarObject: {openSideBar , setOpenSideBar},
+        openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
     } = useContextApp();
+
+    const {
+        register,handleSubmit,setValue,formState: {errors},reset,
+    } = useForm<FormData>({
+        resolver: zodResolver(schema),
+    });
+
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+        console.log("Form submitted with this data: ", data);
+        handleClose();
+    }
+
+    const handleClose = () => {
+        console.log("closing window and resetting form");
+        setOpenProjectWindow(false);
+        reset();
+    }
+
+    useLayoutEffect(() => {
+        if(openProjectWindow){
+            console.log("window opening right now");
+            reset();
+        } 
+    },[openProjectWindow,reset]);
+
+    console.log("project window rendered, open project window: " , openProjectWindow);
 
     return (
         <div className={`${openSideBar? 'block':'hidden'} w-[45%] max-sm:w-[82%] max-[600px]:w-[93%] z-[80] p-3 left-1/2 top-[47%] -translate-y-1/2 -translate-x-1/2 absolute flex flex-col gap-3 border border-slate-50 bg-white rounded-lg drop-shadow-lg `}>
 
             {/* header */}
-            <Header />
+            <Header handleClose={handleClose} />
 
-            <form className='flex flex-col gap-2 p-8 mt-3'>
-                <ProjectInput />
-                {/* <Footer /> */} 
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2 p-8'>
+                <ProjectInput register={register} errors={errors} />
+                <Footer handleClose={handleClose}/> 
             </form>
         </div>
     )
 }
 
-const Header = () => {
+const Header = ({handleClose}:{handleClose:()=>void}) => {
+    console.log("header handler");
+    
     const {
         openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
     } = useContextApp();
@@ -33,19 +74,77 @@ const Header = () => {
         <div className='flex justify-between items-center p-7'>
             <div className='flex items-center gap-2'>
                 <div className='p-2 bg-sky-800 rounded-lg flex items-center justify-center'>
-                    <Wrench onClick={() => setOpenProjectWindow(false)} className='w-4 h-4 text-white'/>
+                    <Wrench className='w-4 h-4 text-white'/>
                 </div>
                 <span className='font-semibold text-lg'>add project</span>
             </div>
 
-            <BookmarkX onClick={() => setOpenProjectWindow(false)} className='text-slate-300 w-4 h-4 cursor-pointer' />
+            <BookmarkX onClick={() => handleClose()} className='text-slate-300 w-4 h-4 cursor-pointer' />
         </div>
     )
 }
 
-const ProjectInput = () => {
+const ProjectInput = ({register,errors}:{
+        register: UseFormRegister <FormData>; errors:FieldErrors<FormData>
+    }) => {
+    
+    const {
+        openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
+    } = useContextApp();
+
+    useEffect(() => {
+        if(openProjectWindow){
+            const inputElement = document.querySelector<HTMLInputElement>(
+                'input[name="projectName"]'
+            );
+
+            if(inputElement){
+                inputElement.focus();
+            }
+        }
+    },[openProjectWindow])
+
     return(
-        <div></div>
+        <div className='flex flex-col gap-2'>
+            <span className='text-[14px] font-medium'>project name</span>
+        
+            <div className='flex gap-3 justify-between'>
+                
+                {/* input */}
+                <div className='w-full'>
+                    <input {...register("projectName")} className='p-2 text-[13px] w-full rounded-md border outline-none' type="text" placeholder='Enter project name' />
+
+                    {errors.projectName && (
+                        <p className='text-[11px] mt-2 text-red-700'>{errors.projectName.message}</p>
+                    )}
+                </div>
+
+                {/* icon */}
+                <div className='w-11 h-11 text-white flex items-center justify-center bg-sky-700 rounded-lg cursor-pointer'>
+                    <BookMarked />
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+const Footer = ({handleClose}:{handleClose:() =>any}) => {
+    console.log("footer rendered!");
+
+    return (
+        <div className='w-[100%] p-3 mt-2 flex gap-3 justify-end items-center'>
+
+            {/* cancel button */}
+            <button type='button' onClick={handleClose()} className='border border-slate-200 text-slate-400 text-[13px] p-2 rounded-md capitalize hover:border-slate-300 transition-all'>
+                close
+            </button>
+
+            <button className='text-white text-[13px] p-2 px-4 rounded-md bg-sky-600 hover:bg-sky-700 transition-all capitalize'>
+                add project
+            </button>
+
+        </div>
     )
 }
 
