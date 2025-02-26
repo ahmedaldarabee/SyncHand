@@ -65,7 +65,7 @@ export default function ContextAppProvider({
 
 // ContextAppProvider that define children's and data that we needed to moved between components.
 
-// main context to do manager operations on components!
+// -> C O R E <- main context to do manager operations on components!
 export function useContextApp(){
     return useContext(ContextApp);
 }
