@@ -30,7 +30,7 @@ const Home = () => {
 
       {/* soft layer */}
 
-      {(openSideBar || openProjectWindow) && (
+      {(openSideBar) && (
         <div className={`transition-all w-full h-full ${openProjectWindow? 'z-70' : 'z-50'} bg-slate-800 fixed opacity-30`}>  </div>
       )}
 

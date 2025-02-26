@@ -16,10 +16,12 @@ const ProjectsHeader = () => {
 function SearchBar(){
     return (
         <div className='flex items-center'>
+
             {/* search icon */}
             <div className='border-b-2 border-sky-500 h-[39px] w-11 flex justify-center items-center cursor-pointer'>
                 <Search className='w-[26px]  text-slate-400 outline-none'/>
             </div>
+
             {/* search input */}
             <div className='border-b-2 border-slate-200'>
                 <input className='outline-none p-2 bg-transparent text-[14px]' type="search" placeholder='Search here...' />
@@ -36,12 +38,11 @@ function AddProject(){
 
     return(
         <div className='flex items-center gap-2 max-sm:ml-auto md:ml-auto'>
-            {/* onClick={setOpenProjectWindow(true)} */}
-            <button type='button' className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
+            <button type='button' onClick={() => setOpenProjectWindow(!openProjectWindow)} className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
                 <ListPlus />
                 <span className='capitalize'> new project </span>
             </button>
-            <Menu onClick={() => setOpenSideBar(!openSideBar)} className='text-slate-400 h-9 cursor-pointer hidden max-[940px]:block' />
+            <Menu onClick={() => setOpenSideBar(prev => !prev)} className='text-slate-400 h-9 cursor-pointer hidden max-[940px]:block' />
         </div>
     )
 }

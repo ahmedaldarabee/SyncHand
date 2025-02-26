@@ -50,7 +50,8 @@ const ProjectWindow = () => {
     console.log("project window rendered, open project window: " , openProjectWindow);
 
     return (
-        <div className={`${openSideBar? 'block':'hidden'} w-[45%] max-sm:w-[82%] max-[600px]:w-[93%] z-[80] p-3 left-1/2 top-[47%] -translate-y-1/2 -translate-x-1/2 absolute flex flex-col gap-3 border border-slate-50 bg-white rounded-lg drop-shadow-lg `}>
+        // ${openProjectWindow? 'block':'hidden'}
+        <div className={`${openProjectWindow? 'block':'hidden'} w-[45%] max-sm:w-[82%] max-[600px]:w-[93%] z-[80] p-3 left-1/2 top-[47%] -translate-y-1/2 -translate-x-1/2 absolute flex flex-col gap-3 border border-slate-50 bg-white rounded-lg drop-shadow-lg `}>
 
             {/* header */}
             <Header handleClose={handleClose} />
@@ -129,21 +130,20 @@ const ProjectInput = ({register,errors}:{
     )
 }
 
-const Footer = ({handleClose}:{handleClose:() =>any}) => {
+const Footer = ({handleClose}:{handleClose:() => any }) => {
     console.log("footer rendered!");
 
     return (
         <div className='w-[100%] p-3 mt-2 flex gap-3 justify-end items-center'>
 
             {/* cancel button */}
-            <button type='button' onClick={handleClose()} className='border border-slate-200 text-slate-400 text-[13px] p-2 rounded-md capitalize hover:border-slate-300 transition-all'>
+            <button type='button' onClick={() => handleClose()} className='border border-slate-200 text-slate-400 text-[13px] p-2 rounded-md capitalize hover:border-slate-300 transition-all'>
                 close
             </button>
 
             <button className='text-white text-[13px] p-2 px-4 rounded-md bg-sky-600 hover:bg-sky-700 transition-all capitalize'>
                 add project
             </button>
-
         </div>
     )
 }

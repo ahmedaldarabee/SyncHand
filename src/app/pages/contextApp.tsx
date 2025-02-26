@@ -3,7 +3,6 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { AppType, SidebarMenuItem } from './types/AppTypes';
 
-
 // setting the default state
 const defaultState: AppType = {
     openSideBarObject:{openSideBar:false,setOpenSideBar:() => {},},
