@@ -6,7 +6,7 @@ import StatusRightSide from './components/StatusRightSide';
 
 const AllProjects = () => {
     return (
-        <div className='bg-slate-50 min-h-screen flex '>
+        <div className='bg-slate-50 w-full max-w-[100%] min-h-screen flex justify-center overflow-auto'>
             <AllProjectArea/>
             <StatusRightSide />
         </div>
@@ -15,7 +15,7 @@ const AllProjects = () => {
 
 function AllProjectArea() {
     return (
-        <div className='max-[1000px]:w-[100%]  w-[78%] sm:flex-col lg:p-8 max-sm:p-5 flex flex-col max-sm:gap-1 lg:gap-3 border-r-2 overflow-auto'>
+        <div className='max-[1000px]:w-[100%] w-[78%] sm:flex-col lg:p-8 max-sm:p-5 flex flex-col max-sm:gap-1 lg:gap-3 border-r-2 overflow-auto'>
             <ProjectsHeader/>
             <ProjectsSubHeader/>
             <AllProjectsSection/>

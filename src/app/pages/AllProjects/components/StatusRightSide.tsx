@@ -4,8 +4,8 @@ import { AudioLines } from 'lucide-react';
 const StatusRightSide = () => {
   return (
     // max-sm:hidden max-md:hidden
-    <div className='w-[22%] max-[1000px]:hidden lg:flex justify-end items-center cursor-pointer'>
-      <div className='h-[98%] w-[100%] bg-white rounded-l-3xl p-3 flex flex-col'>
+    <div className='overflow-hidden max-w-[300px] max-[1000px]:hidden flex justify-end items-center cursor-pointer'>
+      <div className='h-[98%] max-w-[100%] rounded-l-3xl p-3 flex flex-col items-center'>
           <Header/>
           <div className='flex flex-col gap-11 items-center justify-center mt-6'>
             <CircularChart/>

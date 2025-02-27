@@ -77,7 +77,6 @@ export default function ContextAppProvider({
 
     return (
         <>
-            {/* ContextApp: that response to send the data between components */}
             <ContextApp.Provider value={{
                 openSideBarObject: { openSideBar , setOpenSideBar },
                 sideBarMenuObject: { sideBarMenu , setSideBarMenu },
@@ -93,8 +92,6 @@ export default function ContextAppProvider({
     )
 }
 
-// ContextAppProvider that define children's and data that we needed to moved between components.
-// -> C O R E <- main context to do manager operations on components!
 export function useContextApp(){
     return useContext(ContextApp);
 }

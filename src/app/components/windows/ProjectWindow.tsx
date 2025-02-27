@@ -74,7 +74,6 @@ const ProjectWindow = () => {
     },[openProjectWindow,reset]);
 
     return (
-        // ${openProjectWindow? 'block':'hidden'}
         <div className={`${openProjectWindow ? 'block':'hidden'} w-[45%] max-sm:w-[82%] max-[600px]:w-[93%] z-[80] p-3 left-1/2 top-[47%] -translate-y-1/2 -translate-x-1/2 absolute flex flex-col gap-3 border border-slate-50 bg-white rounded-lg drop-shadow-lg `}>
 
             {/* header */}
