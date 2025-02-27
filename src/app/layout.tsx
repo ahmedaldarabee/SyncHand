@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Inter,Poppins } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import ContextAppProvider from "./pages/contextApp";
 
-const inter = Inter({
-  subsets:['latin']
-});
-
+const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
-  subsets:['latin'],
-  variable:'--font-poppins',
-  weight: ["100","200","300","400","500","600","700","800","900"],
-})
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Project Master",
@@ -19,17 +16,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children, // main children's
-}: Readonly<{
-  children: React.ReactNode; // type of these children's
-}>) {
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <ContextAppProvider>
-          <body className={poppins.variable}>
-            {children}
-          </body>
-      </ContextAppProvider>
+      <body className={poppins.variable}>
+        <ContextAppProvider>{children}</ContextAppProvider>
+      </body>
     </html>
   );
 }

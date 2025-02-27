@@ -8,11 +8,12 @@ import { allIconsArray } from '../Data/AllIcons';
 const defaultState: AppType = {
     openSideBarObject:{openSideBar:false,setOpenSideBar:() => {},},
     sideBarMenuObject:{sideBarMenu:[],setSideBarMenu:() => {}},
-    openProjectWindowObject:{
-        openProjectWindow:false,
-        setOpenProjectWindow:() => {}
-    },
-}
+    openProjectWindowObject:{ openProjectWindow:false,setOpenProjectWindow:() => {}},
+
+    allIconDataObject : {allIconsData:[],setAllIconsData:()=>{}},
+    openIconWindowObject: {openIconWindow:false,setOpenIconWindow:()=>{}},
+    selectedIconObject : {selectedIcon:null,setSelectedIcon:()=>{}}
+};
 
 // creating the context to start sharing data between components
 // and assign default state to it!
@@ -48,6 +49,9 @@ export default function ContextAppProvider({
 
     const [ allIconsData , setAllIconsData ] = useState<IconData[]>(allIconsArray);
     
+    const [openIconWindow, setOpenIconWindow] = useState<boolean>(false);
+    const [selectedIcon, setSelectedIcon] = useState<IconData | null>(null);
+
     useEffect(() => {
         setOpenSideBar(false);  
     },[sideBarMenu])
@@ -59,6 +63,9 @@ export default function ContextAppProvider({
                 openSideBarObject: { openSideBar , setOpenSideBar },
                 sideBarMenuObject: { sideBarMenu , setSideBarMenu },
                 openProjectWindowObject: { openProjectWindow , setOpenProjectWindow },
+                allIconDataObject : {allIconsData,setAllIconsData},
+                openIconWindowObject:{ openIconWindow , setOpenIconWindow },
+                selectedIconObject:{ selectedIcon , setSelectedIcon },
             }}>
                 {children}
             </ContextApp.Provider>

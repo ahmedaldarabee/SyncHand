@@ -8,7 +8,6 @@ import { useContextApp } from '../pages/contextApp';
 
 const Sidebar = () => {
     const { openSideBarObject: {openSideBar,setOpenSideBar} } = useContextApp();
-
     const sideBarMenuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

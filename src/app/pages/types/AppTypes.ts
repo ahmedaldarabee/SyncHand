@@ -29,8 +29,18 @@ export type AppType = {
         setOpenProjectWindow:React.Dispatch<React.SetStateAction<boolean>>;
     }
 
-    allIconDataObject?: {
+    allIconDataObject: {
         allIconsData: IconData[],
         setAllIconsData:React.Dispatch <React.SetStateAction<IconData[]>>
+    }
+
+    openIconWindowObject:{
+        openIconWindow:boolean,
+        setOpenIconWindow:React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    selectedIconObject: {
+        selectedIcon: IconData | null,
+        setSelectedIcon:React.Dispatch <React.SetStateAction<IconData | null>>
     }
 }
