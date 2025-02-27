@@ -1,9 +1,15 @@
 import React from 'react'
 import { ShieldCheck,Bolt,Target } from 'lucide-react';
+import { Project } from '@/app/Data/AllProjects';
+import getIconComponent from '@/app/Functions/IconsActions';
+
+// {project}:{project: Project}
 const ProjectCard = () => {
+
     return (
         <ul className='max-sm:m-auto max-sm:mt-3'>
             <li className='w-[280px] cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
+                {/* project={project} */}
                 <ProjectHeader />
                 <ProjectBody />
                 <ProjectFooter />
@@ -12,6 +18,7 @@ const ProjectCard = () => {
     )
 }
 
+// {project}:{project: Project}
 const ProjectHeader = () => {
     return (
         <div className='flex justify-between items-center relative'>
@@ -19,11 +26,12 @@ const ProjectHeader = () => {
 
                 <div className='bg-sky-700 flex justify-center items-center text-white w-[38] h-[38] rounded-md'>
                     <ShieldCheck className='w-5 h-5' />
+                    {/* {getIconComponent(project.icon)} */}
                 </div>
 
                 <div className='flex flex-col'>
-                    <span className='capitalize font-bold text-[19px]'>project title</span>
-                    <span className='text-[14px] text-slate-400'>3day ago</span>
+                    <span className='capitalize font-bold text-[19px]'>project.title</span>
+                    <span className='text-[14px] text-slate-400'>project.createdAt</span>
                 </div>
 
                 <div className='absolute -right-14 top-[50%]'>
@@ -34,22 +42,20 @@ const ProjectHeader = () => {
     )
 }
 
+// {project}:{project: Project}
 const ProjectBody = () => {
     return(
         <ul className='mt-2 text-slate-400 text-[13px] flex flex-col gap-1 max-sm:ml-1 md:ml-3 list-none'>
 
             <li className='flex gap-2 items-center'>
                 <Target className='text-sky-600 self-start' />
-                <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas, qui!</span>
-            </li>
-            <li className='flex gap-2 items-center'>
-                <Target className='text-sky-600 self-start' />
-                <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas, qui!</span>
+                <span>project.title</span>
             </li>
         </ul>
     )
 }
 
+// {project}:{project: Project}
 const ProjectFooter = () => {
     return(
         <div className='flex max-sm:gap-1 gap-4 flex-col m-2'>

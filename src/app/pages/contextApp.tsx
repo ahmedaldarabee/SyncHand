@@ -3,6 +3,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { AppType, IconData, SidebarMenuItem } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
+import { Project, projectData } from '../Data/AllProjects';
 
 // setting the default state
 const defaultState: AppType = {
@@ -12,7 +13,9 @@ const defaultState: AppType = {
 
     allIconDataObject : {allIconsData:[],setAllIconsData:()=>{}},
     openIconWindowObject: {openIconWindow:false,setOpenIconWindow:()=>{}},
-    selectedIconObject : {selectedIcon:null,setSelectedIcon:()=>{}}
+    selectedIconObject : {selectedIcon:null,setSelectedIcon:()=>{}},
+
+    allProjectsObject: {allProjects: [], setAllProjects:() => {}},
 };
 
 // creating the context to start sharing data between components
@@ -50,11 +53,27 @@ export default function ContextAppProvider({
     const [ allIconsData , setAllIconsData ] = useState<IconData[]>(allIconsArray);
     
     const [openIconWindow, setOpenIconWindow] = useState<boolean>(false);
+    
     const [selectedIcon, setSelectedIcon] = useState<IconData | null>(null);
+
+    const [allProjects, setAllProjects] = useState<Project[]>([]);
 
     useEffect(() => {
         setOpenSideBar(false);  
-    },[sideBarMenu])
+    },[sideBarMenu]);    
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await new Promise((resolve) => setTimeout(resolve,1000))
+                setAllProjects(projectData);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    },[]);
 
     return (
         <>
@@ -66,6 +85,7 @@ export default function ContextAppProvider({
                 allIconDataObject : {allIconsData,setAllIconsData},
                 openIconWindowObject:{ openIconWindow , setOpenIconWindow },
                 selectedIconObject:{ selectedIcon , setSelectedIcon },
+                allProjectsObject: {allProjects , setAllProjects},
             }}>
                 {children}
             </ContextApp.Provider>

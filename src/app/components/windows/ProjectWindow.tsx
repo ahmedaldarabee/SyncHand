@@ -10,6 +10,8 @@ import {useForm , SubmitHandler, UseFormRegister , FieldErrors} from 'react-hook
 import { zodResolver }  from '@hookform/resolvers/zod';
 import * as z from 'zod'
 import getIconComponent from '@/app/Functions/IconsActions';
+import { addNewProject } from '@/app/Functions/projectsActions';
+
 
 const schema = z.object({
     projectName:z.string()
@@ -17,20 +19,46 @@ const schema = z.object({
     .max(35,{message:"project name must be less than or equal 35 character"})
 })
 
-type FormData = z.infer<typeof schema>;
+export type FormData = z.infer<typeof schema>;
 
 const ProjectWindow = () => {
+
     const {
-        openProjectWindowObject: {openProjectWindow , setOpenProjectWindow}
+        openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
+        allProjectsObject: {allProjects , setAllProjects},
+        selectedIconObject:{ selectedIcon , setSelectedIcon },
+
     } = useContextApp();
 
     const {
-        register,handleSubmit,setValue,formState: {errors},reset,
+        register,handleSubmit,setValue,setError,setFocus,formState: {errors},reset,
     } = useForm<FormData>({
         resolver: zodResolver(schema),
     });
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
+        const existingProject = allProjects.find((project) => {
+            project.title.toLowerCase() === data.projectName.toLowerCase();
+        });
+
+        if(existingProject){
+            setError("projectName",{
+                type:"manual",
+                message:"project already exist!"
+            });
+
+            setFocus("projectName");
+        }else{
+            addNewProject(
+                data,
+                allProjects,
+                setAllProjects,
+                setOpenProjectWindow,
+                selectedIcon,
+                reset
+            )
+        }
+
         handleClose();
     }
 
@@ -98,10 +126,10 @@ const ProjectInput = ({
     }) => {
         const {
         openProjectWindowObject: { openProjectWindow },
-        selectedIconObject: { selectedIcon },
+        selectedIconObject: { selectedIcon,setSelectedIcon },
         openIconWindowObject: { openIconWindow, setOpenIconWindow },
         } = useContextApp();
-  
+
         useEffect(() => {
         if (openProjectWindow) {
             const inputElement = document.querySelector<HTMLInputElement>(
@@ -125,10 +153,10 @@ const ProjectInput = ({
             {/* input */}
             <div className="w-full">
                 <input
-                {...register("projectName")}
-                className="p-2 text-[13px] w-full rounded-md border outline-none"
-                type="text"
-                placeholder="Enter project name"
+                    {...register("projectName")}
+                    className="p-2 text-[13px] w-full rounded-md border outline-none"
+                    type="text"
+                    placeholder="Enter project name"
                 />
     
                 {errors.projectName && (
@@ -140,14 +168,14 @@ const ProjectInput = ({
     
             <div
                 onClick={() => {
-                setOpenIconWindow(true);
+                    setOpenIconWindow(true);
                 }}
                 className="hover:bg-sky-500 transition-all w-9 h-9 text-white flex items-center justify-center bg-sky-700 rounded-lg cursor-pointer"
             >
-                {selectedIcon ? (
-                getIconComponent(selectedIcon?.name, "text-white")
+                {selectedIcon && selectedIcon.name ? (
+                    getIconComponent(selectedIcon?.name)
                 ) : (
-                <BookMarked />
+                    <BookMarked />
                 )}
             </div>
             </div>

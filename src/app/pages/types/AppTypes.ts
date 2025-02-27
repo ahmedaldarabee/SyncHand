@@ -1,5 +1,6 @@
 // structure of the context!
 
+import { Project } from "@/app/Data/AllProjects";
 import { ReactNode } from "react";
 
 export interface SidebarMenuItem  {
@@ -41,6 +42,11 @@ export type AppType = {
 
     selectedIconObject: {
         selectedIcon: IconData | null,
-        setSelectedIcon:React.Dispatch <React.SetStateAction<IconData | null>>
+        setSelectedIcon:React.Dispatch<React.SetStateAction<IconData | null>>
+    }
+
+    allProjectsObject:{
+        allProjects:Project[];
+        setAllProjects: React.Dispatch <React.SetStateAction<Project[]>>;
     }
 }

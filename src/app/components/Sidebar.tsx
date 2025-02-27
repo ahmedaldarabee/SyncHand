@@ -12,9 +12,6 @@ const Sidebar = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            // sideBarMenuRef.current that refer the current value or here is element, this case mean that if be null or not!
-            // event.target element that click on it
-            // !sideBarMenuRef.current.contains(event.target as Node) to check if clicked element not within sidebar!
             if(sideBarMenuRef.current && !sideBarMenuRef.current.contains(event.target as Node)){
                 setOpenSideBar(!openSideBar);
             }
