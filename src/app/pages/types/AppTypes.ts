@@ -1,10 +1,17 @@
 // structure of the context!
 
-export type SidebarMenuItem = {
+import { Project } from "@/app/Data/AllProjects";
+import { ReactNode } from "react";
+
+export interface SidebarMenuItem  {
     id:number,
     name:string,
     isSelected:boolean
 };
+
+export interface IconData extends SidebarMenuItem{
+    icon:ReactNode
+}
 
 export type AppType = {
     openSideBarObject : {
@@ -21,5 +28,25 @@ export type AppType = {
     openProjectWindowObject:{
         openProjectWindow:boolean,
         setOpenProjectWindow:React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    allIconDataObject: {
+        allIconsData: IconData[],
+        setAllIconsData:React.Dispatch <React.SetStateAction<IconData[]>>
+    }
+
+    openIconWindowObject:{
+        openIconWindow:boolean,
+        setOpenIconWindow:React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    selectedIconObject: {
+        selectedIcon: IconData | null,
+        setSelectedIcon:React.Dispatch<React.SetStateAction<IconData | null>>
+    }
+
+    allProjectsObject:{
+        allProjects:Project[];
+        setAllProjects: React.Dispatch <React.SetStateAction<Project[]>>;
     }
 }

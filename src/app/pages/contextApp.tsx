@@ -1,17 +1,22 @@
 "use client"
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { AppType, SidebarMenuItem } from './types/AppTypes';
+import { AppType, IconData, SidebarMenuItem } from './types/AppTypes';
+import { allIconsArray } from '../Data/AllIcons';
+import { Project, projectData } from '../Data/AllProjects';
 
 // setting the default state
 const defaultState: AppType = {
     openSideBarObject:{openSideBar:false,setOpenSideBar:() => {},},
     sideBarMenuObject:{sideBarMenu:[],setSideBarMenu:() => {}},
-    openProjectWindowObject:{
-        openProjectWindow:false,
-        setOpenProjectWindow:() => {}
-    },
-}
+    openProjectWindowObject:{ openProjectWindow:false,setOpenProjectWindow:() => {}},
+
+    allIconDataObject : {allIconsData:[],setAllIconsData:()=>{}},
+    openIconWindowObject: {openIconWindow:false,setOpenIconWindow:()=>{}},
+    selectedIconObject : {selectedIcon:null,setSelectedIcon:()=>{}},
+
+    allProjectsObject: {allProjects: [], setAllProjects:() => {}},
+};
 
 // creating the context to start sharing data between components
 // and assign default state to it!
@@ -45,17 +50,41 @@ export default function ContextAppProvider({
 
     const [openProjectWindow, setOpenProjectWindow] = useState(false);
 
+    const [ allIconsData , setAllIconsData ] = useState<IconData[]>(allIconsArray);
+    
+    const [openIconWindow, setOpenIconWindow] = useState<boolean>(false);
+    
+    const [selectedIcon, setSelectedIcon] = useState<IconData | null>(null);
+
+    const [allProjects, setAllProjects] = useState<Project[]>([]);
+
     useEffect(() => {
         setOpenSideBar(false);  
-    },[sideBarMenu])
+    },[sideBarMenu]);    
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await new Promise((resolve) => setTimeout(resolve,1000))
+                setAllProjects(projectData);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    },[]);
 
     return (
         <>
-            {/* ContextApp: that response to send the data between components */}
             <ContextApp.Provider value={{
                 openSideBarObject: { openSideBar , setOpenSideBar },
                 sideBarMenuObject: { sideBarMenu , setSideBarMenu },
                 openProjectWindowObject: { openProjectWindow , setOpenProjectWindow },
+                allIconDataObject : {allIconsData,setAllIconsData},
+                openIconWindowObject:{ openIconWindow , setOpenIconWindow },
+                selectedIconObject:{ selectedIcon , setSelectedIcon },
+                allProjectsObject: {allProjects , setAllProjects},
             }}>
                 {children}
             </ContextApp.Provider>
@@ -63,9 +92,6 @@ export default function ContextAppProvider({
     )
 }
 
-// ContextAppProvider that define children's and data that we needed to moved between components.
-
-// main context to do manager operations on components!
 export function useContextApp(){
     return useContext(ContextApp);
 }
