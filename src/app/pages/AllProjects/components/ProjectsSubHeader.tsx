@@ -1,5 +1,8 @@
-import React from 'react'
+"use client"
+
+import React, { useCallback, useEffect, useState } from 'react'
 import { ArrowDownZA } from 'lucide-react';
+import { debounce } from '@mui/material';
 
 const ProjectsSubHeader = () => {
   return (
@@ -12,7 +15,7 @@ const ProjectsSubHeader = () => {
 
 function ProjectTxt(){
   return(
-    <p className='capitalize lg:text-[26px] md:text-[14px] max-sm:hidden font-bold'> my projects </p>
+    <p className='outline-slate-400 cursor-pointer capitalize lg:text-[26px] md:text-[14px] max-sm:hidden font-bold'>project dashboard</p>
   )
 }
 
