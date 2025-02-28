@@ -1,19 +1,45 @@
-import React from 'react'
-import { Bolt,Target,BadgePlus } from 'lucide-react';
+"ure client"
+
+import React, { useRef } from 'react'
+import { Target,BadgePlus, EllipsisVertical } from 'lucide-react';
 import { Project } from '@/app/Data/AllProjects';
 import getIconComponent from '@/app/Functions/IconsActions';
+import { useContextApp } from '../../contextApp';
 
 const ProjectCard = ({project}:{project: Project}) => {
-
     const daysLeft = calculateDaysLeft(project.createdAt);
     const progressPercentage = calculateProgressPerennate(
         project.tasks.length,
         project.tasks.filter((task) => task.status === "Completed").length
     );
 
+    const threeDotsRef = useRef<HTMLDivElement>(null);
+
+    const {
+        openDropDownObject: {setOpenDropDown},
+        dropDownPositionObject: {setDropDownPosition},
+    } = useContextApp();
+
+    function openDropDown(event: React.MouseEvent){
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(threeDotsRef.current){
+            const rect = threeDotsRef.current.getBoundingClientRect();
+
+            const { top , left } = rect;
+            setDropDownPosition({
+                top: top + window.scrollY + 30,
+                left: left + window.scrollX,
+            });
+
+            setOpenDropDown(true);
+        }
+    }
+
     return (
         <ul className='max-sm:m-auto max-sm:mt-3'>
-            <li className='w-[280px] cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
+            <li className='max-w-[280px] flex-wrap cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
                 <ProjectHeader daysLeft={daysLeft}/>
                 <ProjectBody />
                 <ProjectFooter/>
@@ -26,22 +52,25 @@ const ProjectCard = ({project}:{project: Project}) => {
             <div className='flex justify-between items-center relative'>
                 <div className='flex gap-1 items-between items-center relative'>
     
-                    <div className='flex gap-2'>
+                    <div className='flex gap-2 justify-center items-center'>
     
-                        <div className=' bg-sky-700 flex justify-center items-center text-white w-[38] h-[38] rounded-md'>
+                        <div className='bg-sky-700 flex justify-center items-center p-1  text-white w-[38] h-[38] rounded-md'>
                             {getIconComponent(project.icon)}
                         </div>
     
-                        <div className='flex flex-col'>
-                            { truncateString(project.title,25)}                        
+                        <div className='flex flex-col max-w-[200px] m-auto'>
+                            { truncateString(project.title,25)}                     
                             <span className='text-[14px] text-slate-400'>
-                                {daysLeft === 0 ? "Today" :daysLeft + `day ${daysLeft > 1 ? "s":""} age`}
+                                {daysLeft === 0 ? "Today" :daysLeft + ` day${daysLeft > 1 ? "'s":""} age`}
                             </span>
                         </div>
                     </div>
     
-                    <div className='ml-7'>
-                        <Bolt className='text-slate-400 text-[20px] transition-all hover:text-sky-400'/>
+                    <div className='ml-7 w-6 h-6 flex justify-center items-center'
+                    ref={threeDotsRef}
+                    onClick={openDropDown}
+                    >
+                        <EllipsisVertical className='text-slate-400 text-[17px] transition-all hover:text-sky-400'/>
                     </div>
                 </div>
             </div>
@@ -76,10 +105,10 @@ const ProjectCard = ({project}:{project: Project}) => {
                     }
                 </ul>
     
-                <div className='text-[11] text-slate-400'>
+                <div className='-mt-3 '>
                     {
                         project.tasks.length > 3 && (
-                            <span>+ {project.tasks.length -3} tasks</span>
+                            <small className='text-slate-400'>+ {project.tasks.length -3} tasks</small>
                         )
                     }
                 </div>
@@ -111,8 +140,6 @@ const ProjectCard = ({project}:{project: Project}) => {
         )
     }
 }
-
-
 
 function truncateString(str: string, maxLength: number): string {
     if(str.length > maxLength){

@@ -49,4 +49,17 @@ export type AppType = {
         allProjects:Project[];
         setAllProjects: React.Dispatch <React.SetStateAction<Project[]>>;
     }
+
+    openDropDownObject:{
+        openDropDown:boolean;
+        setOpenDropDown: React.Dispatch <React.SetStateAction<boolean>>;
+    }
+
+    dropDownPositionObject:{
+        dropDownPosition:{
+            top:number,
+            left:number
+        };
+        setDropDownPosition: React.Dispatch<React.SetStateAction<{ top: number; left: number }>>;
+    }
 }

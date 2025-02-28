@@ -6,8 +6,8 @@ import AllProjects from "./pages/AllProjects/AllProjects";
 import AllTasks from "./pages/AllTasks/AllTasks";
 import { useContextApp } from "./pages/contextApp";
 
+// main component that used to show add components in this project
 const Home = () => {
-  
   const {
       openSideBarObject: { openSideBar, setOpenSideBar },
       sideBarMenuObject: { sideBarMenu, setSideBarMenu },
