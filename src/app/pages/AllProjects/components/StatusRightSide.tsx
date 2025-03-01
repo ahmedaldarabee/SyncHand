@@ -25,7 +25,7 @@ const Header = () => {
     </h2>
   )
 }
-// 
+
 const CircularChart = () => {
   return(
     <div className='flex justify-center items-center'>
@@ -76,4 +76,4 @@ const SingleProject = () => {
   )
 }
 
-export default StatusRightSide;
+export default StatusRightSide

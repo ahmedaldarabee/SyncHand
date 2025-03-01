@@ -1,6 +1,7 @@
 import React from 'react'
 import { useContextApp } from '../../contextApp'
 import ProjectCard from './ProjectCard'
+import ProjectsEmptyScreen from '@/app/EmptyScreen/ProjectsEmptyScreen';
 
 const AllProjectsSection = () => {
   const {
@@ -10,7 +11,7 @@ const AllProjectsSection = () => {
   return (
     <div className='projects-bar h-[80%] flex gap-4 flex-wrap overflow-auto mt-3 max-sm:m-auto'>
       {
-        allProjects.map((project) => (
+        allProjects.length === 0 ? <ProjectsEmptyScreen /> : allProjects.map((project) => (
           <ProjectCard project={project} key={project.id}/>
         ))
       }
@@ -18,4 +19,4 @@ const AllProjectsSection = () => {
   )
 }
 
-export default AllProjectsSection
+export default AllProjectsSection;

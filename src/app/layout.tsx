@@ -26,5 +26,5 @@ export default function RootLayout({
         <ContextAppProvider>{children}</ContextAppProvider>
       </body>
     </html>
-  );
+  )
 }

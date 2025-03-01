@@ -5,7 +5,6 @@ import { LayoutTemplate, BotMessageSquare, Grid2x2, Minimize2 } from 'lucide-rea
 import { SvgIconProps } from '@mui/material';
 
 const Menu = () => {
-
   const {
     openSideBarObject: { openSideBar, setOpenSideBar },
     sideBarMenuObject: { sideBarMenu, setSideBarMenu }
@@ -59,6 +58,6 @@ const Menu = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Menu;

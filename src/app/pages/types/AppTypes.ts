@@ -49,4 +49,31 @@ export type AppType = {
         allProjects:Project[];
         setAllProjects: React.Dispatch <React.SetStateAction<Project[]>>;
     }
+
+    openDropDownObject:{
+        openDropDown:boolean;
+        setOpenDropDown: React.Dispatch <React.SetStateAction<boolean>>;
+    }
+
+    dropDownPositionObject:{
+        dropDownPosition:{
+            top:number,
+            left:number
+        };
+        setDropDownPosition: React.Dispatch<React.SetStateAction<{ top: number; left: number }>>;
+    }
+
+    openConfirmationWindowObject: {
+        openConfirmationWindow:boolean,
+        setOpenConfirmationWindow: React.Dispatch <React.SetStateAction<boolean>>;
+    }
+
+    selectedProjectObject: {
+        selectedProject: Project | null,
+        setSelectedProject:React.Dispatch <React.SetStateAction<Project | null>>;
+    }
+    loadingObject:{
+        isLoading: boolean,
+        setLoading:React.Dispatch <React.SetStateAction<boolean>>;
+    }
 }

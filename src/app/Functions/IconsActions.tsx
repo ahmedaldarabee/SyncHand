@@ -37,6 +37,5 @@ const getIconComponent = (
         case "FolderTree": return <FolderTree className="text-[25px] text-white" />;
         default: return <FolderTree className="text-[25px] text-white" />;
     }
-};
-
+}
 export default getIconComponent;

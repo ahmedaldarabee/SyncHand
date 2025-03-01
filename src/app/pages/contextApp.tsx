@@ -5,7 +5,6 @@ import { AppType, IconData, SidebarMenuItem } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
 import { Project, projectData } from '../Data/AllProjects';
 
-// setting the default state
 const defaultState: AppType = {
     openSideBarObject:{openSideBar:false,setOpenSideBar:() => {},},
     sideBarMenuObject:{sideBarMenu:[],setSideBarMenu:() => {}},
@@ -16,10 +15,12 @@ const defaultState: AppType = {
     selectedIconObject : {selectedIcon:null,setSelectedIcon:()=>{}},
 
     allProjectsObject: {allProjects: [], setAllProjects:() => {}},
+    openDropDownObject: {openDropDown: false, setOpenDropDown:() => {}},
+    dropDownPositionObject: {dropDownPosition: {top:0, left:0}, setDropDownPosition:() => {}},
+    openConfirmationWindowObject: {openConfirmationWindow:false , setOpenConfirmationWindow:() => {}},
+    selectedProjectObject: {selectedProject:null , setSelectedProject:()=>{}},
+    loadingObject: {isLoading:false , setLoading:()=>{}},
 };
-
-// creating the context to start sharing data between components
-// and assign default state to it!
 
 const ContextApp = createContext<AppType>(defaultState);
 
@@ -58,6 +59,15 @@ export default function ContextAppProvider({
 
     const [allProjects, setAllProjects] = useState<Project[]>([]);
 
+    const [dropDownPosition, setDropDownPosition] = useState({ top:0, left:0 });
+
+    const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+    const [openConfirmationWindow, setOpenConfirmationWindow] = useState<boolean>(false);
+
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+    const [isLoading, setLoading] = useState<boolean>(false);
+
     useEffect(() => {
         setOpenSideBar(false);  
     },[sideBarMenu]);    
@@ -84,8 +94,14 @@ export default function ContextAppProvider({
                 allIconDataObject : {allIconsData,setAllIconsData},
                 openIconWindowObject:{ openIconWindow , setOpenIconWindow },
                 selectedIconObject:{ selectedIcon , setSelectedIcon },
-                allProjectsObject: {allProjects , setAllProjects},
+                allProjectsObject: { allProjects , setAllProjects},
+                openDropDownObject: { openDropDown, setOpenDropDown},
+                dropDownPositionObject: { dropDownPosition, setDropDownPosition},
+                openConfirmationWindowObject: { openConfirmationWindow, setOpenConfirmationWindow },
+                selectedProjectObject: { selectedProject, setSelectedProject },
+                loadingObject: { isLoading, setLoading },
             }}>
+
                 {children}
             </ContextApp.Provider>
         </>

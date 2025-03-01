@@ -6,6 +6,10 @@
   font-family: var(--font-poppins);
 }
 
+::selection {
+  @apply bg-slate-200 text-sky-500
+};
+
 .projects-bar::-webkit-scrollbar {
   width: 12px;
 }

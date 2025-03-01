@@ -6,12 +6,12 @@ import StatusRightSide from './components/StatusRightSide';
 
 const AllProjects = () => {
     return (
-        <div className='bg-slate-50 w-full max-w-[100%] min-h-screen flex justify-center overflow-auto'>
+        <div className='bg-slate-50  w-full min-h-screen flex justify-center flex-grow overflow-auto'>
             <AllProjectArea/>
             <StatusRightSide />
         </div>
     )
-};
+}
 
 function AllProjectArea() {
     return (

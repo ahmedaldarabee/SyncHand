@@ -13,15 +13,15 @@ const IconWindow = () => {
     if (!openIconWindow) return null;
 
     return (
-        <div className="absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-lg p-3 h-[300px] w-[100%] bg-white shadow-md z-[600]">
-        <Header setOpenIconWindow={setOpenIconWindow} />
-            <span className="mx-8 text-[13px] mt-10 text-slate-400">
-                {`Please select an icon from this list:`}
-            </span>
-        <IconsArea />
+        <div className="absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-lg p-3 h-[300px] lg:w-[40%] max-sm:w-[90%] md:w-[80%] bg-white shadow-md z-[600]">
+            <Header setOpenIconWindow={setOpenIconWindow} />
+                <span className="mx-8 text-[13px] mt-10 text-slate-400">
+                    {`Please select an icon from this list:`}
+                </span>
+            <IconsArea />
         </div>
     );
-};
+}
 
 const Header = ({ setOpenIconWindow }: { setOpenIconWindow: (value: boolean) => void }) => {
     return (
@@ -39,7 +39,7 @@ const Header = ({ setOpenIconWindow }: { setOpenIconWindow: (value: boolean) => 
         />
         </div>
     );
-};
+}
 
 const IconsArea = () => {
     return (
@@ -49,6 +49,6 @@ const IconsArea = () => {
             </div>
         </div>
     );
-};
+}
 
 export default IconWindow;
