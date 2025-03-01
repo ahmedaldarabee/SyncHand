@@ -59,6 +59,6 @@ const AllIcons = () => {
 
         </div>
     );
-};
+}
 
 export default AllIcons;

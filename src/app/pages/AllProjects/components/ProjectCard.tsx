@@ -18,6 +18,7 @@ const ProjectCard = ({project}:{project: Project}) => {
     const {
         openDropDownObject: {setOpenDropDown},
         dropDownPositionObject: {setDropDownPosition},
+        selectedProjectObject: { setSelectedProject },
     } = useContextApp();
 
     function openDropDown(event: React.MouseEvent){
@@ -34,44 +35,45 @@ const ProjectCard = ({project}:{project: Project}) => {
             });
 
             setOpenDropDown(true);
+            setSelectedProject(project);
         }
     }
 
     return (
-        <ul className='max-sm:m-auto max-sm:mt-3'>
-            <li className='max-w-[280px] flex-wrap cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
-                <ProjectHeader daysLeft={daysLeft}/>
-                <ProjectBody />
-                <ProjectFooter/>
-            </li>
-        </ul>
+        <> 
+            <ul className='max-sm:m-auto max-sm:mt-3'>
+                <li className='max-w-[100%] w-[280px] overflow-hidden flex-wrap cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
+                    <ProjectHeader daysLeft={daysLeft}/>
+                    <ProjectBody />
+                    <ProjectFooter/>
+                </li>
+            </ul>
+        </>
     )
 
     function ProjectHeader ({daysLeft}:{daysLeft: number}) {
         return (
-            <div className='flex justify-between items-center relative'>
-                <div className='flex gap-1 items-between items-center relative'>
+            <div className='flex items-center w-full flex-wrap'>
+                <div className='flex gap-2 items-center '>
     
-                    <div className='flex gap-2 justify-center items-center'>
-    
-                        <div className='bg-sky-700 flex justify-center items-center p-1  text-white w-[38] h-[38] rounded-md'>
-                            {getIconComponent(project.icon)}
-                        </div>
-    
-                        <div className='flex flex-col max-w-[200px] m-auto'>
-                            { truncateString(project.title,25)}                     
-                            <span className='text-[14px] text-slate-400'>
-                                {daysLeft === 0 ? "Today" :daysLeft + ` day${daysLeft > 1 ? "'s":""} age`}
-                            </span>
-                        </div>
+                    <div className='bg-sky-700 flex justify-center items-center p-1  text-white w-[38] h-[38] rounded-md'>
+                        {getIconComponent(project.icon)}
+                    </div>
+
+                    <div className='flex flex-col max-w-[100%] w-[140px] flex-wrap'>
+                        { truncateString(project.title,15)}                     
+                        <span className='text-[14px] text-slate-400'>
+                            {daysLeft === 0 ? "Today" :daysLeft + ` day${daysLeft > 1 ? "'s":""} age`}
+                        </span>
                     </div>
     
-                    <div className='ml-7 w-6 h-6 flex justify-center items-center'
+                    <div className='w-6 h-6 flex items-center justify-end'
                     ref={threeDotsRef}
                     onClick={openDropDown}
                     >
                         <EllipsisVertical className='text-slate-400 text-[17px] transition-all hover:text-sky-400'/>
                     </div>
+
                 </div>
             </div>
         )
@@ -118,7 +120,7 @@ const ProjectCard = ({project}:{project: Project}) => {
     
     function ProjectFooter () {
         return(
-            <div className='flex max-sm:gap-1 gap-4 flex-col m-2'>
+            <div className='flex max-sm:gap-1 gap-4 flex-col m-2 w-full flex-wrap'>
                 
                 <div className='text-[12px] flex gap-3 items-center w-full'>
                     <div className='w-full max-sm:w-[80%] h-[7px] rounded-xl bg-slate-100 overflow-hidden'>

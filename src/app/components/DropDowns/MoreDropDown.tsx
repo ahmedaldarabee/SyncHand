@@ -8,20 +8,42 @@ const MoreDropDown = () => {
 
     const {
         openDropDownObject: {openDropDown, setOpenDropDown},
+        
         dropDownPositionObject: {dropDownPosition, setDropDownPosition},
+        
+        openConfirmationWindowObject: {openConfirmationWindow,setOpenConfirmationWindow},
+        
+        selectedProjectObject: { selectedProject , setSelectedProject },
+
+        openProjectWindowObject:{ openProjectWindow,setOpenProjectWindow},
     } = useContextApp();
 
     const [dropDownOptions , setDropDownOption] = useState([
-        {id: 1 , name: "Edit" , icon: <Pencil />},
-        {id: 2 , name: "Delete" , icon: <Trash2 />},
+        {id: 1 , name: "Edit" , icon: <Pencil className='w-4 h-4' />},
+        {id: 2 , name: "Delete" , icon: <Trash2 className='w-4 h-4' />},
     ]);
 
     const menuRef = React.useRef<HTMLDivElement>(null);
+
+    function clickedItemHandler(id: number) {
+
+        if( id ===1 ){
+            setOpenProjectWindow(true);            
+        }
+
+        if(id === 2) {
+            setOpenConfirmationWindow(true);
+            setOpenDropDown(false);
+        }
+        
+        setOpenDropDown(false);
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if(menuRef.current && !menuRef.current.contains(event.target as Node)){
                 setOpenDropDown(false);
+                setSelectedProject(null);
             }
         }
 
@@ -42,14 +64,16 @@ const MoreDropDown = () => {
         `} ref={menuRef} style={{top: dropDownPosition.top, left: dropDownPosition.left}}>
 
             {
-                dropDownOptions.map((dropDownOption) => (
-                    <div className={` transition-all flex gap-1 items-center text-slate-400 cursor-pointer hover:text-sky-600 ${dropDownOption.id === 2 && "hover:text-red-600"}`}>
+                dropDownOptions.map((dropDownOption,index) => (
+                    <div  
+                    
+                    onClick={() => clickedItemHandler(dropDownOption.id)}
 
-                        {/* edit icon */}
-                        {dropDownOption.icon}
-
-                        <span className='text-[14px]'>{dropDownOption.name}</span>
-
+                    key={index}
+                    
+                    className={`transition-all flex gap-1 items-center text-slate-400 cursor-pointer hover:text-sky-600`}>
+                        <span  className={`${dropDownOption.id === 2? 'text-red-600':''}`}> {dropDownOption.icon}</span>
+                        <span className={`${dropDownOption.id === 2? 'text-red-600':''} text-[16px]`}>{dropDownOption.name}</span>
                     </div>
                 ))
             }

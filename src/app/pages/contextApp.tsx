@@ -17,6 +17,9 @@ const defaultState: AppType = {
     allProjectsObject: {allProjects: [], setAllProjects:() => {}},
     openDropDownObject: {openDropDown: false, setOpenDropDown:() => {}},
     dropDownPositionObject: {dropDownPosition: {top:0, left:0}, setDropDownPosition:() => {}},
+    openConfirmationWindowObject: {openConfirmationWindow:false , setOpenConfirmationWindow:() => {}},
+    selectedProjectObject: {selectedProject:null , setSelectedProject:()=>{}},
+    loadingObject: {isLoading:false , setLoading:()=>{}},
 };
 
 const ContextApp = createContext<AppType>(defaultState);
@@ -56,12 +59,14 @@ export default function ContextAppProvider({
 
     const [allProjects, setAllProjects] = useState<Project[]>([]);
 
-    const [dropDownPosition, setDropDownPosition] = useState({
-        top:0,
-        left:0
-    });
+    const [dropDownPosition, setDropDownPosition] = useState({ top:0, left:0 });
 
     const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+    const [openConfirmationWindow, setOpenConfirmationWindow] = useState<boolean>(false);
+
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setOpenSideBar(false);  
@@ -89,9 +94,12 @@ export default function ContextAppProvider({
                 allIconDataObject : {allIconsData,setAllIconsData},
                 openIconWindowObject:{ openIconWindow , setOpenIconWindow },
                 selectedIconObject:{ selectedIcon , setSelectedIcon },
-                allProjectsObject: {allProjects , setAllProjects},
-                openDropDownObject: {openDropDown, setOpenDropDown},
-                dropDownPositionObject: {dropDownPosition, setDropDownPosition},
+                allProjectsObject: { allProjects , setAllProjects},
+                openDropDownObject: { openDropDown, setOpenDropDown},
+                dropDownPositionObject: { dropDownPosition, setDropDownPosition},
+                openConfirmationWindowObject: { openConfirmationWindow, setOpenConfirmationWindow },
+                selectedProjectObject: { selectedProject, setSelectedProject },
+                loadingObject: { isLoading, setLoading },
             }}>
 
                 {children}

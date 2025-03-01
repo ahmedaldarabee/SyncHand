@@ -26,8 +26,23 @@ export function addNewProject (
         setAllProjects([...allProjects, newProject]);
         setOpenProjectWindow(false);
         reset();
-
     } catch (error) {
         console.log(error);
+    }
+}
+
+export function deleteProject(
+    selectedProject: Project | null,
+    setSelectedProject: React.Dispatch<React.SetStateAction<Project|null>>,
+    allProjects: Project[],
+    setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>,
+    setOpenConfirmationWindow: React.Dispatch<React.SetStateAction<boolean>>
+    
+){
+    if(selectedProject){
+        const updateAllProjects = allProjects.filter((project) => project.id !== selectedProject.id);
+        setAllProjects(updateAllProjects);
+        setSelectedProject(null);
+        setOpenConfirmationWindow(false);
     }
 }

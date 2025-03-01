@@ -11,7 +11,7 @@ const AllProjects = () => {
             <StatusRightSide />
         </div>
     )
-};
+}
 
 function AllProjectArea() {
     return (

@@ -12,6 +12,7 @@ import * as z from 'zod'
 import getIconComponent from '@/app/Functions/IconsActions';
 import { addNewProject } from '@/app/Functions/projectsActions';
 
+import toast from 'react-hot-toast';
 
 const schema = z.object({
     projectName:z.string()
@@ -26,7 +27,8 @@ const ProjectWindow = () => {
     const {
         openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
         allProjectsObject: {allProjects , setAllProjects},
-        selectedIconObject:{ selectedIcon , setSelectedIcon },
+        selectedIconObject:{ selectedIcon },
+        loadingObject: {setLoading},
 
     } = useContextApp();
 
@@ -49,6 +51,15 @@ const ProjectWindow = () => {
 
             setFocus("projectName");
         }else{
+            projectsFunction(data);
+        }
+    }
+
+    async function projectsFunction(data: FormData){
+        try {
+            setLoading(true);
+            await new Promise((resolve) => setTimeout(resolve,1000));
+
             addNewProject(
                 data,
                 allProjects,
@@ -56,10 +67,15 @@ const ProjectWindow = () => {
                 setOpenProjectWindow,
                 selectedIcon,
                 reset
-            )
+            );
+            
+        } catch (error) {
+            console.log(error);
+            toast.error("something went wrong.");
+        }finally{
+            setLoading(false);
+            toast.success("project added successfully!");
         }
-
-        handleClose();
     }
 
     const handleClose = () => {
@@ -75,8 +91,6 @@ const ProjectWindow = () => {
 
     return (
         <div className={`${openProjectWindow ? 'block':'hidden'} w-[45%] max-sm:w-[82%] max-[600px]:w-[93%] z-[80] p-3 left-1/2 top-[47%] -translate-y-1/2 -translate-x-1/2 absolute flex flex-col gap-3 border border-slate-50 bg-white rounded-lg drop-shadow-lg `}>
-
-            {/* header */}
             <Header handleClose={handleClose} />
 
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2 p-8'>
@@ -125,7 +139,7 @@ const ProjectInput = ({
     }) => {
         const {
         openProjectWindowObject: { openProjectWindow },
-        selectedIconObject: { selectedIcon,setSelectedIcon },
+        selectedIconObject: { selectedIcon},
         openIconWindowObject: { openIconWindow, setOpenIconWindow },
         } = useContextApp();
 
@@ -149,7 +163,7 @@ const ProjectInput = ({
             <span className="text-[14px] font-medium">Project Name</span>
     
             <div className="flex gap-3 justify-between">
-            {/* input */}
+
             <div className="w-full">
                 <input
                     {...register("projectName")}
@@ -165,22 +179,16 @@ const ProjectInput = ({
                 )}
             </div>
     
-            <div
-                onClick={() => {
-                    setOpenIconWindow(true);
-                }}
-                className="hover:bg-sky-500 transition-all w-9 h-9 text-white flex items-center justify-center bg-sky-700 rounded-lg cursor-pointer"
-            >
-                {selectedIcon && selectedIcon.name ? (
-                    getIconComponent(selectedIcon?.name)
-                ) : (
-                    <BookMarked />
-                )}
+                <div onClick={() => { setOpenIconWindow(true) }}
+                    className="hover:bg-sky-500 transition-all w-9 h-9 text-white flex items-center justify-center bg-sky-700 rounded-lg cursor-pointer"
+                >
+                    {selectedIcon && selectedIcon.name ? (
+                        getIconComponent(selectedIcon?.name)
+                    ) : (
+                        <BookMarked />
+                    )}
+                </div>
             </div>
-            </div>
-    
-    
-            {openIconWindow && <IconWindow />}
         </div>
         );
 };
@@ -205,4 +213,4 @@ const Footer = ({handleClose}:{handleClose:() => void }) => {
     )
 }
 
-export default ProjectWindow
+export default ProjectWindow;

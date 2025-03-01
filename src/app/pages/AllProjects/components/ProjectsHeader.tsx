@@ -47,5 +47,5 @@ function AddProject(){
     )
 }
 
-export default ProjectsHeader;
+export default ProjectsHeader
 export {AddProject , SearchBar}

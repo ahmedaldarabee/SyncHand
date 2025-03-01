@@ -36,6 +36,6 @@ const Sidebar = () => {
             <Profile/>
         </div>
     )
-}
+};
 
 export default Sidebar;

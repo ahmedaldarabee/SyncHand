@@ -1,14 +1,24 @@
 "use client"
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { ArrowDownZA } from 'lucide-react';
-import { debounce } from '@mui/material';
+import { useContextApp } from '../../contextApp';
 
 const ProjectsSubHeader = () => {
+  const {
+      allProjectsObject: {allProjects}
+    } = useContextApp();
+    
   return (
     <div className='mt-5 flex justify-between font-bold items-center max-sm:space-x-3 md:space-x-3'>
-        <ProjectTxt/>
-        <SortingButton/>
+      {
+        allProjects.length === 0 ? ' ' : (
+          <>
+            <ProjectTxt />
+            <SortingButton />
+          </>
+        )
+      }
     </div>
   )
 };
@@ -31,4 +41,5 @@ export const SortingButton = () => {
     </div>
   )
 }
+
 export default ProjectsSubHeader;
