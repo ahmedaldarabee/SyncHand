@@ -3,16 +3,16 @@
 import { useContextApp } from '@/app/pages/contextApp';
 import React, { useEffect, useLayoutEffect } from 'react'
 import { BookMarked, BookmarkX, Wrench } from 'lucide-react';
-import IconWindow from "../windows/IconWindow";
 
-// for input verifications
+
 import {useForm , SubmitHandler, UseFormRegister , FieldErrors} from 'react-hook-form'
 import { zodResolver }  from '@hookform/resolvers/zod';
 import * as z from 'zod'
 import getIconComponent from '@/app/Functions/IconsActions';
-import { addNewProject } from '@/app/Functions/projectsActions';
+import { addNewProject, editProject } from '@/app/Functions/projectsActions';
 
 import toast from 'react-hot-toast';
+import { allIconsArray } from '@/app/Data/AllIcons';
 
 const schema = z.object({
     projectName:z.string()
@@ -26,10 +26,13 @@ const ProjectWindow = () => {
 
     const {
         openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
+        
         allProjectsObject: {allProjects , setAllProjects},
-        selectedIconObject:{ selectedIcon },
-        loadingObject: {setLoading},
+        
+        selectedIconObject:{ selectedIcon , setSelectedIcon},
 
+        selectedProjectObject: {selectedProject, setSelectedProject},
+        loadingObject: {setLoading},
     } = useContextApp();
 
     const {
@@ -43,40 +46,53 @@ const ProjectWindow = () => {
             project.title.toLowerCase() === data.projectName.toLowerCase();
         });
 
-        if(existingProject){
+        if(existingProject && !selectedProject){
             setError("projectName",{
                 type:"manual",
                 message:"project already exist!"
             });
-
             setFocus("projectName");
-        }else{
-            projectsFunction(data);
+            return;
+        }
+        projectsFunction();
+        async function projectsFunction(){
+            try {
+                setLoading(true);
+                await new Promise((resolve) => setTimeout(resolve,1000));
+    
+                if(!selectedProject){
+    
+                    addNewProject(
+                        data,
+                        allProjects,
+                        setAllProjects,
+                        setOpenProjectWindow,
+                        selectedIcon,
+                        reset
+                    );
+    
+                }else{
+                    editProject(
+                        selectedProject,
+                        setSelectedProject,
+                        data,
+                        selectedIcon,
+                        allProjects,
+                        setAllProjects,
+                        setOpenProjectWindow
+                    );
+                }
+                
+            } catch (error) {
+                console.log(error);
+                toast.error("something went wrong.");
+            }finally{
+                setLoading(false);
+                toast.success(`Project ${selectedProject? "edited" : "added" } successfully`);
+            }
         }
     }
 
-    async function projectsFunction(data: FormData){
-        try {
-            setLoading(true);
-            await new Promise((resolve) => setTimeout(resolve,1000));
-
-            addNewProject(
-                data,
-                allProjects,
-                setAllProjects,
-                setOpenProjectWindow,
-                selectedIcon,
-                reset
-            );
-            
-        } catch (error) {
-            console.log(error);
-            toast.error("something went wrong.");
-        }finally{
-            setLoading(false);
-            toast.success("project added successfully!");
-        }
-    }
 
     const handleClose = () => {
         setOpenProjectWindow(false);
@@ -85,7 +101,16 @@ const ProjectWindow = () => {
 
     useLayoutEffect(() => {
         if(openProjectWindow){
-            reset();
+            if(!selectedProject){
+                reset();
+            }else{
+                setValue("projectName",selectedProject.title);
+                const findIconInAllIconsArr = allIconsArray.find((icon) => icon.name === selectedProject.icon)
+
+                if(findIconInAllIconsArr){
+                    setSelectedIcon(findIconInAllIconsArr);
+                }
+            }
         } 
     },[openProjectWindow,reset]);
 
@@ -105,8 +130,8 @@ const ProjectWindow = () => {
 const Header = ({handleClose}:{handleClose:()=> void }) => {
 
     const {
-        openProjectWindowObject: { openProjectWindow , setOpenProjectWindow },
-
+        openProjectWindowObject: { setOpenProjectWindow },
+        selectedProjectObject: {selectedProject},
         selectedIconObject:{ setSelectedIcon },
     } = useContextApp();
 
@@ -118,7 +143,9 @@ const Header = ({handleClose}:{handleClose:()=> void }) => {
                     <Wrench className=' cursor-pointer w-4 h-4 text-white' onClick={() => setOpenProjectWindow(false)} />
                 </div>
 
-                <span className='font-semibold text-lg'>add project</span>
+                <span className='font-semibold text-lg'>
+                    {selectedProject? "Edit Project ": "New Project"}
+                </span>
             </div>
 
             <BookmarkX onClick={() => {
@@ -196,6 +223,8 @@ const ProjectInput = ({
 const Footer = ({handleClose}:{handleClose:() => void }) => {
     const {
         selectedIconObject:{ setSelectedIcon },
+        selectedProjectObject: {selectedProject, setSelectedProject},
+        loadingObject: {isLoading},
     } = useContextApp();
 
     return (
@@ -207,7 +236,7 @@ const Footer = ({handleClose}:{handleClose:() => void }) => {
             </button>
 
             <button className='text-white text-[13px] p-2 px-4 rounded-md bg-sky-600 hover:bg-sky-700 transition-all capitalize'>
-                add project
+                {isLoading? "saving..." : selectedProject? "Edit Project ": "Add Project"}
             </button>
         </div>
     )

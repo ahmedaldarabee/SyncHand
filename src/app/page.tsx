@@ -10,18 +10,13 @@ import AllTasks from "./pages/AllTasks/AllTasks";
 import { useContextApp } from "./pages/contextApp";
 import { Toaster } from 'react-hot-toast';
 
-
-// main component that used to show add components in this project
-
 const Home = () => {
   const {
 
-      openSideBarObject: { openSideBar, setOpenSideBar },
-      sideBarMenuObject: { sideBarMenu, setSideBarMenu },
-      openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
-      openConfirmationWindowObject: {openConfirmationWindow,setOpenConfirmationWindow},
-      selectedProjectObject: { selectedProject , setSelectedProject },
-
+      openSideBarObject: { openSideBar },
+      sideBarMenuObject: { sideBarMenu },
+      openProjectWindowObject: { openProjectWindow },
+      openConfirmationWindowObject: {openConfirmationWindow},
     } = useContextApp();
 
   const componentMap:Record<number,React.ReactNode> = {

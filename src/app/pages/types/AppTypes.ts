@@ -13,10 +13,40 @@ export interface IconData extends SidebarMenuItem{
     icon:ReactNode
 }
 
+export type SortingOption = {
+    category: string,
+    options: {
+        label:string,
+        value:string,
+        selected:boolean;
+    }[];
+}
+
+type sortingDropDownPosition = {
+    top:number,
+    left:number,
+    width?:number
+}
+
 export type AppType = {
+
+    sortingOptionObject: {
+        sortingOptions: SortingOption[];
+        setSortingOptions: React.Dispatch<React.SetStateAction<SortingOption[]>>;
+    };
+
+    openSortingDropDownObject: {
+        openSortingDropDown: boolean,
+        setOpenSortingDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    sortingDropDownPositionObject:{
+        sortingDropDownPositions:sortingDropDownPosition,
+        setSortingDropDownPositions: React.Dispatch<React.SetStateAction<sortingDropDownPosition>>;
+    }
+
     openSideBarObject : {
         openSideBar:boolean,
-        // React.Dispatch that response to update the sate and return state!
         setOpenSideBar:React.Dispatch<React.SetStateAction<boolean>>;
     };
 

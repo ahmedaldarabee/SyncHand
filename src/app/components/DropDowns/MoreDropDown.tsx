@@ -47,14 +47,21 @@ const MoreDropDown = () => {
             }
         }
 
+        function handleResize(){
+            setOpenDropDown(false);
+        }
+
         if(openDropDown){
             document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("resize", handleResize);
         }else{
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("resize", handleResize);
         }
         
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("resize", handleResize);
         }
     },[openDropDown , setOpenDropDown]);
 

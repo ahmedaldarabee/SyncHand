@@ -32,7 +32,7 @@ const CircularChart = () => {
       <div className='w-40 h-40 bg-slate-300 mt-5 rounded-full flex items-center justify-center'>
         <div className='w-[86%] flex justify-center items-center h-[86%] bg-white rounded-full'>
           <span className='text-xl font-semibold text-sky-600'>
-            90%
+            0%
           </span>
         </div>
       </div>

@@ -1,8 +1,9 @@
 "use client"
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { ArrowDownZA } from 'lucide-react';
 import { useContextApp } from '../../contextApp';
+import SortingDropDown from '@/app/components/DropDowns/SortingDropDown';
 
 const ProjectsSubHeader = () => {
   const {
@@ -16,6 +17,7 @@ const ProjectsSubHeader = () => {
           <>
             <ProjectTxt />
             <SortingButton />
+            <SortingDropDown />
           </>
         )
       }
@@ -30,13 +32,40 @@ function ProjectTxt(){
 }
 
 export const SortingButton = () => {
+
+  const {
+      openSortingDropDownObject:{ openSortingDropDown, setOpenSortingDropDown},
+      sortingDropDownPositionObject:{ sortingDropDownPositions, setSortingDropDownPositions},
+  } = useContextApp();
+
+  const sortingLinkRef = useRef<HTMLDivElement>(null);
+
+  function clickedSortingLink() {
+    if(sortingLinkRef.current){
+
+      const rect = sortingLinkRef.current.getBoundingClientRect();
+      const {top , left , width } = rect;
+
+      setSortingDropDownPositions({
+        top: top + window.scrollY + 30,
+        left: left + window.scrollX,
+        width: width
+      });
+    }
+
+    setOpenSortingDropDown(true);
+  }
+
   return(
     <div className='max-sm:mt-3 flex text-[15px] font-semibold gap-3'>
       <span className='text-sky-800 capitalize'>sort by</span>
       
-      <div className='flex gap-1 items-center cursor-pointer'>
+      <div 
+        ref={sortingLinkRef}
+        onClick={clickedSortingLink}
+        className='flex gap-1 items-center cursor-pointer'>
         <span className='capitalize text-slate-800 max-sm:text-[12px]'> recent projects</span>
-        <ArrowDownZA className='max-sm:text-[10px]' />
+        <ArrowDownZA className='max-sm:text-[10px] cursor-pointer hover:text-sky-600 transition-all' />
       </div>
     </div>
   )
