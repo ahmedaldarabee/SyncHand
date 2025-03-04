@@ -28,7 +28,19 @@ type sortingDropDownPosition = {
     width?:number
 }
 
+export type TabOption = {
+    id: number,
+    name: string,
+    isSelected: boolean
+}
+
+
 export type AppType = {
+
+    tabsOptionsObject: {
+        tabsOptions: TabOption[];
+        setTabsOptions: React.Dispatch<React.SetStateAction<TabOption[]>>;
+    }
 
     sortingOptionObject: {
         sortingOptions: SortingOption[];
@@ -102,8 +114,14 @@ export type AppType = {
         selectedProject: Project | null,
         setSelectedProject:React.Dispatch <React.SetStateAction<Project | null>>;
     }
+    
     loadingObject:{
         isLoading: boolean,
         setLoading:React.Dispatch <React.SetStateAction<boolean>>;
+    }
+    
+    chosenProjectObject: {
+        chosenProject: Project | null,
+        setChosenProject:React.Dispatch <React.SetStateAction<Project | null>>;
     }
 }

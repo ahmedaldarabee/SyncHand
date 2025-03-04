@@ -1,45 +1,129 @@
-import { RotateCcw, ListCheck ,UserCog, Trash2 } from 'lucide-react';
-import React from 'react'
+"use client"
 
-// add box-shadow to each box
-// add animation on in progress status
+import { RotateCcw, ListCheck ,UserCog, Trash2 } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react'
+import { useContextApp } from '../../contextApp';
+import { Task } from '@/app/Data/AllProjects';
 
 const TasksList = () => {
+    const {
+        chosenProjectObject: {chosenProject, setChosenProject},
+        allProjectsObject: {allProjects, setAllProjects},
+        tabsOptionsObject: { tabsOptions, setTabsOptions },
+    } = useContextApp();
+
+    const [allTasks , setAllTasks] = useState<Task[]>([]);
+
+    useEffect(() => {
+        const extractAllTasks = allProjects.flatMap((project) => project.tasks);
+        setAllTasks(extractAllTasks);
+    })
+
+    const filteredTasks = useMemo(() => {
+        let tasks = allTasks;
+
+        if(chosenProject){
+            tasks = tasks.filter((task) => task.projectName === chosenProject.title);
+        }
+
+        if(tabsOptions[1].isSelected){
+            tasks = tasks.filter((task) => task.status === "Completed")
+        }else{
+            tasks = tasks.filter((task) => task.status === "In Progress");
+        }
+        return tasks;
+    },[allTasks , chosenProject , tabsOptions]);
+
     return (
         <div className='m-10 flex flex-col gap-4 max-sm:m-0 max-sm:mt-7  max-sm:gap-1 h-[80%]'>
             <Tabs />
-            <div className='projects-bar flex flex-col gap-4 w-full h-full overflow-auto'>
-                <SingleTask />
-                <SingleTask />
-                <SingleTask />
-                <SingleTask />
+            <div className='projects-bar flex flex-col gap-4 w-full overflow-auto'>
+                {
+                    filteredTasks.map((singleTask,index) => (
+                        <SingleTask key={index} singleTask={singleTask}/>
+                        
+                    ))
+                }
             </div>
         </div>
     )
 }
 
 const Tabs = () => {
-    return(
+    const {
+        chosenProjectObject: {chosenProject, setChosenProject},
+        allProjectsObject: {allProjects, setAllProjects},
+        tabsOptionsObject: { tabsOptions, setTabsOptions },
+    } = useContextApp();
+
+    function countOnGoingTasks() {
+
+        if(chosenProject){
+            return chosenProject.tasks.reduce((accTask,task) => {
+                return accTask + (task.status === "In Progress" ? 1 : 0 );
+            },0);
+        }
+
+        return allProjects.reduce((accProjects, project) => {
+            return (
+                accProjects + project.tasks.reduce((accTasks,task) => {
+                    return accTasks + (task.status === "In Progress" ? 1 : 0);
+                },0)
+            )
+        },0)
+    }
+    
+    function completedTasks() {
+        if(chosenProject){
+            return chosenProject.tasks.length - countOnGoingTasks()
+        }
+
+        const totalTasksInAllProjects = allProjects.reduce((acc,project) => {
+            return acc + project.tasks.length;
+        },0);
+        return totalTasksInAllProjects - countOnGoingTasks();
+    }
+
+    function switchTabs(index: number){
+        setTabsOptions((prevState) => 
+            prevState.map((tab,idx) => ({
+                ...tab,
+                isSelected: index === idx
+            }))
+        )
+    }
+
+    return (
         <div className='flex max-sm:flex-col max-sm:items-start items-center max-sm:gap-2 gap-6 ml-3 mt-8 mb-5 max-sm:m-1'>
 
-            <div className='flex gap-2 text-sky-400 font-semibold'>
-                <span className='capitalize'>on going task</span>
-                <span className='bg-sky-600 text-white px-2 rounded-md'>7</span>
-            </div>
+            {tabsOptions.map((singleTabOption,index) => (
 
-            <div className='text-slate-400 flex gap-2 items-center'>
-                <span className='capitalize'> completed tasks </span>
-                <span className='bg-slate-200 px-2 rounded-md'>8</span>
-            </div>
+                <div
+                key={index}
+                onClick={() => switchTabs}
+
+                className={`flex gap-2 cursor-pointer ${singleTabOption.isSelected ? " text-sky-600 font-semibold" : "text-slate-300"}`}>
+                    <span className='capitalize'>{singleTabOption.name}</span>
+
+                    <span 
+                    className={`
+                        ${singleTabOption.isSelected ? "text-sky-600" : "text-slate-300"}
+                    text-white px-2 rounded-md max-[420px]:hidden
+                    `}>
+                        {singleTabOption.id === 1 ? countOnGoingTasks() : completedTasks()}
+                    </span>
+                
+                </div>
+            ))}
         </div>
     )
 }
 
-const SingleTask = () => {
+const SingleTask = ({singleTask}:{singleTask: Task}) => {
     return (
-        <div className=' flex gap-2 items-center max-sm:flex-col cursor-pointer'>
+        <div className=' flex items-center max-sm:flex-col cursor-pointer'>
             {/* <Checkbox /> */}
-            <div className='w-full bg-white hover:bg-slate-200 transition-all drop-shadow-lg rounded-lg border border-slate-300 max-sm:flex-col md:flex-col lg:flex-row flex gap-3 items-center justify-between p-5 py-6 max-sm:p-2 max-sm:py-2 max-sm:gap-1 flex-wrap'>
+            <div className='w-full bg-white hover:bg-slate-200 transition-all drop-shadow-lg rounded-lg border border-slate-300 max-sm:flex-col md:flex-col lg:flex-row flex gap-3 items-center justify-between p-3 max-sm:p-2 max-sm:py-2 max-sm:gap-1 flex-wrap'>
                 
                 {/* intro info */}
                 <div className='flex gap-3 items-center'>
@@ -51,13 +135,15 @@ const SingleTask = () => {
                     </div>
 
                     {/* into info */}
-                    
                     <div className='flex flex-col max-sm:text-[14px] md:text-[20px]'>
 
-                        <span className='capitalize font-bold hover:text-sky-400 cursor-pointer transition-all'> create the ui design of the test</span>
+                        <span className='capitalize font-bold hover:text-sky-400 cursor-pointer transition-all'> 
+                        {singleTask.title}
+                        </span>
 
                         <div className='flex'>
-                            <span className='text-slate-400 text-[13px] p-[2px] capitalize'>project
+                            <span className='text-slate-400 text-[13px] p-[2px] capitalize'>
+                            {singleTask.projectName}
                             </span>
                         </div>
                     </div>
@@ -67,15 +153,18 @@ const SingleTask = () => {
                 <div className='flex lg:gap-36 font-bold items-center max-sm:gap-1 md:gap-5 max-sm:flex-col md:flex-col lg:flex-row'>
 
                     <div className='flex gap-2 items-center'>
-                        <RotateCcw className='text-[24px] text-sky-700' />
-                        <span className='text-[14px] text-slate-400 capitalize'> in progress
+                        <RotateCcw className='w-4 h-4 text-[24px] text-sky-700' />
+                        <span className='text-[16px] text-slate-400 capitalize'>
+                        {singleTask.status}
                         </span>
                     </div>
 
                     {/* priority */}
                     <div className='flex gap-2 items-center'>
-                        <RotateCcw className='text-[10px] text-sky-700' />
-                        <span className='text[14px] text-slate-400'>low</span>
+                        <RotateCcw className='w-4 h-4 text-[10px] text-sky-700' />
+                        <span className='text[14px] text-slate-400'>
+                        {singleTask.priority}
+                        </span>
                     </div>
 
                     {/* actions */}

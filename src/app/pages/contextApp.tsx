@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { AppType, IconData, SidebarMenuItem } from './types/AppTypes';
+import { AppType, IconData, SidebarMenuItem, TabOption } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
 import { Project, projectData } from '../Data/AllProjects';
 
@@ -26,7 +26,8 @@ const defaultState: AppType = {
     openSortingDropDownObject: {openSortingDropDown:false , setOpenSortingDropDown:()=>{}},
 
     sortingDropDownPositionObject: {sortingDropDownPositions: {top:0, left:0}, setSortingDropDownPositions:() => {}},
-
+    chosenProjectObject: {chosenProject: null, setChosenProject:()=>{} },
+    tabsOptionsObject: {tabsOptions: [], setTabsOptions:()=>{} },
 };
 
 const ContextApp = createContext<AppType>(defaultState);
@@ -91,10 +92,18 @@ export default function ContextAppProvider({
                 {label: "Oldest", value: "oldest" , selected: false},
             ]
         }
-    ])
+    ]);
 
     const [openSortingDropDown , setOpenSortingDropDown] = useState<boolean>(false);
+
     const [sortingDropDownPositions, setSortingDropDownPositions] = useState({ top:0, left:0 });
+
+    const [chosenProject, setChosenProject]  = useState<Project | null>(null);
+
+    const [tabsOptions,setTabsOptions] = useState<TabOption[]>([
+        {id: 1, name: "On Going Tasks" , isSelected: true},
+        {id: 2, name: "Completed Tasks" , isSelected: false},
+    ]);
 
     useEffect(() => {
         setOpenSideBar(false);  
@@ -135,6 +144,9 @@ export default function ContextAppProvider({
                 sortingOptionObject: { sortingOptions, setSortingOptions },
                 openSortingDropDownObject: { openSortingDropDown, setOpenSortingDropDown },
                 sortingDropDownPositionObject: { sortingDropDownPositions, setSortingDropDownPositions },
+                
+                chosenProjectObject: { chosenProject, setChosenProject },
+                tabsOptionsObject: { tabsOptions, setTabsOptions },
             }}>
 
                 {children}

@@ -181,10 +181,6 @@ const ProjectInput = ({
         }
         }, [openProjectWindow]);
 
-        useEffect(() => {
-        console.log("openIconWindow changed:", openIconWindow);
-        }, [openIconWindow]);
-
         return (
         <div className="flex flex-col gap-2 relative">
             <span className="text-[14px] font-medium">Project Name</span>
