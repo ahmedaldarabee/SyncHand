@@ -7,22 +7,56 @@ import { List } from 'lucide-react';
 import React, { useEffect, useRef } from 'react'
 
 const ProjectsDropDown = () => {
+
     const {
-        chosenProjectObject: {chosenProject, setChosenProject},
+
         allProjectsObject: {allProjects, setAllProjects},
-        tabsOptionsObject: { tabsOptions, setTabsOptions },
+        openProjectsDropDownObject: {openProjectsDropDown,setOpenProjectsDropDown},
+        projectsDropDownPositionsObject: {projectsDropDownPositions,setProjectsDropDownPositions}
+
     } = useContextApp();
 
     const dropDownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        function handleClickOutside(event: MouseEvent){
+            if(dropDownRef.current && !dropDownRef.current.contains(event.target as Node)){
+                setOpenProjectsDropDown(false);
+            }
+        }
 
-    },[])
+        function handleResize(){
+            setOpenProjectsDropDown(false);
+        }
+
+        function removeListener(){
+            document.removeEventListener("mousedown",handleClickOutside);
+            document.removeEventListener("resize",handleResize);
+        }
+
+        if(openProjectsDropDown){
+            document.addEventListener("mousedown",handleClickOutside);
+            document.addEventListener("resize",handleResize);
+        }else{
+            removeListener();
+        }
+        
+        return () => {
+            removeListener();
+        }
+    },[openProjectsDropDown]);
+
 
     return (
         <div
             ref={dropDownRef}
-            className={`bg-white absolute p-3 top-12 left-44
+            style={{
+                top: projectsDropDownPositions.top + 36,
+                left: projectsDropDownPositions.left,
+            }}
+            className={`
+                ${openProjectsDropDown ? "block" : "hidden"}
+                bg-white absolute p-3 top-12 left-44
                 z-[90] border w-[210px] border-slate-50 select-none shadow-md rounded-lg flex flex-col gap-2
             `}
         >
@@ -47,7 +81,6 @@ const AllProjectsItems = () => {
         <div className={`flex items-center justify-between gap-7 p-2 rounded-lg text-slate-500 cursor-pointer`}>
 
             <div className='flex gap-2 items-center'>
-                {/* icons */}
                 <div>
                     <List className='text-sky-600 text-[22px]' />
                 </div>
@@ -69,9 +102,7 @@ const SingleProject = ({singleProject}:{singleProject: Project}) => {
             <div className='flex gap-2 items-center'>
 
                 <div>
-                    {""}
                     {getIconComponent(singleProject.icon)}
-                    {""}
                 </div>
 
                 <span className='text-[13px] mt-1 hover:text-sky-600 cursor-pointer'>
