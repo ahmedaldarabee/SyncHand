@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { AppType, IconData, SidebarMenuItem } from './types/AppTypes';
+import { AppType, IconData, SidebarMenuItem, TabOption } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
 import { Project, projectData } from '../Data/AllProjects';
 
@@ -16,10 +16,18 @@ const defaultState: AppType = {
 
     allProjectsObject: {allProjects: [], setAllProjects:() => {}},
     openDropDownObject: {openDropDown: false, setOpenDropDown:() => {}},
+    
     dropDownPositionObject: {dropDownPosition: {top:0, left:0}, setDropDownPosition:() => {}},
     openConfirmationWindowObject: {openConfirmationWindow:false , setOpenConfirmationWindow:() => {}},
     selectedProjectObject: {selectedProject:null , setSelectedProject:()=>{}},
+    
     loadingObject: {isLoading:false , setLoading:()=>{}},
+    sortingOptionObject: {sortingOptions:[] , setSortingOptions:()=>{}},
+    openSortingDropDownObject: {openSortingDropDown:false , setOpenSortingDropDown:()=>{}},
+
+    sortingDropDownPositionObject: {sortingDropDownPositions: {top:0, left:0}, setSortingDropDownPositions:() => {}},
+    chosenProjectObject: {chosenProject: null, setChosenProject:()=>{} },
+    tabsOptionsObject: {tabsOptions: [], setTabsOptions:()=>{} },
 };
 
 const ContextApp = createContext<AppType>(defaultState);
@@ -62,11 +70,40 @@ export default function ContextAppProvider({
     const [dropDownPosition, setDropDownPosition] = useState({ top:0, left:0 });
 
     const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+    
     const [openConfirmationWindow, setOpenConfirmationWindow] = useState<boolean>(false);
 
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
     const [isLoading, setLoading] = useState<boolean>(false);
+
+    const [sortingOptions , setSortingOptions] = useState([
+        {
+            category: "Order",
+            options: [
+                {label: "A-Z", value: "asc" , selected: true},
+                {label: "Z-A", value: "desc" , selected: false},
+            ]
+        },
+        {
+            category: "Date",
+            options: [
+                {label: "Newest", value: "newest" , selected: false},
+                {label: "Oldest", value: "oldest" , selected: false},
+            ]
+        }
+    ]);
+
+    const [openSortingDropDown , setOpenSortingDropDown] = useState<boolean>(false);
+
+    const [sortingDropDownPositions, setSortingDropDownPositions] = useState({ top:0, left:0 });
+
+    const [chosenProject, setChosenProject]  = useState<Project | null>(null);
+
+    const [tabsOptions,setTabsOptions] = useState<TabOption[]>([
+        {id: 1, name: "On Going Tasks" , isSelected: true},
+        {id: 2, name: "Completed Tasks" , isSelected: false},
+    ]);
 
     useEffect(() => {
         setOpenSideBar(false);  
@@ -91,15 +128,25 @@ export default function ContextAppProvider({
                 openSideBarObject: { openSideBar , setOpenSideBar },
                 sideBarMenuObject: { sideBarMenu , setSideBarMenu },
                 openProjectWindowObject: { openProjectWindow , setOpenProjectWindow },
+                
                 allIconDataObject : {allIconsData,setAllIconsData},
                 openIconWindowObject:{ openIconWindow , setOpenIconWindow },
                 selectedIconObject:{ selectedIcon , setSelectedIcon },
+                
                 allProjectsObject: { allProjects , setAllProjects},
                 openDropDownObject: { openDropDown, setOpenDropDown},
                 dropDownPositionObject: { dropDownPosition, setDropDownPosition},
+                
                 openConfirmationWindowObject: { openConfirmationWindow, setOpenConfirmationWindow },
                 selectedProjectObject: { selectedProject, setSelectedProject },
                 loadingObject: { isLoading, setLoading },
+                
+                sortingOptionObject: { sortingOptions, setSortingOptions },
+                openSortingDropDownObject: { openSortingDropDown, setOpenSortingDropDown },
+                sortingDropDownPositionObject: { sortingDropDownPositions, setSortingDropDownPositions },
+                
+                chosenProjectObject: { chosenProject, setChosenProject },
+                tabsOptionsObject: { tabsOptions, setTabsOptions },
             }}>
 
                 {children}

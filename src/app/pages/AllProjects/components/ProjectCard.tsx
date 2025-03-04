@@ -19,6 +19,9 @@ const ProjectCard = ({project}:{project: Project}) => {
         openDropDownObject: {setOpenDropDown},
         dropDownPositionObject: {setDropDownPosition},
         selectedProjectObject: { setSelectedProject },
+
+        chosenProjectObject: { chosenProject, setChosenProject },
+        sideBarMenuObject:{sideBarMenu,setSideBarMenu},
     } = useContextApp();
 
     function openDropDown(event: React.MouseEvent){
@@ -52,31 +55,45 @@ const ProjectCard = ({project}:{project: Project}) => {
     )
 
     function ProjectHeader ({daysLeft}:{daysLeft: number}) {
-        return (
-            <div className='flex items-center w-full flex-wrap'>
-                <div className='flex gap-2 items-center '>
-    
-                    <div className='bg-sky-700 flex justify-center items-center p-1  text-white w-[38] h-[38] rounded-md'>
-                        {getIconComponent(project.icon)}
-                    </div>
+        
+    function showAllTasksOfProject(){
+        setChosenProject(project);
 
-                    <div className='flex flex-col max-w-[100%] w-[140px] flex-wrap'>
-                        { truncateString(project.title,15)}                     
-                        <span className='text-[14px] text-slate-400'>
-                            {daysLeft === 0 ? "Today" :daysLeft + ` day${daysLeft > 1 ? "'s":""} age`}
-                        </span>
-                    </div>
-    
-                    <div className='w-6 h-6 flex items-center justify-end'
-                    ref={threeDotsRef}
-                    onClick={openDropDown}
+        setSideBarMenu((preState) => preState.map((item) => ({
+            ...item,
+            isSelected: item.id === 2 ? true : false, 
+        })))
+    }
+
+    return (
+        <div className='flex items-center w-full flex-wrap'>
+            <div className='flex gap-2 items-center '>
+
+                <div className='bg-sky-700 flex justify-center items-center p-1  text-white w-[38] h-[38] rounded-md'>
+                    {getIconComponent(project.icon)}
+                </div>
+
+                <div className='flex flex-col max-w-[100%] w-[140px] flex-wrap'>
+                    <span
+                        onClick={showAllTasksOfProject}
+                        className='font-semibold hover:text-sky-600 cursor-pointer transition'
                     >
-                        <EllipsisVertical className='text-slate-400 text-[17px] transition-all hover:text-sky-400'/>
-                    </div>
+                        { truncateString(project.title,15)}
+                    </span>                     
+                    <span className='text-[14px] text-slate-400'>
+                        {daysLeft === 0 ? "Today" :daysLeft + ` day${daysLeft > 1 ? "'s":""} age`}
+                    </span>
+                </div>
 
+                <div className='w-6 h-6 flex items-center justify-end'
+                ref={threeDotsRef}
+                onClick={openDropDown}
+                >
+                    <EllipsisVertical className='text-slate-400 text-[17px] transition-all hover:text-sky-400'/>
                 </div>
             </div>
-        )
+        </div>
+    )
     }
     
     function ProjectBody () {
@@ -143,7 +160,7 @@ const ProjectCard = ({project}:{project: Project}) => {
     }
 }
 
-function truncateString(str: string, maxLength: number): string {
+export function truncateString(str: string, maxLength: number): string {
     if(str.length > maxLength){
         return str.slice(0, maxLength) + '...';
     }else{

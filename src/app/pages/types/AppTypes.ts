@@ -13,10 +13,52 @@ export interface IconData extends SidebarMenuItem{
     icon:ReactNode
 }
 
+export type SortingOption = {
+    category: string,
+    options: {
+        label:string,
+        value:string,
+        selected:boolean;
+    }[];
+}
+
+type sortingDropDownPosition = {
+    top:number,
+    left:number,
+    width?:number
+}
+
+export type TabOption = {
+    id: number,
+    name: string,
+    isSelected: boolean
+}
+
+
 export type AppType = {
+
+    tabsOptionsObject: {
+        tabsOptions: TabOption[];
+        setTabsOptions: React.Dispatch<React.SetStateAction<TabOption[]>>;
+    }
+
+    sortingOptionObject: {
+        sortingOptions: SortingOption[];
+        setSortingOptions: React.Dispatch<React.SetStateAction<SortingOption[]>>;
+    };
+
+    openSortingDropDownObject: {
+        openSortingDropDown: boolean,
+        setOpenSortingDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    sortingDropDownPositionObject:{
+        sortingDropDownPositions:sortingDropDownPosition,
+        setSortingDropDownPositions: React.Dispatch<React.SetStateAction<sortingDropDownPosition>>;
+    }
+
     openSideBarObject : {
         openSideBar:boolean,
-        // React.Dispatch that response to update the sate and return state!
         setOpenSideBar:React.Dispatch<React.SetStateAction<boolean>>;
     };
 
@@ -72,8 +114,14 @@ export type AppType = {
         selectedProject: Project | null,
         setSelectedProject:React.Dispatch <React.SetStateAction<Project | null>>;
     }
+    
     loadingObject:{
         isLoading: boolean,
         setLoading:React.Dispatch <React.SetStateAction<boolean>>;
+    }
+    
+    chosenProjectObject: {
+        chosenProject: Project | null,
+        setChosenProject:React.Dispatch <React.SetStateAction<Project | null>>;
     }
 }

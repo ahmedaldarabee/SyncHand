@@ -39,8 +39,7 @@ const Menu = () => {
           const IconComponent = iconMap[menuItem.id.toString()];
           return (
               <div key={menuItem.id} onClick={() => {
-                // || menuItem.id === 3 later on
-                  if(menuItem.id === 1 || menuItem.id === 2){
+                  if(menuItem.id === 1 || menuItem.id === 2  || menuItem.id === 3){
                     handleClickedItem(menuItem.id);
                   }
                 }
