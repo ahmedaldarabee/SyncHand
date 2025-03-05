@@ -46,7 +46,6 @@ const ProjectsDropDown = () => {
         }
     },[openProjectsDropDown]);
 
-
     return (
         <div
             ref={dropDownRef}
@@ -77,15 +76,29 @@ const ProjectsDropDown = () => {
 }
 
 const AllProjectsItems = () => {
+
+    const {
+        chosenProjectObject: {chosenProject, setChosenProject},
+        openProjectsDropDownObject: { openProjectsDropDown,setOpenProjectsDropDown},
+    } = useContextApp();
+
     return(
-        <div className={`flex items-center justify-between gap-7 p-2 rounded-lg text-slate-500 cursor-pointer`}>
+        <div 
+        
+        onClick={() =>{
+                setChosenProject(null)
+                setOpenProjectsDropDown(false)
+            }
+        }
+
+        className={` flex items-center justify-between gap-7 p-2 rounded-lg text-slate-500 cursor-pointer`}>
 
             <div className='flex gap-2 items-center'>
                 <div>
                     <List className='text-sky-600 text-[22px]' />
                 </div>
 
-                <span className='capitalize text-[13px] mt-1 hover:text-sky-600 cursor-pointer transition-all'>
+                <span className='capitalize text-[16px] mt-1 hover:text-sky-600 cursor-pointer transition-all'>
                     all projects
                 </span>
 
@@ -96,16 +109,32 @@ const AllProjectsItems = () => {
 }
 
 const SingleProject = ({singleProject}:{singleProject: Project}) => {
+    const {
+        chosenProjectObject: { chosenProject, setChosenProject },
+        allProjectsObject: { allProjects , setAllProjects},
+        openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
+    } = useContextApp();
+
+    function handleTheProjectClicked(projectId: string){
+        const findProject = allProjects.find((project) => project.id === projectId);
+        
+        if(findProject){
+            setChosenProject(findProject);
+        }
+
+        setOpenProjectsDropDown(false);
+    }
+
     return(
-        <div className={`flex items-center justify-between gap-7 p-2 rounded-lg text-slate-600 cursor-pointer`}>
+        <div 
+        onClick={() => handleTheProjectClicked(singleProject.id)}
+        className={` ${chosenProject?.id === singleProject.id && "border border-sky-600 bg-sky-50"} flex items-center justify-between gap-7 p-2 rounded-lg text-slate-600 cursor-pointer`}>
 
             <div className='flex gap-2 items-center'>
-
                 <div>
-                    {getIconComponent(singleProject.icon)}
-                </div>
-
-                <span className='text-[13px] mt-1 hover:text-sky-600 cursor-pointer'>
+                    <List className="text-[13px] text-black" />
+                </div>                    
+                <span className='capitalize text-[16px] mt-1 hover:text-sky-600 cursor-pointer'>
                     {singleProject.title}
                 </span>
             

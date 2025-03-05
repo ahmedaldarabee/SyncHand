@@ -11,6 +11,8 @@ const ConfirmationWindow = () => {
         selectedProjectObject: { selectedProject , setSelectedProject },
         allProjectsObject: {allProjects, setAllProjects},
         loadingObject: { isLoading, setLoading },
+        chosenProjectObject: {chosenProject, setChosenProject},
+
     } = useContextApp();
 
     function closeConfirmationWindow(){
@@ -38,6 +40,7 @@ const ConfirmationWindow = () => {
             }finally{
                 setLoading(false);
                 setOpenConfirmationWindow(false);
+                setChosenProject(null);
                 toast.success("project deleted successfully")
             }
     }
@@ -64,7 +67,6 @@ const ConfirmationWindow = () => {
                     className='capitalize px-4 py-2 bg-sky-600 hover:bg-sky-800 rounded-lg text-white transition-all'>
                         {isLoading? "delete...":"delete"}
                     </button>
-
                 </div>
             </div>
         </div>

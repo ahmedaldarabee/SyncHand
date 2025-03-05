@@ -30,8 +30,9 @@ const defaultState: AppType = {
     tabsOptionsObject: {tabsOptions: [], setTabsOptions:()=>{} },
 
     openProjectsDropDownObject: { openProjectsDropDown:false,setOpenProjectsDropDown:()=>{} },
-    projectsDropDownPositionsObject: { projectsDropDownPositions: {top:0, left:0},setProjectsDropDownPositions: ()=>{} }
+    projectsDropDownPositionsObject: { projectsDropDownPositions: {top:0, left:0},setProjectsDropDownPositions: ()=>{} },
 
+    openTasksWindowObject:{openTasksWindow: false,setOpenTasksWindow: () => {}}
 };
 
 
@@ -112,8 +113,8 @@ export default function ContextAppProvider({
 
     const [openProjectsDropDown , setOpenProjectsDropDown ]  = useState<boolean>(false);
     const [projectsDropDownPositions , setProjectsDropDownPositions ]  = useState({top:0, left:0 });
+    const [openTasksWindow , setOpenTasksWindow ]  = useState<boolean>(false);
     
-
     useEffect(() => {
         setOpenSideBar(false);  
     },[sideBarMenu]);    
@@ -159,6 +160,7 @@ export default function ContextAppProvider({
 
                 openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
                 projectsDropDownPositionsObject: { projectsDropDownPositions, setProjectsDropDownPositions },
+                openTasksWindowObject:{openTasksWindow,setOpenTasksWindow}
             }}>
                 {children}
             </ContextApp.Provider>

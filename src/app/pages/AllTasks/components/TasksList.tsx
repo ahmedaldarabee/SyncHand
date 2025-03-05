@@ -32,8 +32,8 @@ const TasksList = () => {
         } else {
             return tasks.filter((task) => task.status === "In Progress");
         }
+
     }, [allTasks, chosenProject, tabsOptions]);
-    
 
     return (
         <div className='m-10 flex flex-col gap-4 max-sm:m-0 max-sm:mt-7  max-sm:gap-1 h-[80%]'>
@@ -108,7 +108,7 @@ const Tabs = () => {
                     <span 
                     className={`
                         ${singleTabOption.isSelected ? "text-sky-600" : "text-slate-300"}
-                    text-white px-2 rounded-md max-[420px]:hidden
+                    text-white px-2 rounded-md max-[420px]:hidden bg-sky-700
                     `}>
                         {singleTabOption.id === 1 ? countOnGoingTasks() : completedTasks()}
                     </span>

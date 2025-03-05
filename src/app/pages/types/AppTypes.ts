@@ -20,7 +20,7 @@ export type SortingOption = {
     }[];
 }
 
-type sortingDropDownPosition = {
+export type sortingDropDownPosition = {
     top:number,
     left:number,
     width?:number
@@ -127,9 +127,14 @@ export type AppType = {
         openProjectsDropDown:boolean;
         setOpenProjectsDropDown: React.Dispatch <React.SetStateAction<boolean>>;
     }
-
+    
     projectsDropDownPositionsObject:{
         projectsDropDownPositions: sortingDropDownPosition;
         setProjectsDropDownPositions: React.Dispatch<React.SetStateAction<sortingDropDownPosition>>;
+    }
+
+    openTasksWindowObject:{
+        openTasksWindow:boolean;
+        setOpenTasksWindow: React.Dispatch <React.SetStateAction<boolean>>;
     }
 }

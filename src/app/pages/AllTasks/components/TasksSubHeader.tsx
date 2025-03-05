@@ -80,8 +80,8 @@ const MyProjectsTxt = () => {
                 <div className='flex gap-1 items-center justify-between'>
                     <li className='text-[12px] h-[4px] w-[280px] max-sm:w-[180px] border-y-slate-200 rounded-md'>
                         <div
-                        style={{width:`${completionPercentage}%`}}
-                        className={`h-[100%] bg-sky-600 rounded-r-xl`}>
+                            style={{width:`${completionPercentage}%`}}
+                            className={`h-[100%] bg-sky-600 rounded-r-xl`}>
                         </div>
                     </li>
 
