@@ -1,4 +1,6 @@
-import React from 'react'
+"use client"
+
+import React, { useRef } from 'react'
 import { SquareSplitVertical,ChevronDown } from 'lucide-react';
 import { SortingButton } from '../../AllProjects/components/ProjectsSubHeader';
 import { useContextApp } from '../../contextApp';
@@ -17,6 +19,9 @@ const MyProjectsTxt = () => {
     const {
         chosenProjectObject: { chosenProject, setChosenProject },
         allProjectsObject: {allProjects, setAllProjects},
+
+        openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
+        projectsDropDownPositionsObject: { projectsDropDownPositions, setProjectsDropDownPositions },
     } = useContextApp();
 
     function allTasksInAllProjects(){
@@ -33,6 +38,17 @@ const MyProjectsTxt = () => {
     
     const completionPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
+    const projectTitleRef = useRef<HTMLDivElement>(null);
+
+    function openTheProjectDropDown(){
+        if(projectTitleRef.current){
+            const rect = projectTitleRef.current.getBoundingClientRect();
+            const {top,left,width} = rect;
+            setProjectsDropDownPositions({left,top,width});
+        }
+        setOpenProjectsDropDown(!openProjectsDropDown);
+    }
+
     return(
         <div className='flex items-center gap-2 flex-wrap'>
 
@@ -42,22 +58,30 @@ const MyProjectsTxt = () => {
 
             <ul className='flex flex-col gap-[7px] -mb-2'>
                 <li className='text-[17px] font-semibold flex gap-2 items-center'>
-                    <div className='text-slate-700 flex gap-2 items-center'>
+                    
+                    <div
+                    ref={projectTitleRef}
+                    onClick={openTheProjectDropDown}
+
+                    className='text-slate-700 flex gap-2 items-center'>
                         <span className='text-lg capitalize -mb-2 hover:text-sky-800 transition-all'>
-                            {chosenProject?.title || " all projects"}
+                            {chosenProject?.title || "all projects"}
                         </span>
+                    
                         <span className='-mb-2 bg-slate-700 text-white text-[14px] p-[2px] px-2 rounded-md'>
                             {totalTasks}
                         </span>
+                    
                     </div>
+                    
                     <ChevronDown className='-mb-2 text-lg text-slate-600'/>
                 </li>
 
                 <div className='flex gap-1 items-center justify-between'>
                     <li className='text-[12px] h-[4px] w-[280px] max-sm:w-[180px] border-y-slate-200 rounded-md'>
                         <div
-                        style={{width:`${completionPercentage}%`}}
-                        className={`h-[100%] bg-sky-600 rounded-r-xl`}>
+                            style={{width:`${completionPercentage}%`}}
+                            className={`h-[100%] bg-sky-600 rounded-r-xl`}>
                         </div>
                     </li>
 

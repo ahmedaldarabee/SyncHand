@@ -28,7 +28,13 @@ const defaultState: AppType = {
     sortingDropDownPositionObject: {sortingDropDownPositions: {top:0, left:0}, setSortingDropDownPositions:() => {}},
     chosenProjectObject: {chosenProject: null, setChosenProject:()=>{} },
     tabsOptionsObject: {tabsOptions: [], setTabsOptions:()=>{} },
+
+    openProjectsDropDownObject: { openProjectsDropDown:false,setOpenProjectsDropDown:()=>{} },
+    projectsDropDownPositionsObject: { projectsDropDownPositions: {top:0, left:0},setProjectsDropDownPositions: ()=>{} },
+
+    openTasksWindowObject:{openTasksWindow: false,setOpenTasksWindow: () => {}}
 };
+
 
 const ContextApp = createContext<AppType>(defaultState);
 
@@ -99,12 +105,16 @@ export default function ContextAppProvider({
     const [sortingDropDownPositions, setSortingDropDownPositions] = useState({ top:0, left:0 });
 
     const [chosenProject, setChosenProject]  = useState<Project | null>(null);
-
+    
     const [tabsOptions,setTabsOptions] = useState<TabOption[]>([
         {id: 1, name: "On Going Tasks" , isSelected: true},
         {id: 2, name: "Completed Tasks" , isSelected: false},
     ]);
 
+    const [openProjectsDropDown , setOpenProjectsDropDown ]  = useState<boolean>(false);
+    const [projectsDropDownPositions , setProjectsDropDownPositions ]  = useState({top:0, left:0 });
+    const [openTasksWindow , setOpenTasksWindow ]  = useState<boolean>(false);
+    
     useEffect(() => {
         setOpenSideBar(false);  
     },[sideBarMenu]);    
@@ -147,8 +157,11 @@ export default function ContextAppProvider({
                 
                 chosenProjectObject: { chosenProject, setChosenProject },
                 tabsOptionsObject: { tabsOptions, setTabsOptions },
-            }}>
 
+                openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
+                projectsDropDownPositionsObject: { projectsDropDownPositions, setProjectsDropDownPositions },
+                openTasksWindowObject:{openTasksWindow,setOpenTasksWindow}
+            }}>
                 {children}
             </ContextApp.Provider>
         </>

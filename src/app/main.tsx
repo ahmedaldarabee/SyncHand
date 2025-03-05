@@ -38,8 +38,10 @@ const Main = () => {
         <ProjectsDropDown />
         <SortingDropDown />
         <Toaster />
+
         <ConfirmationWindow />
         <MoreDropDown />
+        
         <IconWindow />
         <ProjectWindow />
 

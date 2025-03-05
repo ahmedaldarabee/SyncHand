@@ -23,8 +23,8 @@ function SearchBar(){
             </div>
 
             {/* search input */}
-            <div className='border-b-2 border-slate-200'>
-                <input className='outline-none p-2 bg-transparent text-[14px]' type="search" placeholder='Search here...' />
+            <div className='border-b-2 border-slate-200 transition-all'>
+                <input className='lg:focus:w-[300px] w-[200px] transition-all cursor-pointer outline-none p-2 bg-transparent text-[14px]' type="search" placeholder='Search here...' />
             </div>
         </div>
     )
@@ -38,10 +38,13 @@ function AddProject(){
 
     return(
         <div className='flex items-center gap-2 max-sm:ml-auto md:ml-auto'>
+            
             <button type='button' onClick={() => setOpenProjectWindow(!openProjectWindow)} className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
+
                 <ListPlus />
                 <span className='capitalize'> new project </span>
             </button>
+
             <Menu onClick={() => setOpenSideBar(prev => !prev)} className='text-slate-400 h-9 cursor-pointer hidden max-[940px]:block' />
         </div>
     )

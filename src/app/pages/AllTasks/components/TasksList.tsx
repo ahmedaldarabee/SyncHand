@@ -17,22 +17,23 @@ const TasksList = () => {
     useEffect(() => {
         const extractAllTasks = allProjects.flatMap((project) => project.tasks);
         setAllTasks(extractAllTasks);
-    })
+    }, [allProjects]);
+    
 
     const filteredTasks = useMemo(() => {
-        let tasks = allTasks;
-
-        if(chosenProject){
+        let tasks = [...allTasks];
+    
+        if (chosenProject) {
             tasks = tasks.filter((task) => task.projectName === chosenProject.title);
         }
-
-        if(tabsOptions[1].isSelected){
-            tasks = tasks.filter((task) => task.status === "Completed")
-        }else{
-            tasks = tasks.filter((task) => task.status === "In Progress");
+    
+        if (tabsOptions[1].isSelected) {
+            return tasks.filter((task) => task.status === "Completed");
+        } else {
+            return tasks.filter((task) => task.status === "In Progress");
         }
-        return tasks;
-    },[allTasks , chosenProject , tabsOptions]);
+
+    }, [allTasks, chosenProject, tabsOptions]);
 
     return (
         <div className='m-10 flex flex-col gap-4 max-sm:m-0 max-sm:mt-7  max-sm:gap-1 h-[80%]'>
@@ -41,7 +42,6 @@ const TasksList = () => {
                 {
                     filteredTasks.map((singleTask,index) => (
                         <SingleTask key={index} singleTask={singleTask}/>
-                        
                     ))
                 }
             </div>
@@ -100,7 +100,7 @@ const Tabs = () => {
 
                 <div
                 key={index}
-                onClick={() => switchTabs}
+                onClick={() => switchTabs(index)}
 
                 className={`flex gap-2 cursor-pointer ${singleTabOption.isSelected ? " text-sky-600 font-semibold" : "text-slate-300"}`}>
                     <span className='capitalize'>{singleTabOption.name}</span>
@@ -108,7 +108,7 @@ const Tabs = () => {
                     <span 
                     className={`
                         ${singleTabOption.isSelected ? "text-sky-600" : "text-slate-300"}
-                    text-white px-2 rounded-md max-[420px]:hidden
+                    text-white px-2 rounded-md max-[420px]:hidden bg-sky-700
                     `}>
                         {singleTabOption.id === 1 ? countOnGoingTasks() : completedTasks()}
                     </span>

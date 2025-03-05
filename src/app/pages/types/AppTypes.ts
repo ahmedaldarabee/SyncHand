@@ -1,5 +1,3 @@
-// structure of the context!
-
 import { Project } from "@/app/Data/AllProjects";
 import { ReactNode } from "react";
 
@@ -22,7 +20,7 @@ export type SortingOption = {
     }[];
 }
 
-type sortingDropDownPosition = {
+export type sortingDropDownPosition = {
     top:number,
     left:number,
     width?:number
@@ -123,5 +121,20 @@ export type AppType = {
     chosenProjectObject: {
         chosenProject: Project | null,
         setChosenProject:React.Dispatch <React.SetStateAction<Project | null>>;
+    }
+
+    openProjectsDropDownObject:{
+        openProjectsDropDown:boolean;
+        setOpenProjectsDropDown: React.Dispatch <React.SetStateAction<boolean>>;
+    }
+    
+    projectsDropDownPositionsObject:{
+        projectsDropDownPositions: sortingDropDownPosition;
+        setProjectsDropDownPositions: React.Dispatch<React.SetStateAction<sortingDropDownPosition>>;
+    }
+
+    openTasksWindowObject:{
+        openTasksWindow:boolean;
+        setOpenTasksWindow: React.Dispatch <React.SetStateAction<boolean>>;
     }
 }

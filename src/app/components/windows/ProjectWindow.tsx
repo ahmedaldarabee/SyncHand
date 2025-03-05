@@ -8,11 +8,13 @@ import { BookMarked, BookmarkX, Wrench } from 'lucide-react';
 import {useForm , SubmitHandler, UseFormRegister , FieldErrors} from 'react-hook-form'
 import { zodResolver }  from '@hookform/resolvers/zod';
 import * as z from 'zod'
+
 import getIconComponent from '@/app/Functions/IconsActions';
 import { addNewProject, editProject } from '@/app/Functions/projectsActions';
 
 import toast from 'react-hot-toast';
 import { allIconsArray } from '@/app/Data/AllIcons';
+import { Project } from '@/app/Data/AllProjects';
 
 const schema = z.object({
     projectName:z.string()
@@ -26,13 +28,14 @@ const ProjectWindow = () => {
 
     const {
         openProjectWindowObject: {openProjectWindow , setOpenProjectWindow},
-        
         allProjectsObject: {allProjects , setAllProjects},
         
         selectedIconObject:{ selectedIcon , setSelectedIcon},
-
         selectedProjectObject: {selectedProject, setSelectedProject},
+        
         loadingObject: {setLoading},
+        chosenProjectObject: { chosenProject, setChosenProject },
+
     } = useContextApp();
 
     const {
@@ -70,7 +73,6 @@ const ProjectWindow = () => {
                         selectedIcon,
                         reset
                     );
-    
                 }else{
                     editProject(
                         selectedProject,
@@ -88,6 +90,17 @@ const ProjectWindow = () => {
                 toast.error("something went wrong.");
             }finally{
                 setLoading(false);
+                
+                if(selectedProject && chosenProject){
+                    if(chosenProject.id === selectedProject.id){
+                        const updatesChosenProject: Project = {
+                            ...chosenProject,
+                            title: data.projectName,
+                        }
+                        setChosenProject(updatesChosenProject);
+                    }
+                }
+
                 toast.success(`Project ${selectedProject? "edited" : "added" } successfully`);
             }
         }

@@ -62,6 +62,10 @@ export function editProject(
             ...selectedProject,
             title: data.projectName,
             icon: selectedIcon?.name || "List",
+            tasks: selectedProject.tasks.map((task) => ({
+                ...task,
+                projectName: data.projectName
+            })),
         };
 
         const updateAllProjects = allProjects.map((project) => {
