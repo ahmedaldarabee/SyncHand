@@ -23,7 +23,7 @@ export type SortingOption = {
 export type sortingDropDownPosition = {
     top:number,
     left:number,
-    width?:number
+    width:number
 }
 
 export type TabOption = {

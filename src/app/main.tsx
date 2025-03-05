@@ -12,6 +12,7 @@ import { useContextApp } from "./pages/contextApp";
 import { Toaster } from 'react-hot-toast';
 import AiPage from "./pages/AI/AiPage";
 import ProjectsDropDown from "./components/DropDowns/ProjectsDropDown";
+import TasksWindow from "./components/windows/TasksWindow";
 
 const Main = () => {
     const {
@@ -34,7 +35,7 @@ const Main = () => {
 
     return (
         <main className="flex w-full h-screen poppins transition-all">
-        
+        <TasksWindow />
         <ProjectsDropDown />
         <SortingDropDown />
         <Toaster />
