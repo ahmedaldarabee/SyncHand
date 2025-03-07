@@ -1,4 +1,4 @@
-import { Project } from "@/app/Data/AllProjects";
+import { Project, Task } from "@/app/Data/AllProjects";
 import { ReactNode } from "react";
 
 export interface SidebarMenuItem  {
@@ -31,7 +31,6 @@ export type TabOption = {
     name: string,
     isSelected: boolean
 }
-
 
 export type AppType = {
 
@@ -136,5 +135,15 @@ export type AppType = {
     openTasksWindowObject:{
         openTasksWindow:boolean;
         setOpenTasksWindow: React.Dispatch <React.SetStateAction<boolean>>;
+    }
+
+    allTasksObject: {
+        allTasks: Task[],
+        setAllTasks: React.Dispatch <React.SetStateAction<Task[]>>;
+    },
+ 
+    selectedTaskObject:{
+        selectedTask: Task | null,
+        setSelectedTask: React.Dispatch <React.SetStateAction< Task | null>>;
     }
 }

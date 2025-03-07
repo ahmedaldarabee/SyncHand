@@ -15,12 +15,17 @@ const TasksHeader = () => {
 function AddTask(){
     const {
         openSideBarObject: { openSideBar, setOpenSideBar },
+        openTasksWindowObject:{setOpenTasksWindow}
     } = useContextApp();
 
     return(
         <div className='flex items-center gap-2 max-sm:ml-auto md:ml-auto'>
             
-            <button type='button' className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
+            <button
+            onClick={() => {
+                setOpenTasksWindow(true);
+            }}
+            type='button' className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
 
                 <ListPlus />
                 <span className='capitalize'> add task </span>

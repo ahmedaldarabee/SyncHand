@@ -1,7 +1,6 @@
 import React , { Dispatch, SetStateAction} from "react"
 import { v4 as uuidv4 } from 'uuid'
-
-import {Project} from '@/app/Data/AllProjects';
+import {Project, Task} from '@/app/Data/AllProjects';
 import {IconData} from '../pages/types/AppTypes'
 import {FormData} from '../components/windows/ProjectWindow'
 
@@ -36,6 +35,8 @@ export function deleteProject(
     setSelectedProject: React.Dispatch<React.SetStateAction<Project|null>>,
     allProjects: Project[],
     setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>,
+    allTasks:Task[],
+    setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>,
     setOpenConfirmationWindow: React.Dispatch<React.SetStateAction<boolean>>
     
 ){
@@ -48,12 +49,13 @@ export function deleteProject(
 }
 
 export function editProject( 
-
     selectedProject: Project | null,
     setSelectedProject: React.Dispatch<React.SetStateAction<Project | null>>,
     data: FormData,
     selectedIcon: IconData | null,
     allProjects: Project[],
+    allTasks: Task[],
+    setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>,
     setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>,
     setOpenConfirmationWindow:  React.Dispatch<React.SetStateAction<boolean>>,
 ) {
@@ -75,7 +77,13 @@ export function editProject(
             return project;
         })
 
+        const updateAllTasks = allTasks.map((task) => 
+            task.projectName === selectedProject.title ? {...task , projectName: data.projectName} : task
+        );
+
+        setAllTasks(updateAllTasks);
         setAllProjects(updateAllProjects);
+        
         setSelectedProject(null);
         setOpenConfirmationWindow(false);
     }

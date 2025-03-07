@@ -1,17 +1,28 @@
 "use client"
 
-import { Project } from '@/app/Data/AllProjects';
+import { Project, Task } from '@/app/Data/AllProjects';
 import getIconComponent from '@/app/Functions/IconsActions';
 import { useContextApp } from '@/app/pages/contextApp';
 import { sortingDropDownPosition } from '@/app/pages/types/AppTypes';
-import { ChevronDown, Circle, CircleX, List } from 'lucide-react';
-import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react'
+import { ChevronDown, ChevronUp, Circle, CircleX, List } from 'lucide-react';
+import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {useForm , SubmitHandler, UseFormRegister , FieldErrors} from 'react-hook-form'
 import { zodResolver }  from '@hookform/resolvers/zod';
 import * as z from 'zod'
 import TasksDropDown from '../DropDowns/TasksDropDown';
+import { v4 as uuidv4 } from 'uuid'
+import { allIconsArray } from '@/app/Data/AllIcons';
+import addNewTask, { updateTaskAndProjectProps } from '@/app/Functions/tasksFunction';
+import { editProject } from '@/app/Functions/projectsActions';
 
 export type SelectionOption = "priority" | "project"
+
+type SelectionError = {
+    id: number;
+    label: string;
+    message: string;
+    show: boolean;
+};
 
 export type Priority = {
     id: number;
@@ -48,6 +59,11 @@ type TaskFormType = {
         updatedAllProjects: ProjectWithSelection[];
         setUpdatedAllProjects: Dispatch<SetStateAction<ProjectWithSelection[]>>;
     };
+
+    selectionErrorsObject: {
+        selectionErrors: SelectionError[];
+        setSelectionErrors: Dispatch<SetStateAction<SelectionError[]>>;
+    };
 };
 
 const TaskFormState = {
@@ -75,6 +91,10 @@ const TaskFormState = {
         updatedAllProjects: [],
         setUpdatedAllProjects: () => {}
     },
+    selectionErrorsObject: {
+        selectionErrors: [],
+        setSelectionErrors: () => {}
+    }
 }
 
 // create context
@@ -84,10 +104,31 @@ export function useTaskFormContext(){
     return useContext(TaskFormContext);
 }
 
+const schema = z.object({
+    taskName: z
+    .string()
+    .min(1,{message:"task name is required!"})
+    .max(25,{message:"task name must be less than or equal 25 character"})
+});
+
+type FormData = z.infer<typeof schema>;
+
 // starting from here!
 // provider must using here!
 
 const TasksWindow = () => {
+    const {
+        handleSubmit,
+        register,
+        formState: {errors},
+        reset,
+        setFocus,
+        setError,
+        setValue
+    } = useForm<FormData>({
+        resolver: zodResolver(schema),
+    });
+
     const [clickedSelection,setClickedSelection] = useState<SelectionOption | null>(null);
     const [openTasksDropDown, setOpenTasksDropDown] = useState(false);
     const [tasksDropDownPositions, setTasksDropDownPositions] = useState<sortingDropDownPosition>({
@@ -121,7 +162,15 @@ const TasksWindow = () => {
 
     const {
         allProjectsObject: {allProjects, setAllProjects},
-        openTasksWindowObject:{openTasksWindow,setOpenTasksWindow}
+        openTasksWindowObject:{openTasksWindow,setOpenTasksWindow},
+        loadingObject:{isLoading,setLoading},
+        selectedIconObject: {selectedIcon,setSelectedIcon},
+        chosenProjectObject:{chosenProject,setChosenProject},
+        allTasksObject:{allTasks,setAllTasks},
+        selectedTaskObject:{selectedTask,setSelectedTask},
+        openProjectWindowObject: {openProjectWindow,setOpenProjectWindow},
+        selectedProjectObject: {selectedProject,setSelectedProject},
+        openConfirmationWindowObject:{setOpenConfirmationWindow}
     } = useContextApp();
 
     
@@ -134,6 +183,142 @@ const TasksWindow = () => {
         }))
         setUpdateAllProjects(templateAllProjects);
     },[allProjects]);
+
+    useLayoutEffect(() => {
+        
+        if(!selectedTask){
+            reset();
+            setPriority(null)
+            setProject(null)
+        }else{
+            setValue("taskName",selectedTask.title);
+            const getPriority = priorityList.find((priority) => priority.name === selectedTask.priority);
+            
+            if(getPriority){
+                setPriority(getPriority)
+            }
+
+            const getProject = updateAllProjects.find((proj) => proj.title.toLowerCase() === selectedTask.projectName.toLowerCase())
+            
+            if(getProject){
+                setProject(getProject);
+            }
+            // setUpdateAllProjects
+            const findIconInAllIconsArr = allIconsArray.find((icon) => icon.name === selectedTask.icon);
+            if(findIconInAllIconsArr){
+                setSelectedIcon(findIconInAllIconsArr);
+            }
+        }
+        
+        setTimeout(() => {
+            setFocus("taskName");
+        },0);
+
+        setSelectionErrors((prevState) =>
+            prevState.map((error) => ({...error,show:false}))
+        )
+
+    },[openTasksWindow]);
+
+    const [selectionErrors, setSelectionErrors] = useState<SelectionError[]>([
+        {
+            id: 1,
+            label: "priority",
+            message: "Please select the priority",
+            show: false,
+        },{
+            id: 2,
+            label: "project",
+            message: "Please select the project",
+            show: false,
+        }
+    ]);
+
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+
+        if(project){
+            const findProject = updateAllProjects.find((proj) => proj.id === project.id);
+
+            const findTask = findProject?.tasks.find((task) => task.title.toLowerCase() === data.taskName.toLowerCase());
+            
+            if(findTask){
+                setError("taskName",{
+                    type: "manual",
+                    message: "task already exist",
+                });
+                setFocus("taskName");
+                return;
+            }
+        }
+
+
+        const newErrors = selectionErrors.map((error) => {
+            if(error.label === "priority" && !priority){
+                return {...error, show: true};
+            }
+
+            if(error.label === "project" && !project){
+                return {...error, show: true};
+            }
+            
+            return {...error, show: false};
+
+        });
+
+        if(newErrors.every((error) => error.show === false)){
+            tasksFunction(data);
+        }
+
+        setSelectionErrors(newErrors);
+    }
+
+    async function tasksFunction(data: FormData){
+        try {
+            setLoading(true);
+            await new Promise((resolve) => setTimeout(resolve,1000));
+
+            if(!selectedTask){
+                const newTask: Task = {
+                    id: uuidv4(),
+                    title: data.taskName,
+                    icon: selectedIcon ? selectedIcon?.name : "List",
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    priority: (priority?.name as "Low" | "Medium" | "High") || "Low",
+                    projectName: project?.title || "",
+                    status: "In Progress",
+                };
+                addNewTask(
+                    newTask,
+                    allProjects,
+                    setAllProjects,
+                    chosenProject,
+                    setChosenProject,
+                    allTasks,
+                    setAllTasks,
+                    project,
+                );
+            }else{
+                editProject(
+                    selectedProject,
+                    setSelectedProject,
+                    data,//Error is here.!
+                    selectedIcon,
+                    allProjects,
+                    allTasks,
+                    setAllTasks,
+                    setAllProjects,
+                    setOpenProjectWindow
+                )
+            }
+            // editTask();
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setLoading(false);
+            setOpenTasksWindow(false);
+        }
+    }
 
     // main Context Provider
     return (
@@ -162,6 +347,11 @@ const TasksWindow = () => {
                     updatedAllProjects: updateAllProjects,
                     setUpdatedAllProjects: setUpdateAllProjects
                 }
+                ,
+                selectionErrorsObject: {
+                    selectionErrors, 
+                    setSelectionErrors
+                }
             }}>
 
         <div 
@@ -173,13 +363,15 @@ const TasksWindow = () => {
             {/* main data */}
             <TasksDropDown />
             <Header />
-            <form className='flex flex-col gap-2 pt-8 px-7 mt-3'>
-                {/* <TaskInput /> */}
-                <div className='flex justify-between gap-3 mt-5'>
-                    <PrioritySelection />
-                    <ProjectSelection />
-                </div>
-                <Footer />
+            <form 
+            onSubmit={handleSubmit(onSubmit)}
+            className='flex flex-col gap-2 pt-8 px-7 mt-3'>
+                <TaskInput register={register} errors={errors} />
+                    <div className='flex justify-between gap-3 mt-5'>
+                        <PrioritySelection />
+                        <ProjectSelection />
+                    </div>
+                <Footer isLoading={isLoading}/>
             </form>
         </div>
 
@@ -189,7 +381,8 @@ const TasksWindow = () => {
 
 function Header(){
     const {
-        openTasksWindowObject: {setOpenTasksWindow}
+        openTasksWindowObject: {setOpenTasksWindow},
+        selectedTaskObject: { selectedTask , setSelectedTask }
     } = useContextApp();
 
     return (
@@ -200,9 +393,17 @@ function Header(){
                     <List className='w-4 h-4 text-sky-600' onClick={() => setOpenTasksWindow(false)} />
 
                 </div>
-                <span className='capitalize font-semibold text-lg'>new task</span>
+                <span className='font-semibold text-lg'>
+                    {selectedTask ? "Edit Task" :"Add New Task"}
+                </span>
             </div>
-            <CircleX className='w-4 h-4 text-slate-300 cursor-pointer'/>
+            
+            <CircleX
+            onClick={() => {
+                setOpenTasksWindow(false);
+                setSelectedTask(null);
+            }}
+            className='w-4 h-4 text-slate-300 cursor-pointer'/>
         </div>
     )
 }
@@ -215,8 +416,8 @@ function TaskInput({
     errors: FieldErrors<FormData>
 }) {
     const {
-        selectedIconObject:{ selectedIcon , setSelectedIcon },
-        openIconWindowObject:{ openIconWindow , setOpenIconWindow },
+        selectedIconObject:{ selectedIcon },
+        openIconWindowObject:{ setOpenIconWindow },
     } = useContextApp();
 
     return (
@@ -225,48 +426,56 @@ function TaskInput({
             <div className='flex gap-3 justify-between'>
                 <div className='w-full'>
                     <input 
-                    // {...register("taskName")}
+                    {...register("taskName")}
                     type="text" placeholder='Enter task name' />
 
-                    {/* {errors.taskName && (
+                    {errors.taskName && (
                         <p className='text-[11px] mt-2 text-red-500'>{errors.taskName.message}</p>
-                    )} */}
+                    )}
                 </div>
+
                 <div
                     onClick={() => setOpenIconWindow(true)}
                     className='w-12 h-12 text-white flex items-center justify-center bg-sky-600 rounded-lg cursor-pointer'
-
-                    // {
-                    //     selectedIcon ? (
-                    //         getIconComponent(selectedIcon?.name)
-                    //     ):(
-                    //         <List />
-                    //     )
-                    // }
-                >
+                    >
+                    {
+                        selectedIcon ? (
+                                getIconComponent(selectedIcon?.name)
+                        ) : (
+                            <List />
+                        )
+                    }
                 </div>
             </div>
         </div>
     )
 }
 
-const Footer = () => {
+const Footer = ({isLoading}: {isLoading: boolean}) => {
     const {
-        selectedIconObject:{ setSelectedIcon },
-        selectedProjectObject: {selectedProject, setSelectedProject},
-        loadingObject: {isLoading},
+        openTasksWindowObject:{setOpenTasksWindow},
+        selectedIconObject: {selectedIcon , setSelectedIcon},
+        selectedTaskObject:{  selectedTask , setSelectedTask}
     } = useContextApp();
 
     return (
         <div className='w-[100%] p-3 mt-2 flex gap-3 justify-end items-center'>
 
             {/* cancel button */}
-            <button type='button' className='border border-slate-200 text-slate-400 text-[13px] p-2 rounded-md capitalize hover:border-slate-300 transition-all'>
+            <button 
+
+                onClick={() => {
+                    setOpenTasksWindow(false)
+                    setSelectedTask(null)
+                    setSelectedIcon(null)
+                }}
+
+            type='button' className='border border-slate-200 text-slate-400 text-[13px] p-2 rounded-md capitalize hover:border-slate-300 transition-all'>
                 close
             </button>
 
             <button className='text-white text-[13px] p-2 px-4 rounded-md bg-sky-600 hover:bg-sky-700 transition-all capitalize'>
-                add task
+                {isLoading ? "Saving..."  : selectedTask ?"Edit Task " : "Add New Task"}
             </button>
         </div>
     )
@@ -278,6 +487,8 @@ function PrioritySelection(){
         setOpenTasksDropDown,
         setTasksDropDownPositions,
         priority,
+        clickedSelection,
+        selectionErrorsObject: { selectionErrors, setSelectionErrors }
     } = useTaskFormContext();
 
     const prioritySelectionRef = useRef<HTMLDivElement>(null);
@@ -291,11 +502,16 @@ function PrioritySelection(){
 
         setOpenTasksDropDown(true);
         setClickedSelection("priority");
+        setSelectionErrors((prevState) => 
+            prevState.map((error) => ({
+                ...error,
+                show: error.label === "priority" && false
+            }))
+        )
     }
 
     return (
-        <div
-        
+        <div        
         ref={prioritySelectionRef}
         onClick={handleClickedSelection}
         className='flex flex-col gap-2 w-full relative cursor-pointer'
@@ -321,13 +537,86 @@ function PrioritySelection(){
                 <ChevronDown className='absolute top-[40px] right-3 w-4 h-4 text-slate-400'/>
             </div>
 
+            {
+                selectionErrors[0].show && (
+                    <span className='text-red-500 text-[11px]'>
+                        {selectionErrors[0].show}
+                    </span>
+                )
+            }
+
         </div>
     )
 }
 
 function ProjectSelection(){
+    const {
+        setClickedSelection,
+        openTasksDropDown,
+        setOpenTasksDropDown,
+        setTasksDropDownPositions,
+        project,
+        clickedSelection,
+        selectionErrorsObject: { selectionErrors, setSelectionErrors }
+    } = useTaskFormContext();
+    
+    const projectSelectionRef = useRef<HTMLDivElement>(null); 
+
+    function handleClickedSelection(){
+        if(projectSelectionRef.current){
+            const rect = projectSelectionRef.current.getBoundingClientRect();
+            const { left , top, width } = rect;
+            setTasksDropDownPositions({left: left, top:top, width:width});
+        }
+        setClickedSelection("project");
+        setOpenTasksDropDown(true);
+
+        setSelectionErrors((prevState) => 
+            prevState.map((error) => ({
+                ...error,
+                show: error.label === "project" && false
+            }))
+        )
+    }
     return (
-        <div>
+        <div
+            ref={projectSelectionRef}
+            onClick={handleClickedSelection}
+            className='flex flex-col gap-2 w-full relative cursor-pointer'
+        >
+            <span className='text-[14px] font-medium text-slate-600'>
+                projects
+            </span>
+
+            <div className='flex justify-between items-center border h-[42px] px-2 rounded-md'>
+                <span className='w-full text-[13px] text-slate-400'>
+                    {
+                        project ? (
+                            <div className='flex gap-1 items-center'>
+                                <div>{getIconComponent(project.icon)}</div>
+                                <span className='mt-[3px]'>{project.title}</span>
+                            </div>
+                        ) : (
+                            <span>select project</span>
+                        )
+                    }
+                </span>
+
+                { openTasksDropDown && clickedSelection === "project" ? (
+                    <ChevronDown className='absolute top-[40px] right-3 w-4 h-4 text-slate-400'/>
+                ) : (
+                    <ChevronUp className='absolute top-[40px] right-3 w-4 h-4 text-slate-400'/>
+                )}
+
+
+            </div>
+                {
+                    selectionErrors[1].show && (
+                        <span className='text-red-500 text-[11px]'>
+                            {selectionErrors[1].show}
+                        </span>
+                    )
+                }
 
         </div>
     )
