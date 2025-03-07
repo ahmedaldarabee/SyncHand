@@ -302,7 +302,7 @@ const TasksWindow = () => {
                 editProject(
                     selectedProject,
                     setSelectedProject,
-                    data,//Error is here.!
+                    { projectName: data.taskName },//Error is here.!
                     selectedIcon,
                     allProjects,
                     allTasks,
