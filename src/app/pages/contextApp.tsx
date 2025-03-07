@@ -3,7 +3,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { AppType, IconData, SidebarMenuItem, TabOption } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
-import { Project, projectData } from '../Data/AllProjects';
+import { Project, projectData, Task } from '../Data/AllProjects';
 
 const defaultState: AppType = {
     openSideBarObject:{openSideBar:false,setOpenSideBar:() => {},},
@@ -25,14 +25,16 @@ const defaultState: AppType = {
     sortingOptionObject: {sortingOptions:[] , setSortingOptions:()=>{}},
     openSortingDropDownObject: {openSortingDropDown:false , setOpenSortingDropDown:()=>{}},
 
-    sortingDropDownPositionObject: {sortingDropDownPositions: {top:0, left:0}, setSortingDropDownPositions:() => {}},
+    sortingDropDownPositionObject: {sortingDropDownPositions: {top:0, left:0, width:0}, setSortingDropDownPositions:() => {}},
     chosenProjectObject: {chosenProject: null, setChosenProject:()=>{} },
     tabsOptionsObject: {tabsOptions: [], setTabsOptions:()=>{} },
 
     openProjectsDropDownObject: { openProjectsDropDown:false,setOpenProjectsDropDown:()=>{} },
-    projectsDropDownPositionsObject: { projectsDropDownPositions: {top:0, left:0},setProjectsDropDownPositions: ()=>{} },
+    projectsDropDownPositionsObject: { projectsDropDownPositions: {top:0, left:0, width:0},setProjectsDropDownPositions: ()=>{} },
 
-    openTasksWindowObject:{openTasksWindow: false,setOpenTasksWindow: () => {}}
+    openTasksWindowObject:{openTasksWindow: false,setOpenTasksWindow: () => {}},
+    allTasksObject: {allTasks:[], setAllTasks: () => {}},
+    selectedTaskObject: { selectedTask:null , setSelectedTask:() => {}}
 };
 
 
@@ -102,7 +104,7 @@ export default function ContextAppProvider({
 
     const [openSortingDropDown , setOpenSortingDropDown] = useState<boolean>(false);
 
-    const [sortingDropDownPositions, setSortingDropDownPositions] = useState({ top:0, left:0 });
+    const [sortingDropDownPositions, setSortingDropDownPositions] = useState({ top:0, left:0 , width:0});
 
     const [chosenProject, setChosenProject]  = useState<Project | null>(null);
     
@@ -112,9 +114,12 @@ export default function ContextAppProvider({
     ]);
 
     const [openProjectsDropDown , setOpenProjectsDropDown ]  = useState<boolean>(false);
-    const [projectsDropDownPositions , setProjectsDropDownPositions ]  = useState({top:0, left:0 });
+    const [projectsDropDownPositions , setProjectsDropDownPositions ]  = useState({top:0, left:0,width:0 });
     const [openTasksWindow , setOpenTasksWindow ]  = useState<boolean>(false);
+    const [allTasks , setAllTasks] = useState<Task[]>([]);
     
+    const [selectedTask , setSelectedTask] = useState<Task | null>(null);
+
     useEffect(() => {
         setOpenSideBar(false);  
     },[sideBarMenu]);    
@@ -123,7 +128,12 @@ export default function ContextAppProvider({
         const fetchData = async () => {
             try {
                 await new Promise((resolve) => setTimeout(resolve,1000))
+                
+                const extractAllTasks = projectData.flatMap((project) => project.tasks);
+
+                setAllTasks(extractAllTasks);
                 setAllProjects(projectData);
+
             } catch (error) {
                 console.log(error);
             }
@@ -160,7 +170,9 @@ export default function ContextAppProvider({
 
                 openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
                 projectsDropDownPositionsObject: { projectsDropDownPositions, setProjectsDropDownPositions },
-                openTasksWindowObject:{openTasksWindow,setOpenTasksWindow}
+                openTasksWindowObject:{openTasksWindow,setOpenTasksWindow},
+                allTasksObject: {allTasks, setAllTasks},
+                selectedTaskObject: { selectedTask , setSelectedTask}
             }}>
                 {children}
             </ContextApp.Provider>

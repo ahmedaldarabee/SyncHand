@@ -4,24 +4,19 @@ import { RotateCcw, ListCheck ,UserCog, Trash2 } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react'
 import { useContextApp } from '../../contextApp';
 import { Task } from '@/app/Data/AllProjects';
+import getIconComponent from '@/app/Functions/IconsActions';
 
 const TasksList = () => {
     const {
         chosenProjectObject: {chosenProject, setChosenProject},
         allProjectsObject: {allProjects, setAllProjects},
         tabsOptionsObject: { tabsOptions, setTabsOptions },
+        allTasksObject: {allTasks, setAllTasks},
     } = useContextApp();
 
-    const [allTasks , setAllTasks] = useState<Task[]>([]);
-
-    useEffect(() => {
-        const extractAllTasks = allProjects.flatMap((project) => project.tasks);
-        setAllTasks(extractAllTasks);
-    }, [allProjects]);
-    
 
     const filteredTasks = useMemo(() => {
-        let tasks = [...allTasks];
+        let tasks = allTasks
     
         if (chosenProject) {
             tasks = tasks.filter((task) => task.projectName === chosenProject.title);
@@ -120,6 +115,12 @@ const Tabs = () => {
 }
 
 const SingleTask = ({singleTask}:{singleTask: Task}) => {
+    const {
+        selectedTaskObject: { setSelectedTask },
+        openTasksWindowObject:{ setOpenTasksWindow },
+        openConfirmationWindowObject:{setOpenConfirmationWindow}
+    } = useContextApp();
+
     return (
         <div className=' flex items-center max-sm:flex-col cursor-pointer'>
             {/* <Checkbox /> */}
@@ -130,15 +131,21 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
                     {/* intro icon */}
                     <div>
                         <div className='max-sm:hidden bg-sky-600 rounded-lg p-2 flex items-center justify-center'>
-                            <ListCheck className='w-4 h-4 text-white'/>
+                            {/* <ListCheck className='w-4 h-4 text-white'/> */}
+                            {getIconComponent(singleTask.icon)}
                         </div>
                     </div>
 
-                    {/* into info */}
-                    <div className='flex flex-col max-sm:text-[14px] md:text-[20px]'>
+                    <div 
+                        onClick={() => {
+                                setSelectedTask(singleTask)
+                                setOpenTasksWindow(true);
+                            }
+                        }
+                    className='flex flex-col max-sm:text-[14px] md:text-[20px]'>
 
                         <span className='capitalize font-bold hover:text-sky-400 cursor-pointer transition-all'> 
-                        {singleTask.title}
+                            {singleTask.title}
                         </span>
 
                         <div className='flex'>
@@ -155,7 +162,7 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
                     <div className='flex gap-2 items-center'>
                         <RotateCcw className='w-4 h-4 text-[24px] text-sky-700' />
                         <span className='text-[16px] text-slate-400 capitalize'>
-                        {singleTask.status}
+                            {singleTask.status}
                         </span>
                     </div>
 
@@ -163,7 +170,7 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
                     <div className='flex gap-2 items-center'>
                         <RotateCcw className='w-4 h-4 text-[10px] text-sky-700' />
                         <span className='text[14px] text-slate-400'>
-                        {singleTask.priority}
+                            {singleTask.priority}
                         </span>
                     </div>
 
@@ -171,12 +178,22 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
                     <div className='flex gap-2 items-center'>
 
                         {/* edit btn */}
-                        <div className='rounded-lg p-2 bg-sky-600 hover:bg-sky-400 transition-all cursor-pointer flex items-center justify-center'>
+                        <div 
+                        onClick={() => {
+                            setSelectedTask(singleTask);
+                            setOpenTasksWindow(true);
+                        }}
+                        className='rounded-lg p-2 bg-sky-600 hover:bg-sky-400 transition-all cursor-pointer flex items-center justify-center'>
                             <UserCog className='w-4 h-4 text-white' />
                         </div>
                         
                         {/* trash btn */}
-                        <div className='rounded-lg p-2 bg-sky-600 hover:bg-sky-400 transition-all cursor-pointer flex items-center justify-center'>
+                        <div 
+                        onClick={() => {
+                            setSelectedTask(singleTask);
+                            setOpenConfirmationWindow(true)
+                        }}
+                        className='rounded-lg p-2 bg-sky-600 hover:bg-sky-400 transition-all cursor-pointer flex items-center justify-center'>
                             <Trash2 className='w-4 h-4 text-white' />
                         </div>
                         
