@@ -13,7 +13,6 @@ import TasksDropDown from '../DropDowns/TasksDropDown';
 import { v4 as uuidv4 } from 'uuid'
 import { allIconsArray } from '@/app/Data/AllIcons';
 import addNewTask, { updateTaskAndProjectProps } from '@/app/Functions/tasksFunction';
-import { editProject } from '@/app/Functions/projectsActions';
 
 export type SelectionOption = "priority" | "project"
 
@@ -170,7 +169,8 @@ const TasksWindow = () => {
         selectedTaskObject:{selectedTask,setSelectedTask},
         openProjectWindowObject: {openProjectWindow,setOpenProjectWindow},
         selectedProjectObject: {selectedProject,setSelectedProject},
-        openConfirmationWindowObject:{setOpenConfirmationWindow}
+        openConfirmationWindowObject:{setOpenConfirmationWindow},
+        projectClickedObject:{projectClicked,setProjectClicked}
     } = useContextApp();
     
     const [updateAllProjects, setUpdateAllProjects] = useState<ProjectWithSelection[]>([]);
@@ -186,23 +186,49 @@ const TasksWindow = () => {
     useLayoutEffect(() => {
         
         if(!selectedTask){
+            
+            if(projectClicked){
+                setProject({ ...projectClicked, isSelected: true });
+                setUpdateAllProjects((prevProjects) => 
+                    prevProjects.map((proj) => ({
+                        ...proj,
+                        isSelected: proj.id === projectClicked.id ? true : false,
+                    }))
+                )
+            }else{
+                setProject(null);
+            }
             reset();
             setPriority(null)
-            setProject(null)
+
         }else{
             setValue("taskName",selectedTask.title);
+
+            setPriorityList((prevList) => 
+                prevList.map((list) => ({
+                    ...list,
+                    isSelected: selectedTask.priority === list.name ? true: false,
+                }))
+            )
+
             const getPriority = priorityList.find((priority) => priority.name === selectedTask.priority);
             
             if(getPriority){
                 setPriority(getPriority)
             }
 
+            setUpdateAllProjects((prevProjects) => 
+                prevProjects.map((proj) => ({
+                    ...proj,
+                    isSelected: selectedTask.projectName.toLowerCase() === project?.title.toLowerCase() ? true: false,
+                }))
+            )
+
             const getProject = updateAllProjects.find((proj) => proj.title.toLowerCase() === selectedTask.projectName.toLowerCase())
             
             if(getProject){
                 setProject(getProject);
             }
-            // setUpdateAllProjects
             const findIconInAllIconsArr = allIconsArray.find((icon) => icon.name === selectedTask.icon);
             if(findIconInAllIconsArr){
                 setSelectedIcon(findIconInAllIconsArr);
@@ -217,7 +243,7 @@ const TasksWindow = () => {
             prevState.map((error) => ({...error,show:false}))
         )
 
-    },[openTasksWindow]);
+    },[openTasksWindow , projectClicked]);
 
     const [selectionErrors, setSelectionErrors] = useState<SelectionError[]>([
         {
@@ -298,24 +324,32 @@ const TasksWindow = () => {
                     project,
                 );
             }else{
-                editProject(
-                    selectedProject,
-                    setSelectedProject,
-                    { projectName: data.taskName },//Error is here.!
-                    selectedIcon,
+                const updateTask: Task = {
+                    ...selectedTask,
+                    title: data.taskName,
+                    icon: selectedIcon?.name || "List",
+                    status: selectedTask.status,
+                    projectName: project?.title || "",
+                    priority: (priority?.name as "Low" | "Medium" | "High") || "Low",
+                    updatedAt: new Date().toISOString(),
+                }
+                updateTaskAndProjectProps({
+                    updateTask,
+                    project,
                     allProjects,
-                    allTasks,
+                    chosenProject,
                     setAllTasks,
+                    setChosenProject,
                     setAllProjects,
-                    setOpenProjectWindow
-                )
+                })
             }
-            // editTask();
         } catch (error) {
             console.log(error)
         }finally{
             setLoading(false);
             setOpenTasksWindow(false);
+            setSelectedTask(null);
+            setProjectClicked(null);
         }
     }
 
@@ -381,7 +415,8 @@ const TasksWindow = () => {
 function Header(){
     const {
         openTasksWindowObject: {setOpenTasksWindow},
-        selectedTaskObject: { selectedTask , setSelectedTask }
+        selectedTaskObject: { selectedTask , setSelectedTask },
+        projectClickedObject:{projectClicked,setProjectClicked}
     } = useContextApp();
 
     return (
@@ -389,7 +424,12 @@ function Header(){
             <div className='flex items-center gap-2'>
                 <div className='p-[7px] bg-sky-200 rounded-lg flex items-center justify-center'>
 
-                    <List className='w-4 h-4 text-sky-600' onClick={() => setOpenTasksWindow(false)} />
+                    <List
+                    className='w-4 h-4 text-sky-600'
+                    onClick={() => {
+                        setOpenTasksWindow(false)
+                        setProjectClicked(null);
+                    }} />
 
                 </div>
                 <span className='font-semibold text-lg'>
@@ -455,7 +495,8 @@ const Footer = ({isLoading}: {isLoading: boolean}) => {
     const {
         openTasksWindowObject:{setOpenTasksWindow},
         selectedIconObject: {selectedIcon , setSelectedIcon},
-        selectedTaskObject:{  selectedTask , setSelectedTask}
+        selectedTaskObject:{  selectedTask , setSelectedTask},
+        projectClickedObject:{projectClicked,setProjectClicked}
     } = useContextApp();
 
     return (
@@ -468,14 +509,17 @@ const Footer = ({isLoading}: {isLoading: boolean}) => {
                     setOpenTasksWindow(false)
                     setSelectedTask(null)
                     setSelectedIcon(null)
+                    setProjectClicked(null);
                 }}
 
             type='button' className='border border-slate-200 text-slate-400 text-[13px] p-2 rounded-md capitalize hover:border-slate-300 transition-all'>
                 close
             </button>
 
-            <button className='text-white text-[13px] p-2 px-4 rounded-md bg-sky-600 hover:bg-sky-700 transition-all capitalize'>
-                {isLoading ? "Saving..."  : selectedTask ?"Edit Task " : "Add New Task"}
+            <button
+            type='submit'
+            className='text-white text-[13px] p-2 px-4 rounded-md bg-sky-600 hover:bg-sky-700 transition-all capitalize'>
+                {isLoading ? "Saving..."  : selectedTask ? "Edit Task " : "Add New Task"}
             </button>
         </div>
     )

@@ -89,6 +89,11 @@ export type AppType = {
         setAllProjects: React.Dispatch <React.SetStateAction<Project[]>>;
     }
 
+    projectClickedObject: {
+        projectClicked: Project | null,
+        setProjectClicked:React.Dispatch <React.SetStateAction<Project | null>>;
+    }
+    
     openDropDownObject:{
         openDropDown:boolean;
         setOpenDropDown: React.Dispatch <React.SetStateAction<boolean>>;

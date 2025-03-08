@@ -34,7 +34,8 @@ const defaultState: AppType = {
 
     openTasksWindowObject:{openTasksWindow: false,setOpenTasksWindow: () => {}},
     allTasksObject: {allTasks:[], setAllTasks: () => {}},
-    selectedTaskObject: { selectedTask:null , setSelectedTask:() => {}}
+    selectedTaskObject: { selectedTask:null , setSelectedTask:() => {}},
+    projectClickedObject: {projectClicked: null,setProjectClicked: () => {}}
 };
 
 
@@ -119,6 +120,10 @@ export default function ContextAppProvider({
     const [allTasks , setAllTasks] = useState<Task[]>([]);
     
     const [selectedTask , setSelectedTask] = useState<Task | null>(null);
+    
+   
+    const [projectClicked , setProjectClicked] = useState<Project | null>(null);
+
 
     useEffect(() => {
         setOpenSideBar(false);  
@@ -172,7 +177,8 @@ export default function ContextAppProvider({
                 projectsDropDownPositionsObject: { projectsDropDownPositions, setProjectsDropDownPositions },
                 openTasksWindowObject:{openTasksWindow,setOpenTasksWindow},
                 allTasksObject: {allTasks, setAllTasks},
-                selectedTaskObject: { selectedTask , setSelectedTask}
+                selectedTaskObject: { selectedTask , setSelectedTask},
+                projectClickedObject: {  projectClicked,setProjectClicked}
             }}>
                 {children}
             </ContextApp.Provider>

@@ -10,7 +10,7 @@ const SortingDropDown = () => {
         sortingDropDownPositionObject: { sortingDropDownPositions, setSortingDropDownPositions },
         openSortingDropDownObject: { openSortingDropDown, setOpenSortingDropDown },
         allProjectsObject: {allProjects, setAllProjects},
-
+        allTasksObject: {allTasks , setAllTasks}
     } = useContextApp();
 
     const dropDownRef = useRef<HTMLDivElement>(null);
@@ -53,10 +53,11 @@ const SortingDropDown = () => {
 
     useEffect(() => {
         const sortedProjects = sortAllProjects();
+
         if(JSON.stringify(sortedProjects) !== JSON.stringify(allProjects)){
             setAllProjects(sortedProjects);
         }
-    }, [allProjects, sortAllProjects]);
+    }, [allProjects]);
     
 
     function handleOptionSelected(categoryIndex: number , optionIndex: number){
@@ -70,6 +71,7 @@ const SortingDropDown = () => {
         }));
 
         const selectedOption = updateSortingOptions.flatMap((option) => option.options).find((option) => option.selected);
+        
         setSortingOptions(updateSortingOptions);
         setAllProjects(sortProjects(allProjects, selectedOption?.value));
     }

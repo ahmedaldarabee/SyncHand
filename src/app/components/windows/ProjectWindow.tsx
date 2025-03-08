@@ -35,7 +35,7 @@ const ProjectWindow = () => {
         
         loadingObject: {setLoading},
         chosenProjectObject: { chosenProject, setChosenProject },
-
+        allTasksObject: {allTasks,setAllTasks}
     } = useContextApp();
 
     const {
@@ -80,9 +80,12 @@ const ProjectWindow = () => {
                         data,
                         selectedIcon,
                         allProjects,
+                        allTasks,        
+                        setAllTasks,
                         setAllProjects,
                         setOpenProjectWindow
                     );
+                    
                 }
                 
             } catch (error) {

@@ -100,8 +100,8 @@ const ProjectList = ({completedProjects,}: {completedProjects:Project[]}) => {
           <div className='h-[100%] text-center flex items-center justify-center w-full'>
             {
               completedProjects.length === 0 && (
-                <div className={`p-1 flex gap-5 flex-col opacity-40 items-center`}>
-                    <AudioLines className='w-10 h-10 cursor-pointer text-slate-600'/>
+                <div className={`p-1 flex gap-5 flex-col items-center`}>
+                    <AudioLines className='w-10 translate-y-4 h-10 cursor-pointer text-sky-600 transition-all hover:text-sky-500'/>
                     <div className='p-2 flex flex-col flex-wrap w-[180px] justify-center gap-2'>
                       <p>{`No projects completed yet...`}</p>
                     </div>
@@ -114,7 +114,7 @@ const ProjectList = ({completedProjects,}: {completedProjects:Project[]}) => {
             <div key={index}>
               <SingleProject project={project} />
               {index < completedProjects.length-1 && (
-                <hr className='w-[80%] mx-auto text-slate-200 opacity-50'/>
+                <hr className='w-[80%] mx-auto bg-red-500 text-red-600 opacity-50'/>
               )}
             </div>
           ))}
