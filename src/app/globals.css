@@ -23,3 +23,11 @@
   cursor: pointer;
   border-radius:8px;
 }
+
+.icon {
+  @apply  bg-sky-400 text-white w-7 h-7 rounded-md p-1 hover:-translate-y-1 transition-all
+}
+
+.form form .inputs {
+  @apply border border-sky-400 py-1 px-4 cursor-pointer outline-none rounded-lg resize-none focus:border-sky-700 transition-all focus:placeholder:opacity-0 focus:placeholder:transition-all
+}
