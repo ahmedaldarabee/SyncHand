@@ -172,7 +172,6 @@ const TasksWindow = () => {
         selectedProjectObject: {selectedProject,setSelectedProject},
         openConfirmationWindowObject:{setOpenConfirmationWindow}
     } = useContextApp();
-
     
     const [updateAllProjects, setUpdateAllProjects] = useState<ProjectWithSelection[]>([]);
 
@@ -426,6 +425,7 @@ function TaskInput({
             <div className='flex gap-3 justify-between'>
                 <div className='w-full'>
                     <input 
+                    className='w-full outline-none border border-sky-100 p-2 rounded-lg'
                     {...register("taskName")}
                     type="text" placeholder='Enter task name' />
 
@@ -436,7 +436,7 @@ function TaskInput({
 
                 <div
                     onClick={() => setOpenIconWindow(true)}
-                    className='w-12 h-12 text-white flex items-center justify-center bg-sky-600 rounded-lg cursor-pointer'
+                    className='w-10 h-10 text-white flex items-center justify-center bg-sky-600 transition-all hover:bg-sky-400 rounded-lg cursor-pointer'
                     >
                     {
                         selectedIcon ? (

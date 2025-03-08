@@ -37,8 +37,6 @@ const Main = () => {
 
     return (
         <main className="flex w-full h-screen poppins transition-all">
-        <TasksDropDown />
-        <TasksList />
         <TasksWindow />
         <ProjectsDropDown />
         <SortingDropDown />

@@ -1,10 +1,11 @@
 "use client"
 
-import { RotateCcw, ListCheck ,UserCog, Trash2 } from 'lucide-react';
-import React, { useEffect, useMemo, useState } from 'react'
+import { RotateCcw, ListCheck ,UserCog, Trash2, Circle } from 'lucide-react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useContextApp } from '../../contextApp';
-import { Task } from '@/app/Data/AllProjects';
+import { Project, Task } from '@/app/Data/AllProjects';
 import getIconComponent from '@/app/Functions/IconsActions';
+import { Checkbox } from '@mui/material';
 
 const TasksList = () => {
     const {
@@ -118,12 +119,68 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
     const {
         selectedTaskObject: { setSelectedTask },
         openTasksWindowObject:{ setOpenTasksWindow },
-        openConfirmationWindowObject:{setOpenConfirmationWindow}
+        openConfirmationWindowObject:{setOpenConfirmationWindow},
+        allProjectsObject: {allProjects,setAllProjects},
+        allTasksObject: {allTasks,setAllTasks},
+        chosenProjectObject: {chosenProject,setChosenProject}
     } = useContextApp();
+
+    const [checked , setChecked] = useState(false);
+
+    const priorityColors = {
+        Low: "text-green-500",
+        Medium: "text-yellow-500",
+        High: "text-red-500",
+    };
+
+    useLayoutEffect(() => {
+        setChecked(singleTask.status === "Completed");
+    },[singleTask]);
+
+    function updateStatus(){
+        const newStatus = checked ? "In Progress" : "Completed";
+        const updatedProjects: Project[] = allProjects.map((project) => ({
+            ...project,
+            tasks: project.tasks.map((t) => 
+                t.id === singleTask.id ? {...t, status: newStatus} : t
+            )
+        }));
+        
+            const updatedTasks: Task[] = allTasks.map((t) => 
+                t.id === singleTask.id ? {...t, status: newStatus} : t
+            )
+
+            if(chosenProject){
+                const updateChosenProject: Project = {
+                    ...chosenProject,
+                    tasks: chosenProject.tasks.map((t) => {
+                        if(singleTask.id === t.id){
+                            return {...t,status: newStatus};
+                        }
+                        return t;
+                    }),
+                };
+                setChosenProject(updateChosenProject);
+            }
+    
+            setAllProjects(updatedProjects);
+            setAllTasks(updatedTasks);
+            setChecked(!checked);
+    }
 
     return (
         <div className=' flex items-center max-sm:flex-col cursor-pointer'>
-            {/* <Checkbox /> */}
+            <Checkbox
+                className='w-5 h-5'
+                sx={{
+                    color: "#0284C7", "&.Mui-checked":{
+                        color:"#0b9ae1"
+                    }
+                }}
+                
+                onClick={updateStatus}
+                checked= {checked}
+            />
             <div className='w-full bg-white hover:bg-slate-200 transition-all drop-shadow-lg rounded-lg border border-slate-300 max-sm:flex-col md:flex-col lg:flex-row flex gap-3 items-center justify-between p-3 max-sm:p-2 max-sm:py-2 max-sm:gap-1 flex-wrap'>
                 
                 {/* intro info */}
@@ -168,7 +225,7 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
 
                     {/* priority */}
                     <div className='flex gap-2 items-center'>
-                        <RotateCcw className='w-4 h-4 text-[10px] text-sky-700' />
+                        <Circle className={`w-4 h-4 text-[10px] bg-sky-700 ${priorityColors[singleTask.priority]}`} />
                         <span className='text[14px] text-slate-400'>
                             {singleTask.priority}
                         </span>

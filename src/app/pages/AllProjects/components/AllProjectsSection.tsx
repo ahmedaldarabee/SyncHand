@@ -5,7 +5,7 @@ import ProjectsEmptyScreen from '@/app/EmptyScreen/ProjectsEmptyScreen';
 
 const AllProjectsSection = () => {
   const {
-    allProjectsObject: {allProjects , setAllProjects}
+    allProjectsObject: {allProjects}
   } = useContextApp();
 
   return (

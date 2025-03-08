@@ -7,7 +7,8 @@ import { SvgIconProps } from '@mui/material';
 const Menu = () => {
   const {
     openSideBarObject: { openSideBar, setOpenSideBar },
-    sideBarMenuObject: { sideBarMenu, setSideBarMenu }
+    sideBarMenuObject: { sideBarMenu, setSideBarMenu },
+    tabsOptionsObject: {tabsOptions , setTabsOptions}
   } = useContextApp();
 
   const iconMap: Record<string, React.ComponentType<SvgIconProps>> = {
@@ -20,7 +21,6 @@ const Menu = () => {
     const currentSelectedId = sideBarMenu.find((item) => item.isSelected)?.id;
 
     if (currentSelectedId === id) {
-      console.log("Same item clicked, no update.");
       return;
     }
   
@@ -29,6 +29,14 @@ const Menu = () => {
       isSelected: item.id === id
     }));
     setSideBarMenu(updatedMenu);
+    if(id == 2){
+      setTabsOptions((prev) => 
+        prev.map((option) => ({
+          ...option,
+          isSelected: option.id === 1 ? true : false
+        }))
+      )
+    }
   };
   
 
