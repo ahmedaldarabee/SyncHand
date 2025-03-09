@@ -1,6 +1,6 @@
 "use client"
 
-import { ClockArrowUp, Github, Instagram, Lightbulb, Linkedin, MailCheck, MonitorCheck, Repeat, ServerCrash } from "lucide-react";
+import { BrainCircuit, ClockArrowUp, Github, Hourglass, Instagram, Lightbulb, Linkedin, MailCheck, MonitorCheck, RefreshCcw, Repeat, ServerCrash, Target } from "lucide-react";
 import Image from "next/image";
 import emailjs from '@emailjs/browser';
 import { ReactNode, useRef } from "react";
@@ -14,6 +14,7 @@ const Page = () => {
         <Features />
         <About />
         <Contact />
+        <Footer />
     </div>
   );
 }
@@ -215,12 +216,11 @@ const Contact = () => {
       <div className="container mx-auto">
         <h2 className="text-center text-2xl capitalize my-4">contact us section</h2>
           <div className="flex justify-center lg:flex-row max-sm:flex-col md:flex-col items-center gap-8">
-            
             <div className="max-sm:w-[100%] message-boxes w-[50%] mx-auto">
               <div className="boxes flex items-center justify-center flex-col gap-2">
                   {
                     messagesBox.map((message) => (
-                      <div key={message.id} className=" cursor-pointer transition-all hover:border-sky-700 rounded-md w-[250px] text-center flex items-center justify-center flex-col box border border-sky-500 p-4">
+                      <div key={message.id} className=" cursor-pointer transition-all hover:border-sky-700 rounded-md w-[250px] text-center flex items-center justify-center flex-col box border border-sky-500 p-4 hover:bg-slate-100">
                         <p>{message.icon}</p>
                         <p className="capitalize">{message.message}</p>
                         <p>{message.description}</p>
@@ -240,6 +240,81 @@ const Contact = () => {
             </div>
 
           </div>
+      </div>
+    </div>
+  )
+}
+
+const Footer = () => {
+  const features = [
+    {
+      id:1,
+      name: "Task Management",
+      description: "Efficiently organize and prioritize tasks with our intuitive task management feature. Track progress, set deadlines, and ensure your team stays on top of their responsibilities."
+    },{
+      id:2,
+      name: "Collaboration Tools",
+      description: "Enhance team collaboration with real-time communication, file sharing, and collaborative editing. Keep everyone connected and working together seamlessly."
+    },{
+      id:3,
+      name: "Reporting & Analytics",
+      description: "Gain valuable insights into project performance with comprehensive reporting and analytics. Monitor key metrics, identify trends, and make data-driven decisions to optimize your workflow."
+    }
+  ]
+  const icons = [
+    {
+      id:1,
+      icon: <Hourglass />,
+      title:"Save your time"
+    },{
+      id:2,
+      icon: <BrainCircuit />,
+      title:"Modular AI assistance for you"
+    },{
+      id:3,
+      icon: <Target />,
+      title:"Help you to get your target"
+    },{
+      id:4,
+      icon: <RefreshCcw />,
+      title:"operations in synchronous way"
+    }
+  ]
+  return(
+    <div className="w-full cursor-pointer bg-slate-100">
+
+      <div className="w-full border-b border-slate-300 p-5 bg-slate-200 text-center cursor-pointer flex items-center justify-between gap-2 lg:flex-row max-sm:flex-col md:flex-col">
+          <p className="text-[18px]">Thank you for visit us</p>
+          <div className="flex justify-center items-center gap-3">
+            {
+              icons.map((icon) => (
+                <div className="w-4 h-4 mx-2" key={icon.id} title={`${icon.title}`}> {icon.icon} </div>
+              ))
+            }
+          </div>
+      </div>
+
+      <div className="p-5 w-full flex items-center justify-center lg:flex-row md:flex-col max-sm:flex-col gap-3">
+
+        <div>
+          <Image src={"/SyncHand.png"} alt="sync hand logo" className="lg:w-[800px] md:w-[400px] sm:w-[200px]" width={800} height={200} />
+        </div>
+
+          <div className="boxes flex items-center justify-between gap-5 lg:flex-row md:flex-col max-sm:flex-col ">
+              {
+                features.map((feature,index) => (
+                  <div key={index} className="flex  text-center flex-col items-center justify-center">
+                      <h3 className="my-2 font-semibold">{feature.name}</h3>
+                      <p className="text-[15px]">{feature.description}</p>
+                  </div>
+                ))
+              }
+          </div>
+      </div>
+
+      <div className="mt-2 w-full border-t border-slate-300 bg-slate-200 p-5 text-center cursor-pointer flex flex-col gap-2">
+          <p className="hover:translate-x-2 transition-all">all rights are recurved &copy; 2025 - <span className="font-semibold text-sky-500">SyncHand</span></p>
+          <p className="text-[14px]">ahmed darabee & mohammad hilal </p>
       </div>
     </div>
   )

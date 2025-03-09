@@ -3,6 +3,15 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import ContextAppProvider from "./pages/contextApp";
 
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
+
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,12 +30,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={poppins.variable}>
-        <ContextAppProvider>
-          {children}
-        </ContextAppProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={poppins.variable}>
+          <ContextAppProvider>
+            {children}
+          </ContextAppProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

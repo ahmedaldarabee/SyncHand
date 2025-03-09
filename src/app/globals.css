@@ -10,6 +10,17 @@
   @apply bg-slate-200 text-sky-500
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-200
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-sky-600
+  
+}
+
 .projects-bar::-webkit-scrollbar {
   width: 12px;
 }
@@ -29,5 +40,5 @@
 }
 
 .form form .inputs {
-  @apply border border-sky-400 py-1 px-4 cursor-pointer outline-none rounded-lg resize-none focus:border-sky-700 transition-all focus:placeholder:opacity-0 focus:placeholder:transition-all
+  @apply border border-sky-400 py-1 px-4 cursor-pointer outline-none rounded-lg resize-none focus:border-sky-700 transition-all delay-300 focus:placeholder:opacity-0 focus:placeholder:transition-all
 }
