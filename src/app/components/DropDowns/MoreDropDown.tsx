@@ -9,13 +9,13 @@ const MoreDropDown = () => {
     const {
         openDropDownObject: {openDropDown, setOpenDropDown},
         
-        dropDownPositionObject: {dropDownPosition, setDropDownPosition},
+        dropDownPositionObject: {dropDownPosition},
         
-        openConfirmationWindowObject: {openConfirmationWindow,setOpenConfirmationWindow},
+        openConfirmationWindowObject: {setOpenConfirmationWindow},
         
-        selectedProjectObject: { selectedProject , setSelectedProject },
+        selectedProjectObject: {setSelectedProject },
 
-        openProjectWindowObject:{ openProjectWindow,setOpenProjectWindow},
+        openProjectWindowObject:{setOpenProjectWindow},
     } = useContextApp();
 
     const [dropDownOptions , setDropDownOption] = useState([
