@@ -1,45 +1,47 @@
 "use client"
 
-import { RotateCcw, ListCheck ,UserCog, Trash2 } from 'lucide-react';
-import React, { useEffect, useMemo, useState } from 'react'
+import { RotateCcw, ListCheck ,UserCog, Trash2, Circle } from 'lucide-react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useContextApp } from '../../contextApp';
-import { Task } from '@/app/Data/AllProjects';
+import { Project, Task } from '@/app/Data/AllProjects';
 import getIconComponent from '@/app/Functions/IconsActions';
+import { Checkbox } from '@mui/material';
+import ProjectsEmptyScreen from '@/app/EmptyScreen/ProjectsEmptyScreen';
 
 const TasksList = () => {
     const {
-        chosenProjectObject: {chosenProject, setChosenProject},
-        allProjectsObject: {allProjects, setAllProjects},
-        tabsOptionsObject: { tabsOptions, setTabsOptions },
-        allTasksObject: {allTasks, setAllTasks},
+        chosenProjectObject: {chosenProject},
+        allProjectsObject: {allProjects},
+        tabsOptionsObject: { tabsOptions },
+        allTasksObject: {allTasks},
     } = useContextApp();
-
-
+    
     const filteredTasks = useMemo(() => {
-        let tasks = allTasks
+        if (!chosenProject) return allTasks;
+        const tasks = allTasks.filter(task => task.projectName === chosenProject.title);
+        return tasks;
+    }, [allTasks, chosenProject]);
     
-        if (chosenProject) {
-            tasks = tasks.filter((task) => task.projectName === chosenProject.title);
-        }
+    useEffect(() => {
+    }, [chosenProject]);
     
-        if (tabsOptions[1].isSelected) {
-            return tasks.filter((task) => task.status === "Completed");
-        } else {
-            return tasks.filter((task) => task.status === "In Progress");
-        }
-
-    }, [allTasks, chosenProject, tabsOptions]);
 
     return (
-        <div className='m-10 flex flex-col gap-4 max-sm:m-0 max-sm:mt-7  max-sm:gap-1 h-[80%]'>
-            <Tabs />
-            <div className='projects-bar flex flex-col gap-4 w-full overflow-auto'>
-                {
-                    filteredTasks.map((singleTask,index) => (
-                        <SingleTask key={index} singleTask={singleTask}/>
-                    ))
-                }
-            </div>
+        <div className='m-10 flex flex-col gap-4 max-sm:m-0 max-sm:mt-7  max-sm:gap-1 h-[80%]'>            
+            {
+                allProjects.length === 0 ? <ProjectsEmptyScreen /> :
+                <>
+                    <Tabs />
+                    <div className='projects-bar flex flex-col gap-4 w-full overflow-auto'>
+                        {
+                            filteredTasks.map((singleTask,index) => (
+                                <SingleTask key={index} singleTask={singleTask}/>
+                            ))
+                        }
+                    </div>
+                </>
+            }
+            
         </div>
     )
 }
@@ -118,20 +120,74 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
     const {
         selectedTaskObject: { setSelectedTask },
         openTasksWindowObject:{ setOpenTasksWindow },
-        openConfirmationWindowObject:{setOpenConfirmationWindow}
+        openConfirmationWindowObject:{setOpenConfirmationWindow},
+        allProjectsObject: {allProjects,setAllProjects},
+        allTasksObject: {allTasks,setAllTasks},
+        chosenProjectObject: {chosenProject,setChosenProject}
     } = useContextApp();
 
+    const [checked , setChecked] = useState(false);
+
+    const priorityColors = {
+        Low: "text-green-500",
+        Medium: "text-yellow-500",
+        High: "text-red-500",
+    };
+
+    useLayoutEffect(() => {
+        setChecked(singleTask.status === "Completed");
+    },[singleTask]);
+
+    function updateStatus(){
+        const newStatus = checked ? "In Progress" : "Completed";
+        const updatedProjects: Project[] = allProjects.map((project) => ({
+            ...project,
+            tasks: project.tasks.map((t) => 
+                t.id === singleTask.id ? {...t, status: newStatus} : t
+            )
+        }));
+        
+            const updatedTasks: Task[] = allTasks.map((t) => 
+                t.id === singleTask.id ? {...t, status: newStatus} : t
+            )
+
+            if(chosenProject){
+                const updateChosenProject: Project = {
+                    ...chosenProject,
+                    tasks: chosenProject.tasks.map((t) => {
+                        if(singleTask.id === t.id){
+                            return {...t,status: newStatus};
+                        }
+                        return t;
+                    }),
+                };
+                setChosenProject(updateChosenProject);
+            }
+    
+            setAllProjects(updatedProjects);
+            setAllTasks(updatedTasks);
+            setChecked(!checked);
+    }
+
     return (
-        <div className=' flex items-center max-sm:flex-col cursor-pointer'>
-            {/* <Checkbox /> */}
-            <div className='w-full bg-white hover:bg-slate-200 transition-all drop-shadow-lg rounded-lg border border-slate-300 max-sm:flex-col md:flex-col lg:flex-row flex gap-3 items-center justify-between p-3 max-sm:p-2 max-sm:py-2 max-sm:gap-1 flex-wrap'>
+        <div className='flex items-center ml-3 gap-4 max-sm:flex-col cursor-pointer'>
+            <Checkbox
+                className='w-5 h-5'
+                sx={{
+                    color: "#0284C7", "&.Mui-checked":{
+                        color:"#0b9ae1"
+                    }
+                }}
+                onClick={updateStatus}
+                checked= {checked}
+            />
+            <div className='w-[90%] max-sm:w-[250px] bg-slate-50 hover:bg-slate-200 transition-all drop-shadow-lg rounded-lg border border-slate-300 max-sm:flex-col md:flex-col lg:flex-row flex gap-3 items-center justify-between p-2 max-sm:gap-1 flex-wrap'>
                 
                 {/* intro info */}
                 <div className='flex gap-3 items-center'>
                     {/* intro icon */}
                     <div>
                         <div className='max-sm:hidden bg-sky-600 rounded-lg p-2 flex items-center justify-center'>
-                            {/* <ListCheck className='w-4 h-4 text-white'/> */}
                             {getIconComponent(singleTask.icon)}
                         </div>
                     </div>
@@ -168,7 +224,7 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
 
                     {/* priority */}
                     <div className='flex gap-2 items-center'>
-                        <RotateCcw className='w-4 h-4 text-[10px] text-sky-700' />
+                        <Circle className={`w-4 h-4 text-[10px] ${priorityColors[singleTask.priority]}`} />
                         <span className='text[14px] text-slate-400'>
                             {singleTask.priority}
                         </span>
@@ -196,10 +252,7 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
                         className='rounded-lg p-2 bg-sky-600 hover:bg-sky-400 transition-all cursor-pointer flex items-center justify-center'>
                             <Trash2 className='w-4 h-4 text-white' />
                         </div>
-                        
                     </div>
-
-
                 </div>
             </div>
         </div>

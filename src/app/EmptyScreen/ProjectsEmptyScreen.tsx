@@ -10,10 +10,10 @@ const ProjectsEmptyScreen = () => {
 
             <div className='flex flex-col items-center gap-2'>
                 <h3 className='font-semibold text-slate-600 text-[16px] mb-1 text-center'>
-                    {`no project created right now`}
+                    no project created right now
                 </h3>
                 <p className='text-slate-400 w-[340px] text-center text-[13px]'>
-                    {`you hav't any project now, try to create a new project to start managing your tasks!`}
+                    you hav't any project now, try to create a new project to start managing your tasks!
                 </p>
             </div>
         </div>

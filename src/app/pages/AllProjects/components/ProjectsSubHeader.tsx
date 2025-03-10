@@ -30,7 +30,6 @@ function ProjectTxt(){
 }
 
 export const SortingButton = () => {
-
   const {
       openSortingDropDownObject:{ openSortingDropDown, setOpenSortingDropDown},
       sortingDropDownPositionObject:{ sortingDropDownPositions, setSortingDropDownPositions},

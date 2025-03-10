@@ -1,20 +1,20 @@
 "use client"
 
-import MoreDropDown from "./components/DropDowns/MoreDropDown";
-import SortingDropDown from "./components/DropDowns/SortingDropDown";
-import Sidebar from "./components/Sidebar";
-import ConfirmationWindow from "./components/windows/ConfirmationWindow";
-import IconWindow from "./components/windows/IconWindow";
-import ProjectWindow from "./components/windows/ProjectWindow";
-import AllProjects from "./pages/AllProjects/AllProjects";
-import AllTasks from "./pages/AllTasks/AllTasks";
-import { useContextApp } from "./pages/contextApp";
+import MoreDropDown from "../components/DropDowns/MoreDropDown";
+import SortingDropDown from "../components/DropDowns/SortingDropDown";
+import Sidebar from "../components/Sidebar";
+import ConfirmationWindow from "../components/windows/ConfirmationWindow";
+import IconWindow from "../components/windows/IconWindow";
+import ProjectWindow from "../components/windows/ProjectWindow";
+import AllProjects from "../pages/AllProjects/AllProjects";
+import AllTasks from "../pages/AllTasks/AllTasks";
+import { useContextApp } from "../pages/contextApp";
 import { Toaster } from 'react-hot-toast';
-import AiPage from "./pages/AI/AiPage";
-import ProjectsDropDown from "./components/DropDowns/ProjectsDropDown";
-import TasksWindow from "./components/windows/TasksWindow";
-import TasksList from "./pages/AllTasks/components/TasksList";
-import TasksDropDown from "./components/DropDowns/TasksDropDown";
+import AiPage from "../pages/AI/AiPage";
+import ProjectsDropDown from "../components/DropDowns/ProjectsDropDown";
+import TasksWindow from "../components/windows/TasksWindow";
+import TasksList from "../pages/AllTasks/components/TasksList";
+import TasksDropDown from "../components/DropDowns/TasksDropDown";
 
 const Main = () => {
     const {
@@ -37,8 +37,7 @@ const Main = () => {
 
     return (
         <main className="flex w-full h-screen poppins transition-all">
-        <TasksDropDown />
-        <TasksList />
+        {/* TasksDropDown */}
         <TasksWindow />
         <ProjectsDropDown />
         <SortingDropDown />

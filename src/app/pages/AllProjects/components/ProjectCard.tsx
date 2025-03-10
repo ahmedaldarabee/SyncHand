@@ -97,13 +97,30 @@ const ProjectCard = ({project}:{project: Project}) => {
     }
     
     function ProjectBody () {
+        const {
+            openTasksWindowObject:{setOpenTasksWindow},
+            projectClickedObject:{setProjectClicked},
+            allProjectsObject: {setAllProjects,allProjects}
+        } = useContextApp();
+
+        function openTheTaskWindow(){
+            setOpenTasksWindow(true);
+            const findProject = allProjects.find((proj) => proj.title.toLowerCase() === project.title.toLowerCase());
+            
+            if(findProject){
+                setProjectClicked(findProject);
+            }
+        }
+
         return(
     
             <div className='h-[90px] flex flex-col gap-3 mb-1'>
                 {
                     project.tasks.length === 0 && (
                         <div className='flex justify-center flex-col gap-3 mt-[25px] items-center h-full'>
-                            <BadgePlus className='text-slate-400 text-[25px] cursor-pointer hover:text-sky-500 transition-all'/>
+                            <BadgePlus
+                                onClick={openTheTaskWindow}
+                            className='text-slate-400 text-[25px] cursor-pointer hover:text-sky-500 transition-all'/>
 
                             <span className='text-slate-700 opacity-45 text-[13px]'>
                                 No tasks created yet...

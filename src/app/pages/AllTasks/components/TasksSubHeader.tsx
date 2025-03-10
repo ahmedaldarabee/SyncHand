@@ -1,27 +1,37 @@
 "use client"
 
-import React, { useRef } from 'react'
-import { SquareSplitVertical,ChevronDown } from 'lucide-react';
+import React, { useEffect, useRef } from 'react'
+import { SquareSplitVertical,ChevronDown, ChevronUp, ArrowDownZA } from 'lucide-react';
 import { SortingButton } from '../../AllProjects/components/ProjectsSubHeader';
 import { useContextApp } from '../../contextApp';
 import { Task } from '@/app/Data/AllProjects';
 
 const TasksSubHeader = () => {
+
+    const {
+        allProjectsObject: { allProjects }
+    } = useContextApp();
+
     return (
-        <div className='mt-4 flex justify-between items-center cursor-pointer  max-sm:flex-col md:flex-row'>
-            <MyProjectsTxt />
-            <SortingButton />
-        </div>
+        <>
+            {
+                allProjects.length === 0 ? "" :
+                <div className='mt-4 flex justify-between items-center cursor-pointer  max-sm:flex-col md:flex-row'>
+                    <MyProjectsTxt />
+                    <SortingButton />
+                </div>
+            }
+        </>
     )
 };
 
 const MyProjectsTxt = () => {
     const {
-        chosenProjectObject: { chosenProject, setChosenProject },
-        allProjectsObject: {allProjects, setAllProjects},
+        chosenProjectObject: { chosenProject },
+        allProjectsObject: {allProjects},
 
         openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
-        projectsDropDownPositionsObject: { projectsDropDownPositions, setProjectsDropDownPositions },
+        projectsDropDownPositionsObject: {setProjectsDropDownPositions },
     } = useContextApp();
 
     function allTasksInAllProjects(){
@@ -39,6 +49,9 @@ const MyProjectsTxt = () => {
     const completionPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
     const projectTitleRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+    }, [chosenProject]);
 
     function openTheProjectDropDown(){
         if(projectTitleRef.current){
@@ -46,7 +59,7 @@ const MyProjectsTxt = () => {
             const {top,left,width} = rect;
             setProjectsDropDownPositions({left,top,width});
         }
-        setOpenProjectsDropDown(!openProjectsDropDown);
+        setOpenProjectsDropDown(true);
     }
 
     return(
