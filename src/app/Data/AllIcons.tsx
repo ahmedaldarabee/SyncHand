@@ -1,3 +1,4 @@
+"use client";
 import { Waypoints, Bolt, Cog, DatabaseZap, DraftingCompass, FileChartColumn, FolderGit2, GraduationCap, Grid2x2Plus, LayoutGrid, NotebookPen, Projector, Pyramid, Settings2, SlidersHorizontal, Speech, Target, TriangleRight, UserRoundPlus, UserRoundSearch, Wrench, BugPlay, FolderTree } from 'lucide-react';
 import { IconData } from '../pages/types/AppTypes';
 import { useContextApp } from '../pages/contextApp';
@@ -31,34 +32,37 @@ export const allIconsArray: IconData[] = [
 const AllIcons = () => {
     const {
         allIconDataObject: { allIconsData, setAllIconsData },
-        openIconWindowObject:{ openIconWindow , setOpenIconWindow },
-        selectedIconObject:{ selectedIcon , setSelectedIcon },
+        openIconWindowObject: {setOpenIconWindow },
+        selectedIconObject: {setSelectedIcon },
     } = useContextApp();
 
-    // updates icons in selection state !
     const handleIconSection = (singleIcon: IconData) => {
-        setAllIconsData(prevIcons =>
-            prevIcons.map((icon) => ({
-                ...icon,
-                isSelected: icon.name === singleIcon.name
-            }))
+        setAllIconsData((prevIcons) =>
+            prevIcons.map((icon) =>
+                icon.id === singleIcon.id
+                    ? { ...icon, isSelected: true }
+                    : { ...icon, isSelected: false }
+            )
         );
         setSelectedIcon({ ...singleIcon, name: singleIcon.name });
         setOpenIconWindow(false);
     };
 
     return (
-        <div className='flex flex-wrap gap-2 text-sky-800 p-3'>
-            {
-                allIconsData.map((singleIcon, index) => (
-                    <div onClick={() => handleIconSection(singleIcon)} key={index} className={`w-8 h-8 border border-slate-50 flex items-center transition-all cursor-pointer text-black justify-center rounded-lg hover:bg-sky-600 hover:text-white`}>
-                        {singleIcon.icon}
-                    </div>
-                ))
-            }
-
+        <div className="flex flex-wrap gap-2 text-sky-800 p-3">
+            {allIconsData.map((singleIcon) => (
+                <div
+                    onClick={() => handleIconSection(singleIcon)}
+                    key={singleIcon.id}
+                    className={`w-8 h-8 border border-slate-50 flex items-center transition-all cursor-pointer text-black justify-center rounded-lg hover:bg-sky-600 hover:text-white ${
+                        singleIcon.isSelected ? "bg-sky-600 text-white" : ""
+                    }`}
+                >
+                    {singleIcon.icon}
+                </div>
+            ))}
         </div>
     );
-}
+};
 
 export default AllIcons;

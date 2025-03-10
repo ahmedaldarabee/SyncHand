@@ -396,7 +396,8 @@ const TasksWindow = () => {
             {/* main data */}
             <TasksDropDown />
             <Header />
-            <form 
+            <form
+            method='POST'
             onSubmit={handleSubmit(onSubmit)}
             className='flex flex-col gap-2 pt-8 px-7 mt-3'>
                 <TaskInput register={register} errors={errors} />

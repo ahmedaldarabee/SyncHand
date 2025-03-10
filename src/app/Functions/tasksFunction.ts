@@ -37,18 +37,6 @@ export default function addNewTask(
     setAllProjects(updateAllProjects);
 }
 
-interface UpdateTaskAndProjectProps {
-    selectedTask: Task;
-    data: FormData;
-    selectedIcon: {name: string} | null;
-    project: Project | null;
-    priority: Priority | null;
-    allProjects: Project[];
-    chosenProject: Project | null;
-    setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-    setChosenProject: React.Dispatch<React.SetStateAction<Project | null>>;
-    setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>;
-}
 
 export const updateTaskAndProjectProps = ({
     updateTask,

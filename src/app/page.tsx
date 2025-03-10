@@ -5,6 +5,8 @@ import Image from "next/image";
 import emailjs from '@emailjs/browser';
 import { ReactNode, useRef } from "react";
 
+import {useAuth} from '@clerk/nextjs'
+import Link from "next/link";
 const Page = () => {
 
   return (
@@ -42,12 +44,28 @@ const Navbar = () => {
   }
 
   function ButtonsSection(){
+    const loggingStyle = "max-sm:w-full p-2 rounded-lg text-sm border border-sky-600 text-white bg-sky-600"
+    
+    const {userId} = useAuth();
+
     return(
-      <button type="button"
-        className="bg-sky-600 text-white px-7 py-2 rounded-lg capitalize transition-all hover:bg-sky-500"
-      >
-        dashboard
-      </button>
+      <div className="flex gap-2 max-sm:flex-col max-sm:w-full max-sm:mt-8">
+        {
+          !userId ? (
+            <>
+              <Link href="/sign-in">
+                <button className={loggingStyle}> login </button>
+              </Link>
+            </>
+          ) :(
+            <>
+              <Link href="/sign-up">
+                <button className={loggingStyle}> logout </button>
+              </Link>
+            </>
+          )
+        }
+      </div>
     )
   }
 }
@@ -222,8 +240,8 @@ const Contact = () => {
                     messagesBox.map((message) => (
                       <div key={message.id} className=" cursor-pointer transition-all hover:border-sky-700 rounded-md w-[250px] text-center flex items-center justify-center flex-col box border border-sky-500 p-4 hover:bg-slate-100">
                         <p>{message.icon}</p>
-                        <p className="capitalize">{message.message}</p>
-                        <p>{message.description}</p>
+                        <p className="capitalize font-semibold">{message.message}</p>
+                        <p className="text-[16px]">{message.description}</p>
                       </div>
                     ))
                   }
