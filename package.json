@@ -27,6 +27,7 @@
     "react-hot-toast": "^2.5.2",
     "svix": "^1.61.3",
     "uuid": "^11.1.0",
+    "uuidv4": "^6.2.13",
     "zod": "^3.24.2"
   },
   "devDependencies": {

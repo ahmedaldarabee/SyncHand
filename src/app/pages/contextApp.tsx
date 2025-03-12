@@ -4,6 +4,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { AppType, IconData, SidebarMenuItem, TabOption } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
 import { Project, projectData, Task } from '../Data/AllProjects';
+import { useUser } from '@clerk/nextjs';
 
 const defaultState: AppType = {
     openSideBarObject:{openSideBar:false,setOpenSideBar:() => {},},
@@ -120,10 +121,9 @@ export default function ContextAppProvider({
     const [allTasks , setAllTasks] = useState<Task[]>([]);
     
     const [selectedTask , setSelectedTask] = useState<Task | null>(null);
-    
-   
     const [projectClicked , setProjectClicked] = useState<Project | null>(null);
 
+    const {user , isLoaded , isSignedIn} = useUser();
 
     useEffect(() => {
         setOpenSideBar(false);  
@@ -131,21 +131,25 @@ export default function ContextAppProvider({
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                await new Promise((resolve) => setTimeout(resolve,1000))
+            try {               
+                const response = await fetch(`/api/projects?clerkUserId=${user?.id}`)
                 
-                const extractAllTasks = projectData.flatMap((project) => project.tasks);
-
+                if(!response.ok){
+                    throw new Error("Failed to fetch projects");
+                }
+                const data = await response.json();
+                const extractAllTasks = data.flatMap((project:any) => project.tasks);
                 setAllTasks(extractAllTasks);
-                setAllProjects(projectData);
-
+                setAllProjects(data.projects);
             } catch (error) {
                 console.log(error);
             }
-        }
+        };
 
-        fetchData();
-    },[]);
+        if(isLoaded && isSignedIn){
+            fetchData();
+        }
+    },[user,isLoaded,isSignedIn]);
 
     return (
         <>

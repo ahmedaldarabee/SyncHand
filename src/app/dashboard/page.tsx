@@ -13,12 +13,9 @@ import { Toaster } from 'react-hot-toast';
 import AiPage from "../pages/AI/AiPage";
 import ProjectsDropDown from "../components/DropDowns/ProjectsDropDown";
 import TasksWindow from "../components/windows/TasksWindow";
-import TasksList from "../pages/AllTasks/components/TasksList";
-import TasksDropDown from "../components/DropDowns/TasksDropDown";
 
 const Main = () => {
     const {
-
         openSideBarObject: { openSideBar },
         sideBarMenuObject: { sideBarMenu },
         openProjectWindowObject: { openProjectWindow },

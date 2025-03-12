@@ -3,14 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import ContextAppProvider from "./pages/contextApp";
 
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
+import {ClerkProvider} from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
