@@ -1,3 +1,5 @@
+"use client"
+
 import { NextResponse } from "next/server";
 import connect from "@/app/lib/connect";
 import Project from "@/app/models/Projects";

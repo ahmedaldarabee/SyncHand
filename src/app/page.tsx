@@ -3,7 +3,7 @@
 import { BrainCircuit, ClockArrowUp, Github, Hourglass, Instagram, Lightbulb, Linkedin, MailCheck, MonitorCheck, RefreshCcw, Repeat, ServerCrash, Target } from "lucide-react";
 import Image from "next/image";
 import emailjs from '@emailjs/browser';
-import { ReactNode, useRef } from "react";
+import { useRef } from "react";
 
 import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
@@ -89,6 +89,7 @@ const CTRSection = () => {
       >let's to get started</button>
 
       <Image
+        loading="lazy"
         src={"/landingpage.webp"}
         alt="dashboard image"
         width={900}

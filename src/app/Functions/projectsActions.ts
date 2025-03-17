@@ -1,9 +1,10 @@
+"use client"
+
 import React , { Dispatch, SetStateAction} from "react"
 import { v4 as uuidv4 } from 'uuid'
 import {Project, Task} from '@/app/Data/AllProjects';
 import {IconData} from '../pages/types/AppTypes'
 import {FormData} from '../components/windows/ProjectWindow'
-import { useUser } from '@clerk/nextjs';
 
 export function addNewProject (
     data: FormData,
