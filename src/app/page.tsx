@@ -44,12 +44,12 @@ const Navbar = () => {
   }
 
   function ButtonsSection(){
-    const loggingStyle = "max-sm:w-full p-2 rounded-lg text-sm border border-sky-600 text-white bg-sky-600"
+    const loggingStyle = "p-2 rounded-lg text-sm border border-sky-600 text-white bg-sky-600"
     
     const { userId } = useAuth();
 
     return(
-      <div className="flex gap-2 max-sm:flex-col max-sm:w-full max-sm:mt-8">
+      <div className="flex gap-2">
         {!userId ? (
           <>
             <Link href="/sign-in">
@@ -89,8 +89,12 @@ const CTRSection = () => {
       <button
         type="button"
         className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}
+<<<<<<< HEAD
       >let's to get started
       </button>
+=======
+      >Documentation</button>
+>>>>>>> emergency
 
       <Image
         loading="lazy"
@@ -160,7 +164,7 @@ const About = () => {
   const infos = [
     {
       id: 1,
-      name: "ahmed al darabee",
+      name: "Ahmed Al Darabee",
       title:"front end web developer" ,
       src:"/ahmed-aldarabee.jpg",
       linkedIn:"https://www.linkedin.com/in/ahmed-al-darabee/",
@@ -168,7 +172,7 @@ const About = () => {
       insta:"https://www.instagram.com/se.ahmednayel/"
     },{
       id: 2,
-      name: "mohammad hilal",
+      name: "Mohammad Hilal",
       title:"security engineering",
       src:"/mohammad.jpeg",
       linkedIn:"https://www.linkedin.com/in/mohammad-hilal-949561269/",
