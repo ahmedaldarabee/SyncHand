@@ -86,7 +86,8 @@ const CTRSection = () => {
       <button
         type="button"
         className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}
-      >let's to get started</button>
+      >let's to get started
+      </button>
 
       <Image
         src={"/landingpage.webp"}
