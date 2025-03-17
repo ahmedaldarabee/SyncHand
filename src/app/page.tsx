@@ -64,8 +64,12 @@ const Navbar = () => {
           <Link href="/dashboard">
             <button className={` max-sm:w-full text-sm border bg-sky-600 text-white
               hover:bg-sky-600 hover:text-white p-[8px] px-6 rounded-md `}
-            > Dashboard
+            >
+              Documentation
             </button>
+
+            {/* <a target="_blank" href="https://drive.google.com/drive/folders/1vn8-1pVPaWXyAgrPNMXStJegZBoGA4r5?usp=drive_link">Dashboard
+              </a> */}
           </Link>
         )}
       </div>
