@@ -5,7 +5,7 @@ import SortingDropDown from "../components/DropDowns/SortingDropDown";
 import Sidebar from "../components/Sidebar";
 import ConfirmationWindow from "../components/windows/ConfirmationWindow";
 import IconWindow from "../components/windows/IconWindow";
-import ProjectWindow from "../components/windows/ProjectWindow";
+import { ProjectWindow } from "../components/windows/ProjectWindow";
 import AllProjects from "../pages/AllProjects/AllProjects";
 import AllTasks from "../pages/AllTasks/AllTasks";
 import { useContextApp } from "../pages/contextApp";
@@ -46,11 +46,13 @@ const Main = () => {
         <IconWindow />
         <ProjectWindow />
         {/* soft layer */}
+
         {(openSideBar) && (
             <div className={`transition-all w-full h-full ${openProjectWindow || openConfirmationWindow ? 'z-700' : 'z-10'} bg-slate-800 fixed opacity-30`}></div>
         )}
-            <Sidebar/>
-            {selectedComponent}
+
+        <Sidebar/>
+        {selectedComponent}
         
         </main>
     )

@@ -27,14 +27,6 @@ const AllProjectsSection = ({
         <span className="text-slate-400 text-sm">Loading...</span>
       </div>
     );
-  } else {
-    if (allProjects.length === 0) {
-      return (
-        <div className="flex justify-center items-center">
-          <ProjectsEmptyScreen />
-        </div>
-      );
-    }
   }
 
   return (
