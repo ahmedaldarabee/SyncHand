@@ -13,40 +13,11 @@ const ProjectCard = ({project}:{project: Project}) => {
         project.tasks.filter((task) => task.status === "Completed").length
     );
 
-    const threeDotsRef = useRef<HTMLDivElement>(null);
-
-    const {
-        openDropDownObject: {setOpenDropDown},
-        dropDownPositionObject: {setDropDownPosition},
-        selectedProjectObject: { setSelectedProject },
-
-        chosenProjectObject: { chosenProject, setChosenProject },
-        sideBarMenuObject:{sideBarMenu,setSideBarMenu},
-    } = useContextApp();
-
-    function openDropDown(event: React.MouseEvent){
-        event.preventDefault();
-        event.stopPropagation();
-
-        if(threeDotsRef.current){
-            const rect = threeDotsRef.current.getBoundingClientRect();
-
-            const { top , left } = rect;
-            setDropDownPosition({
-                top: top + window.scrollY + 30,
-                left: left + window.scrollX,
-            });
-
-            setOpenDropDown(true);
-            setSelectedProject(project);
-        }
-    }
-
     return (
         <> 
             <ul className='max-sm:m-auto max-sm:mt-3'>
                 <li className='max-w-[100%] w-[280px] overflow-hidden flex-wrap cursor-pointer flex flex-col max-sm:gap-1 md:gap-y-1 rounded-lg max-sm:p-4 md:p-7 drop-shadow-lg bg-white transition-all hover:-translate-y-1'>
-                    <ProjectHeader daysLeft={daysLeft}/>
+                    <ProjectHeader/>
                     <ProjectBody />
                     <ProjectFooter/>
                 </li>
@@ -54,8 +25,34 @@ const ProjectCard = ({project}:{project: Project}) => {
         </>
     )
 
-    function ProjectHeader ({daysLeft}:{daysLeft: number}) {
-        
+    function ProjectHeader () {
+        const threeDotsRef = useRef<HTMLDivElement>(null);
+        const {
+        dropDownPositionObject: { setDropDownPosition },
+        openDropDownObject: { setOpenDropDown },
+        selectedProjectObject: { setSelectedProject },
+        chosenProjectObject: { setChosenProject },
+        sideBarMenuObject: { setSideBarMenu },
+        } = useContextApp();
+
+        function openDropDown(event: React.MouseEvent){
+            event.preventDefault();
+            event.stopPropagation();
+    
+            if(threeDotsRef.current){
+                const rect = threeDotsRef.current.getBoundingClientRect();
+    
+                const { top , left } = rect;
+                setDropDownPosition({
+                    top: top + window.scrollY + 30,
+                    left: left + window.scrollX,
+                });
+    
+                setOpenDropDown(true);
+                setSelectedProject(project);
+            }
+        }
+
     function showAllTasksOfProject(){
         setChosenProject(project);
 
@@ -100,7 +97,7 @@ const ProjectCard = ({project}:{project: Project}) => {
         const {
             openTasksWindowObject:{setOpenTasksWindow},
             projectClickedObject:{setProjectClicked},
-            allProjectsObject: {setAllProjects,allProjects}
+            allProjectsObject: {allProjects}
         } = useContextApp();
 
         function openTheTaskWindow(){
@@ -119,7 +116,7 @@ const ProjectCard = ({project}:{project: Project}) => {
                     project.tasks.length === 0 && (
                         <div className='flex justify-center flex-col gap-3 mt-[25px] items-center h-full'>
                             <BadgePlus
-                                onClick={openTheTaskWindow}
+                            onClick={openTheTaskWindow}
                             className='text-slate-400 text-[25px] cursor-pointer hover:text-sky-500 transition-all'/>
 
                             <span className='text-slate-700 opacity-45 text-[13px]'>
@@ -164,7 +161,7 @@ const ProjectCard = ({project}:{project: Project}) => {
     
                 <div className='flex justify-between gap-1 max-sm:flex-col'>
     
-                    <p className='text-[13px] text-slate-400'>
+                    <p className='text-[13px] text-slate-400 capitalize'>
                         on progress
                     </p>
     

@@ -151,4 +151,8 @@ export type AppType = {
         selectedTask: Task | null,
         setSelectedTask: React.Dispatch <React.SetStateAction< Task | null>>;
     }
+    projectSearch: string;
+    taskSearch: string;
+    setProjectSearch: React.Dispatch<React.SetStateAction<string>>;
+    setTaskSearch: React.Dispatch<React.SetStateAction<string>>;
 }

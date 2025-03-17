@@ -9,12 +9,13 @@ import React, { useEffect, useRef } from 'react'
 const ProjectsDropDown = () => {
 
     const {
-
-        allProjectsObject: {allProjects, setAllProjects},
+        allProjectsObject: {allProjects},
         openProjectsDropDownObject: {openProjectsDropDown,setOpenProjectsDropDown},
-        projectsDropDownPositionsObject: {projectsDropDownPositions,setProjectsDropDownPositions}
+        projectsDropDownPositionsObject: {projectsDropDownPositions}
 
     } = useContextApp();
+
+    console.log("projects data:", allProjects)
 
     const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -63,14 +64,16 @@ const ProjectsDropDown = () => {
             <AllProjectsItems />
 
             <hr className='w-[80%] text-slate-400 mx-auto my-1 opacity-55'/>
-
-                <>
-                    {
-                        allProjects.map((singleProject,index) => (
-                            <SingleProject singleProject={singleProject} key={index} />
-                        ))
-                    }
-                </>
+            <>
+                {allProjects.length === 0 && (
+                <p className="text-center text-slate-400 text-[11px] my-2">
+                    No Projects Found
+                </p>
+                )}
+                {allProjects.map((singleProject) => (
+                <SingleProject key={singleProject.id} singleProject={singleProject} />
+                ))}
+            </>
         </div>
     )
 }
@@ -78,13 +81,12 @@ const ProjectsDropDown = () => {
 const AllProjectsItems = () => {
 
     const {
-        chosenProjectObject: {chosenProject, setChosenProject},
-        openProjectsDropDownObject: { openProjectsDropDown,setOpenProjectsDropDown},
+        chosenProjectObject: {setChosenProject},
+        openProjectsDropDownObject: { setOpenProjectsDropDown},
     } = useContextApp();
 
     return(
         <div 
-        
         onClick={() =>{
                 setChosenProject(null)
                 setOpenProjectsDropDown(false)
@@ -111,8 +113,8 @@ const AllProjectsItems = () => {
 const SingleProject = ({singleProject}:{singleProject: Project}) => {
     const {
         chosenProjectObject: { chosenProject, setChosenProject },
-        allProjectsObject: { allProjects , setAllProjects},
-        openProjectsDropDownObject: { openProjectsDropDown, setOpenProjectsDropDown },
+        allProjectsObject: { allProjects},
+        openProjectsDropDownObject: {setOpenProjectsDropDown },
     } = useContextApp();
 
     function handleTheProjectClicked(projectId: string){
@@ -132,12 +134,13 @@ const SingleProject = ({singleProject}:{singleProject: Project}) => {
 
             <div className='flex gap-2 items-center'>
                 <div>
-                    <List className="text-[13px] text-black" />
+                    {""}
+{                getIconComponent(singleProject.icon)
+}                    <List className="text-[13px] text-black" />
                 </div>                    
                 <span className='capitalize text-[16px] mt-1 hover:text-sky-600 cursor-pointer'>
                     {singleProject.title}
                 </span>
-            
             </div>
         </div>
     )

@@ -25,10 +25,7 @@ const ProjectListComponent = () => {
         singleProject: ProjectWithSelection
         index: number
     }){
-        const {
-            setProject,
-            setOpenTasksDropDown
-        } = useTaskFormContext();
+        const { setProject,setOpenTasksDropDown } = useTaskFormContext();
 
         function updateTheProjectState(index: number){
             setProject(singleProject);

@@ -12,7 +12,8 @@ import { useContextApp } from "../pages/contextApp";
 import { Toaster } from 'react-hot-toast';
 import AiPage from "../pages/AI/AiPage";
 import ProjectsDropDown from "../components/DropDowns/ProjectsDropDown";
-import TasksWindow from "../components/windows/TasksWindow";
+import { TasksWindow } from "../components/windows/TasksWindow";
+import TasksDropDown from "../components/DropDowns/TasksDropDown";
 
 const Main = () => {
     const {
@@ -34,7 +35,7 @@ const Main = () => {
 
     return (
         <main className="flex w-full h-screen poppins transition-all">
-        {/* TasksDropDown */}
+        <TasksDropDown />
         <TasksWindow />
         <ProjectsDropDown />
         <SortingDropDown />
@@ -42,16 +43,15 @@ const Main = () => {
 
         <ConfirmationWindow />
         <MoreDropDown />
-        
         <IconWindow />
         <ProjectWindow />
-
         {/* soft layer */}
         {(openSideBar) && (
-            <div className={`transition-all w-full h-full ${openProjectWindow || openConfirmationWindow ? 'z-700' : 'z-10'} bg-slate-800 fixed opacity-30`}>  </div>
+            <div className={`transition-all w-full h-full ${openProjectWindow || openConfirmationWindow ? 'z-700' : 'z-10'} bg-slate-800 fixed opacity-30`}></div>
         )}
             <Sidebar/>
             {selectedComponent}
+        
         </main>
     )
 }

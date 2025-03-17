@@ -87,9 +87,9 @@ const ProjectWindow = () => {
                         setAllTasks,
                         setAllProjects,
                         setOpenProjectWindow
-                    );
-                    
+                    );                    
                 }
+                
                 toast.success(`Project ${selectedProject ? "edited" : "added"} successfully`);
                 
             } catch (error:any) {
