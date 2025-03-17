@@ -1,32 +1,35 @@
-import { Project } from './../Data/AllProjects';
+    import { Project } from "../Data/AllProjects";
 
-export function sortProjects(
+    export function sortProjects(
     allProjects: Project[],
+
     selectionOptionValue: string | undefined
-){
+    ) {
     const sortedProjects = [...allProjects];
 
-    // current -> current item in object
-    // next -> next item in object
-    switch(selectionOptionValue){
+    switch (selectionOptionValue) {
         case "asc":
-            sortedProjects.sort((current,next) => current.title.localeCompare(next.title));
+        sortedProjects.sort((a, b) => a.title.localeCompare(b.title));
         break;
-        
         case "desc":
-            sortedProjects.sort((current,next) => next.title.localeCompare(current.title));
+        sortedProjects.sort((a, b) => b.title.localeCompare(a.title));
         break;
-
         case "newest":
-            sortedProjects.sort((current,next) => new Date(next.createdAt).getTime() - new Date(current.createdAt).getTime() );
+        sortedProjects.sort(
+            (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
         break;
-        
         case "oldest":
-            sortedProjects.sort((current,next) => new Date(current.createdAt).getTime() - new Date(next.createdAt).getTime() );
+        sortedProjects.sort(
+            (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
         break;
-
         default:
+        // If no valid sort option is provided, return the original array
         return allProjects;
     }
+
     return sortedProjects;
-}
+    }

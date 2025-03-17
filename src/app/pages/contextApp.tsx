@@ -36,7 +36,12 @@ const defaultState: AppType = {
     openTasksWindowObject:{openTasksWindow: false,setOpenTasksWindow: () => {}},
     allTasksObject: {allTasks:[], setAllTasks: () => {}},
     selectedTaskObject: { selectedTask:null , setSelectedTask:() => {}},
-    projectClickedObject: {projectClicked: null,setProjectClicked: () => {}}
+    projectClickedObject: {projectClicked: null,setProjectClicked: () => {}},
+    projectSearch: "",
+    setProjectSearch: () => {},
+
+    taskSearch: "",
+    setTaskSearch: () => {},
 };
 
 
@@ -131,25 +136,41 @@ export default function ContextAppProvider({
 
     useEffect(() => {
         const fetchData = async () => {
-            try {               
-                const response = await fetch(`/api/projects?clerkUserId=${user?.id}`)
-                
-                if(!response.ok){
-                    throw new Error("Failed to fetch projects");
-                }
-                const data = await response.json();
-                const extractAllTasks = data.flatMap((project:any) => project.tasks);
-                setAllTasks(extractAllTasks);
-                setAllProjects(data.projects);
-            } catch (error) {
-                console.log(error);
+          try {
+            console.log("Fetching projects..."); 
+    
+            const response = await fetch(`/api/projects?clerkUserId=${user?.id}`);
+    
+            const data = await response.json();
+    
+            console.log("Fetched data:", data);
+    
+            if (!data.projects || !Array.isArray(data.projects)) {
+              throw new Error("Unexpected API response: projects is not an array");
             }
+    
+            const extractAllTasks = data.projects.flatMap(
+              (project: any) => project.tasks || []
+            );
+    
+            setAllTasks(extractAllTasks);
+            setAllProjects(data.projects);
+    
+            console.log("Updated allProjects:", data.projects); // ✅ التحقق من تحديث الحالة
+          } catch (error) {
+            console.error("Error fetching projects:", error);
+          }
         };
-
-        if(isLoaded && isSignedIn){
+    
+        if (isLoaded && isSignedIn) {
             fetchData();
         }
-    },[user,isLoaded,isSignedIn]);
+    }, [user, isLoaded, isSignedIn]);
+    
+
+    
+    const [projectSearch, setProjectSearch] = useState("");
+    const [taskSearch, setTaskSearch] = useState("");
 
     return (
         <>
@@ -182,7 +203,11 @@ export default function ContextAppProvider({
                 openTasksWindowObject:{openTasksWindow,setOpenTasksWindow},
                 allTasksObject: {allTasks, setAllTasks},
                 selectedTaskObject: { selectedTask , setSelectedTask},
-                projectClickedObject: {  projectClicked,setProjectClicked}
+                projectClickedObject: {  projectClicked,setProjectClicked},
+                taskSearch,
+                setTaskSearch,
+                projectSearch,
+                setProjectSearch,
             }}>
                 {children}
             </ContextApp.Provider>

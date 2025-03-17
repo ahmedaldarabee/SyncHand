@@ -49,9 +49,6 @@ const MyProjectsTxt = () => {
     const completionPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
     const projectTitleRef = useRef<HTMLDivElement>(null);
-    
-    useEffect(() => {
-    }, [chosenProject]);
 
     function openTheProjectDropDown(){
         if(projectTitleRef.current){
@@ -59,7 +56,7 @@ const MyProjectsTxt = () => {
             const {top,left,width} = rect;
             setProjectsDropDownPositions({left,top,width});
         }
-        setOpenProjectsDropDown(true);
+        setOpenProjectsDropDown(!openProjectsDropDown)
     }
 
     return(
@@ -105,4 +102,4 @@ const MyProjectsTxt = () => {
     )
 }
 
-export default TasksSubHeader
+export default TasksSubHeader;

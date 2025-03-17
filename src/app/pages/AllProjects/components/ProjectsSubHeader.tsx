@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useRef } from 'react'
 import { ArrowDownZA,ChevronUp } from 'lucide-react';
 import { useContextApp } from '../../contextApp';
@@ -33,16 +31,25 @@ export const SortingButton = () => {
   const {
       openSortingDropDownObject:{ openSortingDropDown, setOpenSortingDropDown},
       sortingDropDownPositionObject:{ sortingDropDownPositions, setSortingDropDownPositions},
-      sortingOptionObject: {sortingOptions , setSortingOptions},
-      chosenProjectObject: { chosenProject, setChosenProject },
-      allProjectsObject: {allProjects, setAllProjects},
+      sortingOptionObject:{sortingOptions}
 
   } = useContextApp();
 
   const sortingLinkRef = useRef<HTMLDivElement>(null);
   let sortingLabel = "";
 
-  const flatten = sortingOptions.flatMap((option) => option.options).find((option) => option.selected);
+    const flatten = sortingOptions
+      .flatMap((option: any) => option.options)
+      .find((option: any) => option.selected);
+
+    if (flatten) {
+      if (flatten.label === "A-Z" || flatten.label === "Z-A") {
+        sortingLabel = `Order ${flatten.label}`;
+      } else {
+        sortingLabel = `${flatten.label} Projects`;
+      }
+    }
+
 
   function clickedSortingLink() {
     if(sortingLinkRef.current){

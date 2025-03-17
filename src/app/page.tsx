@@ -3,7 +3,7 @@
 import { BrainCircuit, ClockArrowUp, Github, Hourglass, Instagram, Lightbulb, Linkedin, MailCheck, MonitorCheck, RefreshCcw, Repeat, ServerCrash, Target } from "lucide-react";
 import Image from "next/image";
 import emailjs from '@emailjs/browser';
-import { ReactNode, useRef } from "react";
+import { useRef } from "react";
 
 import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
@@ -46,25 +46,28 @@ const Navbar = () => {
   function ButtonsSection(){
     const loggingStyle = "max-sm:w-full p-2 rounded-lg text-sm border border-sky-600 text-white bg-sky-600"
     
-    const {userId} = useAuth();
+    const { userId } = useAuth();
 
     return(
       <div className="flex gap-2 max-sm:flex-col max-sm:w-full max-sm:mt-8">
-        {
-          !userId ? (
-            <>
-              <Link href="/sign-in">
-                <button className={loggingStyle}> login </button>
-              </Link>
-            </>
-          ) :(
-            <>
-              <Link href="/sign-up">
-                <button className={loggingStyle}> logout </button>
-              </Link>
-            </>
-          )
-        }
+        {!userId ? (
+          <>
+            <Link href="/sign-in">
+              <button className={loggingStyle}> Sign In </button>
+            </Link>
+
+            <Link href="/sign-up">
+              <button className={loggingStyle}> Sign Up </button>
+            </Link>
+          </>
+        ) : (
+          <Link href="/dashboard">
+            <button className={` max-sm:w-full text-sm border bg-sky-600 text-white
+              hover:bg-sky-600 hover:text-white p-[8px] px-6 rounded-md `}
+            > Dashboard
+            </button>
+          </Link>
+        )}
       </div>
     )
   }
@@ -90,6 +93,7 @@ const CTRSection = () => {
       </button>
 
       <Image
+        loading="lazy"
         src={"/landingpage.webp"}
         alt="dashboard image"
         width={900}

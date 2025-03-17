@@ -10,7 +10,7 @@ import { truncateString } from './ProjectCard';
 const StatusRightSide = () => {
 
   const {
-    allProjectsObject: {allProjects, setAllProjects},
+    allProjectsObject: {allProjects},
   } = useContextApp();
 
   const {completedProjects , completedTasks , completedPercentage} = useMemo(() => {
@@ -123,8 +123,32 @@ const ProjectList = ({completedProjects,}: {completedProjects:Project[]}) => {
 }
 
 const SingleProject = ({project}: {project: Project}) => {
+  const {
+      chosenProjectObject: { setChosenProject },
+      sideBarMenuObject: { setSideBarMenu },
+      tabsOptionsObject: { setTabsOptions },
+  } = useContextApp();
+
+        function openTheProject() {
+          setSideBarMenu((prev) =>
+            prev.map((menu) => ({
+              ...menu,
+              isSelected: menu.id === 2 ? true : false,
+            }))
+          );
+
+        setTabsOptions((prev) =>
+          prev.map((option) => ({
+            ...option,
+            isSelected: option.id === 2 ? true : false,
+          }))
+        );
+        setChosenProject(project);
+      }
   return(
-    <li className='p-3 flex gap-2 items-center'>
+    <li
+    onClick={openTheProject}
+    className='p-3 flex gap-2 items-center'>
       <div className='w-8 h-8 bg-sky-600 rounded-md justify-center items-center flex text-slate-100'>
         <AudioLines className='w-4 h-4'/>
       </div>
