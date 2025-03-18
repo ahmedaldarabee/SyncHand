@@ -16,9 +16,9 @@ const AllProjectsSection = ({
     loadingObject:{isLoading}
   } = useContextApp();
 
-  // const filterProjectsBySearch = allProjects.filter((proj) =>
-  //   proj.title.toLowerCase().includes(globalSearchProject.toLowerCase())
-  // );
+  const filterProjectsBySearch = allProjects.filter((proj) =>
+    proj.title.toLowerCase().includes(globalSearchProject.toLowerCase())
+  );
 
   if (isLoading) {
     return (
@@ -33,7 +33,7 @@ const AllProjectsSection = ({
     <div className='projects-bar h-[80%] flex gap-4 flex-wrap overflow-auto mt-3 max-sm:m-auto'>
       {
         allProjects.length === 0 ? <ProjectsEmptyScreen /> :
-        allProjects.map((project) => (
+        filterProjectsBySearch.map((project) => (
           <ProjectCard project={project} key={project.id}/>
         ))
       }

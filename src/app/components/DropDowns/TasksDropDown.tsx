@@ -44,19 +44,14 @@ export default function TasksDropDown() {
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("resize", handleResize);
-      // Restore scrolling
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("resize", handleResize);
-
-      // Restore scrolling on cleanup
     };
   }, [openTasksDropDown, setOpenTasksDropDown]);
 
-  //This code below, is to set the left and the right position
-  //of the drop down
   let updatedLeftPos = 0;
   let updatedRightPos = 0;
   let updateBottomPos = 0;

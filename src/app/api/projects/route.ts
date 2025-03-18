@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { NextResponse } from "next/server";
-import Project from "@/app/models/Projects";
 import connect from "@/app/lib/connect";
-import Error from "next/error";
+import Project from "@/app/models/Projects";
 
 export async function POST(req: Request) {
   try {
@@ -76,7 +75,7 @@ export async function PUT(request: Request) {
       { id: projectId },
       {
         title: projectName,
-        icon: icon || "List",
+        icon: icon || "LocalLibrary",
         tasks: tasks.map((task: any) => ({
           ...task,
           projectName,

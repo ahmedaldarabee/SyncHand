@@ -243,7 +243,7 @@
     return (
         <div className="flex justify-between items-center pt-7 px-7">
         <div className="flex items-center gap-2">
-            <div className="p-[7px] bg-orange-200 rounded-lg flex items-center justify-center">
+            <div className="p-[7px] bg-sky-200 rounded-lg flex items-center justify-center">
             <BorderAllIcon
                 sx={{ fontSize: "21px" }}
                 className="text-sky-600"
