@@ -1,0 +1,12 @@
+npm install --save @emailjs/browser
+npm install aos --save
+npm install react-hook-form @hookform/resolvers zod 
+npm install zod
+npm install --save @types/uuid
+npm install react-hot-toast
+npm install --save react-circular-progressbar
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+npm i @clerk/nextjs
+npm install mongoose
+npm install --save-dev @types/mongoose
+npm install --save-dev @types/aos
