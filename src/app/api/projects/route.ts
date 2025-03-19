@@ -95,7 +95,7 @@ export async function PUT(request: Request) {
   } catch (error) {
     console.error("Error updating project:", error);
     return NextResponse.json(
-      { message: "Failed to update project" },
+      { message: "Wrong to update project" },
       { status: 500 }
     );
   }
