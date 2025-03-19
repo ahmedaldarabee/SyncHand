@@ -3,12 +3,20 @@
 import { BrainCircuit, ClockArrowUp, Github, Hourglass, Instagram, Lightbulb, Linkedin, MailCheck, MonitorCheck, RefreshCcw, Repeat, ServerCrash, Target } from "lucide-react";
 import Image from "next/image";
 import emailjs from '@emailjs/browser';
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
-const Page = () => {
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
+const Page = () => {
+ useEffect(() => {
+    AOS.init({
+        duration: 800,
+        once: false,
+    })
+  }, [])
   return (
     <div className="poppins">
         <Navbar />
@@ -23,7 +31,7 @@ const Page = () => {
 
 const Navbar = () => {
   return(
-    <nav className="flex p-5 max-sm:p-2 max-sm:mt-3 items-center justify-between">
+    <nav data-aos="fade-down" className="flex p-5 max-sm:p-2 max-sm:mt-3 items-center justify-between">
       <LogoSection />
       <ButtonsSection />
     </nav>
@@ -76,7 +84,7 @@ const Navbar = () => {
 
 const CTRSection = () => {
   return(
-    <div className="flex flex-col items-center mx-16 mt-[100px] gap-6">
+    <div data-aos="fade-down" className="flex flex-col items-center mx-16 mt-[100px] gap-6">
       <h2 className="text-center text-xl font-bold capitalize">
         manage your projects and tasks in smart and modularity way
         <span className="text-sky-600"> Effortlessly!</span>
@@ -138,7 +146,7 @@ const Features = () => {
     }
   ]
   return (
-    <div className="py-12 bg-slate-50 mt-12 px-9">
+    <div data-aos="fade-down" className="py-12 bg-slate-50 mt-12 px-9">
       <div className="mx-auto px-4">
         <h2 className="capitalize text-2xl font-bold text-center">synchand features</h2>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-10 cursor-pointer ">
@@ -190,7 +198,7 @@ const About = () => {
     }
   ]
   return (
-    <div className="about-us bg-white mt-3 p-12">
+    <div data-aos="fade-down" className="about-us bg-white mt-3 p-12">
       <div className="container mx-auto">
         <h2 className="text-center font-semibold my-5 capitalize text-2xl">about us section</h2>
         <div className="boxes flex justify-center items-center gap-4 max-sm:flex-col md:flex-col lg:flex-row">
@@ -248,7 +256,7 @@ const Contact = () => {
     }
   ]
   return(
-    <div className="contact p-10 bg-slate-50 mt-2">
+    <div data-aos="fade-down" className="contact p-10 bg-slate-50 mt-2">
       <div className="container mx-auto">
         <h2 className="text-center text-2xl capitalize my-4">contact us section</h2>
           <div className="flex justify-center lg:flex-row max-sm:flex-col md:flex-col items-center gap-8">
@@ -317,7 +325,7 @@ const Footer = () => {
     }
   ]
   return(
-    <div className="w-full cursor-pointer bg-slate-100">
+    <div data-aos="fade-down" className="w-full cursor-pointer bg-slate-100">
 
       <div className="w-full border-b border-slate-300 p-5 bg-slate-200 text-center cursor-pointer flex items-center justify-between gap-2 lg:flex-row max-sm:flex-col md:flex-col">
           <p className="text-[18px]">Thank you for visit us</p>
