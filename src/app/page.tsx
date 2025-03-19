@@ -95,23 +95,11 @@ const CTRSection = () => {
         boost your productivity effortlessly!
       </p>
 
-<<<<<<< HEAD
-      <button
-        type="button"
-        className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}
-<<<<<<< HEAD
-      >let's to get started
-      </button>
-=======
-      >Documentation</button>
->>>>>>> emergency
-=======
       <button type="button"className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}>
         <a  target="_blank" href="https://drive.google.com/drive/folders/1vn8-1pVPaWXyAgrPNMXStJegZBoGA4r5?usp=drive_link">
           Documentation
         </a>
       </button>
->>>>>>> emergency
 
       <Image
         loading="lazy"
