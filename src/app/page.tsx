@@ -23,7 +23,7 @@ const Page = () => {
 
 const Navbar = () => {
   return(
-    <nav className="flex p-5 max-sm:mt-9 items-center justify-between">
+    <nav className="flex p-5 max-sm:p-2 max-sm:mt-3 items-center justify-between">
       <LogoSection />
       <ButtonsSection />
     </nav>
@@ -32,8 +32,8 @@ const Navbar = () => {
   function LogoSection(){
     const commonStyle = "font-bold text-sky-600 capitalize"
     return(
-      <div className="flex gap-2 items-center">
-        <Repeat className="w-8 h-8 text-sky-600 hover:text-sky-800 transition-all" />
+      <div className="flex gap-1 items-center">
+        <Repeat className="w-6 h-6 text-sky-600 hover:text-sky-800 transition-all" />
 
         <div className="flex gap-1 text-[22px]">
           <span className={commonStyle}>sync</span>
@@ -64,7 +64,8 @@ const Navbar = () => {
           <Link href="/dashboard">
             <button className={` max-sm:w-full text-sm border bg-sky-600 text-white
               hover:bg-sky-600 hover:text-white p-[8px] px-6 rounded-md `}
-            > Dashboard
+            >
+              Return Back
             </button>
           </Link>
         )}
@@ -86,6 +87,7 @@ const CTRSection = () => {
         boost your productivity effortlessly!
       </p>
 
+<<<<<<< HEAD
       <button
         type="button"
         className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}
@@ -94,6 +96,13 @@ const CTRSection = () => {
       </button>
 =======
       >Documentation</button>
+>>>>>>> emergency
+=======
+      <button type="button"className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}>
+        <a  target="_blank" href="https://drive.google.com/drive/folders/1vn8-1pVPaWXyAgrPNMXStJegZBoGA4r5?usp=drive_link">
+          Documentation
+        </a>
+      </button>
 >>>>>>> emergency
 
       <Image

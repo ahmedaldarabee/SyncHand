@@ -1,6 +1,6 @@
 "use client";
 
-import React, {createContext,  Dispatch,SetStateAction,useContext,useEffect,useLayoutEffect,useRef,  useState,} from "react";
+import React, { createContext,useContext,useEffect,useLayoutEffect,useRef,useState,} from "react";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
@@ -8,19 +8,18 @@ import getIconComponent from "@/app/Functions/IconsActions";
 import { Project, Task } from "@/app/Data/AllProjects";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CircleIcon from "@mui/icons-material/Circle";
-import { IconData, sortingDropDownPosition } from "@/app/pages/types/AppTypes";
+import { sortingDropDownPosition } from "@/app/pages/types/AppTypes"
 import TasksDropDown from "../DropDowns/TasksDropDown";
-import { useContextApp } from "@/app/pages/contextApp";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { z } from "zod";
-import {  FieldError,FieldErrors,SubmitHandler,useForm,UseFormRegister,} from "react-hook-form";
+import { FieldErrors,SubmitHandler, useForm,UseFormRegister,} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { allIconsArray } from "@/app/Data/AllIcons";
 import { v4 as uuidv4 } from "uuid";
-import addNewTask, {  updateTaskAndProjects,} from "@/app/Functions/tasksFunction";
-import { Update } from "@mui/icons-material";
+import addNewTask, { updateTaskAndProjects} from "@/app/Functions/tasksFunction"
 import toast from "react-hot-toast";
+import { useContextApp } from "@/app/pages/contextApp";
 export type SelectionOption = "priority" | "project";
 
 export type Priority = {
@@ -83,7 +82,7 @@ const TaskFormState = {
   //
   openTasksDropDown: false,
   setOpenTasksDropDown: () => {},
-  tasksDropDownPositions: { left: 0, top: 0 , width:0},
+  tasksDropDownPositions: { left: 0, top: 0 , width:0 },
   setTasksDropDownPositions: () => {},
   priority: null,
   setPriority: () => {},
@@ -106,7 +105,7 @@ const TaskFormState = {
 };
 
 //Create context
-const TaskFormContext = createContext<TaskFormType>(TaskFormState);
+const TaskFormContext = createContext<TaskFormType>(TaskFormState); // Error is here
 
 // Create a custom hook to consume our context
 export function useTaskFormContext() {
@@ -190,7 +189,7 @@ export function TasksWindow() {
   //we are going to add the isSelected proprety
   useEffect(() => {
     const tempAllProjects: ProjectWithSelection[] = allProjects.map(
-      (project:any) => ({
+      (project) => ({
         ...project,
         isSelected: false,
       })
