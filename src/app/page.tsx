@@ -97,18 +97,10 @@ const CTRSection = () => {
 
       <button type="button"className={`block bg-sky-600 rounded-md px-9 py-3 text-sm font-medium text-white hover:bg-sky-500 transition-all`}>
         <a  target="_blank" href="https://drive.google.com/drive/folders/1vn8-1pVPaWXyAgrPNMXStJegZBoGA4r5?usp=drive_link">
-          Documentation
-        </a>
+          Documentation </a>
       </button>
 
-      <Image
-        loading="lazy"
-        src={"/landingpage.webp"}
-        alt="dashboard image"
-        width={900}
-        height={400}
-        className="shadow-xl mt-9 aspect-auto sm:w-auto w-[398px] rounded-lg max-w-full sm:max-w-md md:max-w-lg lg:max-w-lg"
-      />
+      <Image loading="lazy" src={"/landingpage.webp"} alt="dashboard image" width={900} height={400} className="shadow-xl mt-9 aspect-auto sm:w-auto w-[398px] rounded-lg max-w-full sm:max-w-md md:max-w-lg lg:max-w-lg"/>
     </div>
   )
 }
