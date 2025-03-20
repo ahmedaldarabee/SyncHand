@@ -212,7 +212,7 @@ const About = () => {
 }
 
 const Contact = () => {
-  const formRef = useRef<HTMLFormElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null)
   
   const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
