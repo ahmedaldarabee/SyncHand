@@ -163,7 +163,7 @@ const About = () => {
       id: 1,
       name: "Ahmed Al Darabee",
       title:"front end web developer" ,
-      src:"/ahmed al darabee.jpg",
+      src:"/ahmed-aldarabee.jpg",
       linkedIn:"https://www.linkedin.com/in/ahmed-al-darabee/",
       gitHub:"https://github.com/ahmedaldarabee",
       insta:"https://www.instagram.com/se.ahmednayel/"
