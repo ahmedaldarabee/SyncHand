@@ -1,7 +1,6 @@
 "use client";
 
 import { useContextApp } from "@/app/pages/contextApp";
-import { Project } from "@/app/Data/AllProjects";
 import React, { useEffect, useState } from "react";
 import { deleteProject } from "@/app/Functions/projectsActions";
 import { toast } from "react-hot-toast";

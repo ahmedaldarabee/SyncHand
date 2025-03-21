@@ -243,7 +243,7 @@ const Contact = () => {
             <div className="max-sm:w-[100%] message-boxes w-[50%] mx-auto">
               <div className="boxes flex items-center justify-center flex-col gap-2">
                   {
-                    messagesBox.map((message) => (
+                    messagesBox.map((message: any) => (
                       <div key={message.id} className=" cursor-pointer transition-all hover:border-sky-700 rounded-md w-[250px] text-center flex items-center justify-center flex-col box border border-sky-500 p-4 hover:bg-slate-100">
                         <p>{message.icon}</p>
                         <p className="capitalize font-semibold">{message.message}</p>
@@ -262,7 +262,6 @@ const Contact = () => {
                   <button className="hover:bg-sky-600 transition-all cursor-pointer bg-sky-500 px-7 py-2 text-white rounded-lg" type="submit">send message</button>
                 </form>
             </div>
-
           </div>
       </div>
     </div>
@@ -311,7 +310,7 @@ const Footer = () => {
           <p className="text-[18px]">Thank you for visit us</p>
           <div className="flex justify-center items-center gap-3">
             {
-              icons.map((icon) => (
+              icons.map((icon: any) => (
                 <div className="w-4 h-4 mx-2" key={icon.id} title={`${icon.title}`}> {icon.icon} </div>
               ))
             }
@@ -326,7 +325,7 @@ const Footer = () => {
 
           <div className="boxes flex items-center justify-between gap-5 lg:flex-row md:flex-col max-sm:flex-col ">
               {
-                features.map((feature,index) => (
+                features.map((feature: any,index: number) => (
                   <div key={index} className="flex  text-center flex-col items-center justify-center">
                       <h3 className="my-2 font-semibold">{feature.name}</h3>
                       <p className="text-[15px]">{feature.description}</p>

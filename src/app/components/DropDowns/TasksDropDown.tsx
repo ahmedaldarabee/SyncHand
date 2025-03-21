@@ -1,14 +1,5 @@
-import { useContextApp } from "@/app/pages/contextApp";
-import { Project } from "@/app/Data/AllProjects";
-import { useEffect, useRef, useState } from "react";
-import {
-  ProjectWithSelection,
-  SelectionOption,
-  useTaskFormContext,
-} from "../windows/TasksWindow";
-import CircleIcon from "@mui/icons-material/Circle";
-import { Priority } from "../windows/TasksWindow";
-import getIconComponent from "@/app/Functions/IconsActions";
+import { useEffect, useRef } from "react";
+import {useTaskFormContext} from "../windows/TasksWindow";
 import ProjectsListComponent from "./TasksDropDown/ProjectListComponent";
 import PriorityListComponent from "./TasksDropDown/PriorityListComponent";
 
@@ -54,7 +45,7 @@ export default function TasksDropDown() {
 
   let updatedLeftPos = 0;
   let updatedRightPos = 0;
-  let updateBottomPos = 0;
+  const updateBottomPos = 0;
 
   if (clickedSelection) {
     if (clickedSelection === "priority") {

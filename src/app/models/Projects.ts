@@ -19,7 +19,7 @@ const projectSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     icon: { type: String, required: true },
-    tasks: [taskSchema], // Array of task documents
+    tasks: [taskSchema],
 });
 
 const Project = mongoose.models.Project || mongoose.model("Project", projectSchema);

@@ -1,20 +1,17 @@
     import { Project } from "@/app/Data/AllProjects";
 
-    import { IconButton } from "@mui/material";
-    import { useEffect, useRef, useState } from "react";
+    import { useEffect, useRef } from "react";
     import DensitySmallIcon from "@mui/icons-material/DensitySmall";
-    import getIconComponent from "@/app/Functions/IconsActions";
     import { useContextApp } from "@/app/pages/contextApp";
 
     function ProjectsDropDown() {
     const {
-        allProjectsObject: { allProjects, setAllProjects },
+        allProjectsObject: { allProjects },
         openProjectsDropDownObject: {
         openProjectsDropDown,
         setOpenProjectsDropDown,
         },
         projectsDropDownPositionsObject: { projectsDropDownPositions },
-        chosenProjectObject: { chosenProject, setChosenProject },
     } = useContextApp();
     const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -69,7 +66,7 @@
                 No Projects Found
             </p>
             )}
-            {allProjects.map((singleProject, index) => (
+            {allProjects.map((singleProject: any) => (
             <SingleProject key={singleProject.id} singleProject={singleProject} />
             ))}
         </>
@@ -80,7 +77,7 @@
 
     function AllProjectsItem() {
     const {
-        chosenProjectObject: { chosenProject, setChosenProject },
+        chosenProjectObject: { setChosenProject },
         openProjectsDropDownObject: { setOpenProjectsDropDown },
     } = useContextApp();
     return (
@@ -139,4 +136,4 @@
         </div>
         </div>
     );
-    }
+}

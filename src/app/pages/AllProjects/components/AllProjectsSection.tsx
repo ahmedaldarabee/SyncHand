@@ -1,6 +1,6 @@
-import React, { SetStateAction } from 'react'
-import { useContextApp } from '../../contextApp'
-import ProjectCard from './ProjectCard'
+import React, { SetStateAction } from 'react';
+import { useContextApp } from '../../contextApp';
+import ProjectCard from './ProjectCard';
 import ProjectsEmptyScreen from '@/app/EmptyScreen/ProjectsEmptyScreen';
 import { CircularProgress } from '@mui/material';
 
@@ -12,17 +12,20 @@ const AllProjectsSection = ({
   setGlobalSearchProject: React.Dispatch<SetStateAction<string>>;
 }) => {
   const {
-    allProjectsObject: {allProjects},
-    loadingObject:{isLoading}
+    allProjectsObject: { allProjects },
+    loadingObject: { isLoading },
   } = useContextApp();
+  console.log(setGlobalSearchProject);
 
-  const filterProjectsBySearch = allProjects.filter((proj) =>
-    proj.title.toLowerCase().includes(globalSearchProject.toLowerCase())
-  );
+  const filterProjectsBySearch = globalSearchProject
+    ? allProjects.filter((proj: any) =>
+        proj.title.toLowerCase().includes(globalSearchProject.toLowerCase())
+      )
+    : allProjects;
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-3   py-40 justify-center items-center w-full  mt-16">
+      <div className="flex flex-col gap-3 py-40 justify-center items-center w-full mt-16">
         <CircularProgress value={100} className="text-sky-600" />
         <span className="text-slate-400 text-sm">Loading...</span>
       </div>
@@ -30,15 +33,16 @@ const AllProjectsSection = ({
   }
 
   return (
-    <div className='projects-bar h-[80%] flex gap-4 flex-wrap overflow-auto mt-3 max-sm:m-auto'>
-      {
-        allProjects.length === 0 ? <ProjectsEmptyScreen /> :
-        filterProjectsBySearch.map((project) => (
-          <ProjectCard project={project} key={project.id}/>
+    <div className="projects-bar h-[80%] flex gap-4 flex-wrap overflow-auto mt-3 max-sm:m-auto">
+      {allProjects.length === 0 ? (
+        <ProjectsEmptyScreen />
+      ) : (
+        filterProjectsBySearch.map((project: any) => (
+          <ProjectCard project={project} key={project.id} />
         ))
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default AllProjectsSection;

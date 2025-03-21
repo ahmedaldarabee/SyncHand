@@ -23,6 +23,7 @@
       {
         "nested-interactive": "off"
       }
-    ]
+    ],
+    "typescript-config/consistent-casing": "off"
   }
 }

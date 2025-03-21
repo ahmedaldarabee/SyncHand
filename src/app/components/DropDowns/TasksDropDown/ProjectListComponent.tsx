@@ -11,7 +11,7 @@ const ProjectListComponent = () => {
     return (
         <div className='flex flex-col gap-3'>
             {
-                updatedAllProjects.map((singleProject,index) => (
+                updatedAllProjects.map((singleProject: any,index: number) => (
                     <SingleProject key={index} index={index} singleProject={singleProject} />
                 ))
             }
@@ -30,7 +30,7 @@ const ProjectListComponent = () => {
         function updateTheProjectState(index: number){
             setProject(singleProject);
             setUpdatedAllProjects((prevProjects) =>
-                prevProjects.map((project,i) => ({
+                prevProjects.map((project:any,i:number) => ({
                     ...project,
                     isSelected: index === i
                 }))

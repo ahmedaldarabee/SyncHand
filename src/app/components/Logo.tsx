@@ -1,17 +1,15 @@
 "use client"
 
 import React from 'react'
-import { CircleCheckBig } from 'lucide-react';
 import { useContextApp } from '../pages/contextApp';
 import img from '../favicon.ico';
 import Image from 'next/image';
 
 const Logo = () => {
-    const mainIcon = "flex w-8 h-8 font-bold text-sky-600";
     const projectNameStyle = "capitalize text-[20px] text-slate-500 font-bold"
 
     const {
-        openSideBarObject: {openSideBar , setOpenSideBar},
+        openSideBarObject: {openSideBar},
     } = useContextApp();
 
     const SpanElement = ({data}:{ data: string }) => (
