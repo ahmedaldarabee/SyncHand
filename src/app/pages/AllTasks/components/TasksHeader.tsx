@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import { SearchBar } from '../../AllProjects/components/ProjectsHeader'
 import { useContextApp } from '../../contextApp';
 import { ListPlus, Menu, SearchIcon } from 'lucide-react';
 
@@ -49,7 +48,7 @@ function SearchBarTasks() {
 
 function AddTask(){
     const {
-        openSideBarObject: { openSideBar, setOpenSideBar },
+        openSideBarObject: { setOpenSideBar },
         openTasksWindowObject:{openTasksWindow, setOpenTasksWindow},
         allProjectsObject: { allProjects },
 

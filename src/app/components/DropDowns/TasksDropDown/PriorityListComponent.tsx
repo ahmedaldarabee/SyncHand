@@ -10,7 +10,7 @@ const PriorityListComponent = () => {
     return (
         <div className='flex flex-col gap-2'>
             {
-                priorityList.map((singlePriority,index) => (
+                priorityList.map((singlePriority: any,index: number) => (
                     <SinglePriority 
                         key={index}
                         singlePriority={singlePriority}

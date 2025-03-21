@@ -65,8 +65,6 @@ export default async function addNewTask(
       console.log("Project updated successfully:", updatedProject);
     } catch (error) {
       console.error("Error updating project:", error);
-      // Here you might want to add some error handling,
-      // such as showing an error message to the user
     }
   }
 }
@@ -91,13 +89,13 @@ export const updateTaskAndProjects = async ({
   // 1. Create updated task
 
   // 2. Update all projects tasks array
-  const updatedProjects = allProjects.map((proj) => {
+  const updatedProjects = allProjects.map((proj: any) => {
     if (proj.title === updateTask.projectName) {
-      const taskExists = proj.tasks.some((task) => task.id === updateTask.id);
+      const taskExists = proj.tasks.some((task: any) => task.id === updateTask.id);
       if (taskExists) {
         return {
           ...proj,
-          tasks: proj.tasks.map((task) =>
+          tasks: proj.tasks.map((task: any) =>
             task.id === updateTask.id ? updateTask : task
           ),
         };
@@ -107,13 +105,13 @@ export const updateTaskAndProjects = async ({
     } else {
       return {
         ...proj,
-        tasks: proj.tasks.filter((task) => task.id !== updateTask.id),
+        tasks: proj.tasks.filter((task: any) => task.id !== updateTask.id),
       };
     }
   });
 
   // 3. Update all tasks array
-  const updateAllTasks = updatedProjects.flatMap((proj) => proj.tasks);
+  const updateAllTasks = updatedProjects.flatMap((proj: any) => proj.tasks);
   setAllTasks(updateAllTasks);
 
   // 4. Update the chosen project
@@ -121,12 +119,12 @@ export const updateTaskAndProjects = async ({
     let updateTasksOfChosenProject: Task[] = [];
 
     if (chosenProject.id === project.id) {
-      updateTasksOfChosenProject = chosenProject.tasks.map((task) =>
+      updateTasksOfChosenProject = chosenProject.tasks.map((task: any) =>
         task.id === updateTask.id ? updateTask : task
       );
     } else {
       updateTasksOfChosenProject = chosenProject.tasks.filter(
-        (task) => task.id !== updateTask.id
+        (task: any) => task.id !== updateTask.id
       );
     }
 
@@ -138,13 +136,11 @@ export const updateTaskAndProjects = async ({
     setChosenProject(updatedChosenProject);
   }
 
-  // 5. Update all projects
   setAllProjects(updatedProjects);
 
-  // 6. Update the project in the database
   try {
     const projectToUpdate = updatedProjects.find(
-      (p) => p.title === updateTask.projectName
+      (p: any) => p.title === updateTask.projectName
     );
     if (projectToUpdate) {
       const response = await fetch("/api/projects", {
@@ -169,8 +165,6 @@ export const updateTaskAndProjects = async ({
     }
   } catch (error) {
     console.error("Error updating project:", error);
-    // Here you might want to add some error handling,
-    // such as showing an error message to the user
   }
 };
 
@@ -182,35 +176,30 @@ export const deleteTask = async ({
   setChosenProject,
   setAllProjects,
 }: DeleteTaskProps): Promise<void> => {
-  // 1. Remove the task from all projects
-  const updatedProjects = allProjects.map((proj) => ({
+  const updatedProjects = allProjects.map((proj: any) => ({
     ...proj,
-    tasks: proj.tasks.filter((task) => task.id !== taskToDelete.id),
+    tasks: proj.tasks.filter((task: any) => task.id !== taskToDelete.id),
   }));
 
-  // 2. Update all tasks array
-  const updateAllTasks = updatedProjects.flatMap((proj) => proj.tasks);
+  const updateAllTasks = updatedProjects.flatMap((proj: any) => proj.tasks);
   setAllTasks(updateAllTasks);
 
-  // 3. Update the chosen project if necessary
   if (
     chosenProject &&
-    chosenProject.tasks.some((task) => task.id === taskToDelete.id)
+    chosenProject.tasks.some((task: any) => task.id === taskToDelete.id)
   ) {
     const updatedChosenProject: Project = {
       ...chosenProject,
-      tasks: chosenProject.tasks.filter((task) => task.id !== taskToDelete.id),
+      tasks: chosenProject.tasks.filter((task: any) => task.id !== taskToDelete.id),
     };
     setChosenProject(updatedChosenProject);
   }
 
-  // 4. Update all projects
   setAllProjects(updatedProjects);
 
-  // 5. Update the project in the database
   try {
-    const projectToUpdate = allProjects.find((p) =>
-      p.tasks.some((t) => t.id === taskToDelete.id)
+    const projectToUpdate = allProjects.find((p: any) =>
+      p.tasks.some((t: any) => t.id === taskToDelete.id)
     );
     if (projectToUpdate) {
       const response = await fetch("/api/projects", {
@@ -235,8 +224,6 @@ export const deleteTask = async ({
     }
   } catch (error) {
     console.error("Error updating project:", error);
-    // Here you might want to add some error handling,
-    // such as showing an error message to the user
   }
 };
 
@@ -266,15 +253,15 @@ export async function updateStatus2({
   const newStatus = checked ? "In Progress" : "Completed";
 
   // Update allProjects
-  const updatedProjects: Project[] = allProjects.map((project) => ({
+  const updatedProjects: Project[] = allProjects.map((project: any) => ({
     ...project,
-    tasks: project.tasks.map((t) =>
+    tasks: project.tasks.map((t: any) =>
       t.id === task.id ? { ...t, status: newStatus } : t
     ),
   }));
 
   // Update allTasks
-  const updatedTasks: Task[] = allTasks.map((t) =>
+  const updatedTasks: Task[] = allTasks.map((t:any) =>
     t.id === task.id ? { ...t, status: newStatus } : t
   );
 
@@ -282,7 +269,7 @@ export async function updateStatus2({
   if (chosenProject) {
     updatedChosenProject = {
       ...chosenProject,
-      tasks: chosenProject.tasks.map((t) => {
+      tasks: chosenProject.tasks.map((t:any) => {
         if (task.id === t.id) {
           return { ...t, status: newStatus };
         }
@@ -302,8 +289,8 @@ export async function updateStatus2({
 
   // Update the project in the database
   try {
-    const projectToUpdate = updatedProjects.find((p) =>
-      p.tasks.some((t) => t.id === task.id)
+    const projectToUpdate = updatedProjects.find((p: any) =>
+      p.tasks.some((t: any) => t.id === task.id)
     );
 
     if (projectToUpdate) {
@@ -316,7 +303,7 @@ export async function updateStatus2({
           projectId: projectToUpdate.id,
           projectName: projectToUpdate.title,
           icon: projectToUpdate.icon,
-          tasks: projectToUpdate.tasks.map((t) => ({
+          tasks: projectToUpdate.tasks.map((t: any) => ({
             ...t,
             projectName: projectToUpdate.title,
           })),
@@ -332,7 +319,5 @@ export async function updateStatus2({
     }
   } catch (error) {
     console.error("Error updating project:", error);
-    // Here you might want to add some error handling,
-    // such as showing an error message to the user
   }
 }

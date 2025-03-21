@@ -3,7 +3,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { AppType, IconData, SidebarMenuItem, TabOption } from './types/AppTypes';
 import { allIconsArray } from '../Data/AllIcons';
-import { Project, projectData, Task } from '../Data/AllProjects';
+import { Project, Task } from '../Data/AllProjects';
 import { useUser } from '@clerk/nextjs';
 
 const defaultState: AppType = {
@@ -136,39 +136,28 @@ export default function ContextAppProvider({
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            console.log("Fetching projects..."); 
+            try {
+                console.log("Fetching projects...");
+                const response = await fetch(`/api/projects?clerkUserId=${user?.id}`);
+                const data = await response.json();
     
-            const response = await fetch(`/api/projects?clerkUserId=${user?.id}`);
+                if (!Array.isArray(data.projects)) {
+                    throw new Error("Projects should be an array");
+                }
     
-            const data = await response.json();
-    
-            console.log("Fetched data:", data);
-    
-            if (!data.projects || !Array.isArray(data.projects)) {
-              throw new Error("Unexpected API response: projects is not an array");
+                setAllProjects(data.projects);
+                setAllTasks(data.projects.flatMap((project: any) => project.tasks || []));
+            } catch (error) {
+                console.error("Failed to fetch projects", error);
             }
-    
-            const extractAllTasks = data.projects.flatMap(
-              (project: any) => project.tasks || []
-            );
-    
-            setAllTasks(extractAllTasks);
-            setAllProjects(data.projects);
-    
-            console.log("Updated allProjects:", data.projects); // ✅ التحقق من تحديث الحالة
-          } catch (error) {
-            console.error("Error fetching projects:", error);
-          }
         };
     
-        if (isLoaded && isSignedIn) {
+        if (isLoaded && isSignedIn && user) {
             fetchData();
         }
-    }, [user, isLoaded, isSignedIn]);
+    }, [isLoaded, isSignedIn, user]);
     
 
-    
     const [projectSearch, setProjectSearch] = useState("");
     const [taskSearch, setTaskSearch] = useState("");
 

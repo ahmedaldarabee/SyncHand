@@ -79,20 +79,20 @@ export function editProject(
       ...selectedProject,
       title: data.projectName,
       icon: selectedIcon?.name || "LocalLibrary",
-      tasks: selectedProject.tasks.map((task) => ({
+      tasks: selectedProject.tasks.map((task: any) => ({
         ...task,
         projectName: data.projectName,
       })),
     };
 
-    const updateAllProjects = allProjects.map((project) => {
+    const updateAllProjects = allProjects.map((project: any) => {
       if (project.id === selectedProject.id) {
         return updateProject;
       }
       return project;
     });
 
-    const updateAllTasks = allTasks.map((task) =>
+    const updateAllTasks = allTasks.map((task: any) =>
       task.projectName === selectedProject.title
         ? { ...task, projectName: data.projectName }
         : task

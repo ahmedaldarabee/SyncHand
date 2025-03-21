@@ -1,17 +1,13 @@
     "use client";
     import React, {
-    Dispatch,
-    SetStateAction,
     useEffect,
     useLayoutEffect,
-    useRef,
     useState,
     } from "react";
     import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
     import { useContextApp } from "@/app/pages/contextApp";
     import BorderAllIcon from "@mui/icons-material/BorderAll";
     import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-    import { v4 as uuidv4 } from "uuid";
     import { toast } from "react-hot-toast";
 
     import {
@@ -24,8 +20,6 @@
     import * as z from "zod";
     import getIconComponent from "@/app/Functions/IconsActions";
     import { addNewProject,editProject } from "@/app/Functions/projectsActions";
-    import ListAltIcon from "@mui/icons-material/ListAlt";
-    import { IconData } from "@/app/pages/types/AppTypes";
     import { allIconsArray } from "@/app/Data/AllIcons";
     import { Project } from "@/app/Data/AllProjects";
     import { useUser } from "@clerk/nextjs";
@@ -48,7 +42,7 @@
         selectedProjectObject: { selectedProject, setSelectedProject },
         chosenProjectObject: { setChosenProject, chosenProject },
         allTasksObject: { allTasks, setAllTasks },
-        sortingOptionObject: {sortingOptions,setSortingOptions}
+        sortingOptionObject: {sortingOptions}
     } = useContextApp();
 
     const [isLoading, setLoading] = useState(false);
@@ -70,37 +64,25 @@
 
     //On Submit function
     const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-        //Call the addNewProject or edit project function, if everything is valid
-
-        //This will check if the title we want to update when we update
-        //the project is already existing
-
         if (selectedProject) {
-        //Get rid of the selected project from the all projects array
         const allProjectsWithoutSelectedProject = allProjects.filter(
             (project:any) => project.id !== selectedProject.id
         );
-
-        //Then see the input already exists in other projects based on
-        // the allProjectsWithoutSelectedProject array
         const isExistingNameInOtherProjects =
             allProjectsWithoutSelectedProject.find(
             (project:any) =>
                 project.title.toLowerCase() === data.projectName.toLowerCase()
             );
 
-        //if it is existing, throw an error
         if (isExistingNameInOtherProjects) {
             setError("projectName", {
             type: "manual",
             message: "Title already used in another project!",
             });
-            //Set the focus to the project name input
             setFocus("projectName");
             return;
         }
         } else {
-        //When we to add a new project, we are going to do a simple comparaison in the all projects array
         const existingProject = allProjects.find(
             (project:any) =>
             project.title.toLowerCase() === data.projectName.toLowerCase()
@@ -111,7 +93,6 @@
             type: "manual",
             message: "Project already exists",
             });
-            //Set the focus to the project name input
             setFocus("projectName");
             return;
         }
@@ -156,8 +137,6 @@
 
             //Update the chosen project
             if (selectedProject && chosenProject) {
-            //if the project we want to edit is the same that is
-            //selected in the all tasks page
             if (chosenProject.id === selectedProject.id) {
                 const updateChosenProject: Project = {
                 ...chosenProject,
@@ -212,8 +191,6 @@
         }
         }
     }, [openProjectWindow, reset]);
-
-    console.log(selectedIcon);
 
     return (
         <div
@@ -292,7 +269,6 @@
         }
     }, [openProjectWindow]);
 
-    console.log(selectedProject);
 
     return (
         <div className="flex flex-col gap-2">

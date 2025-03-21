@@ -1,14 +1,14 @@
 "use client"
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { useContextApp } from '../pages/contextApp';
-import { LayoutTemplate, BotMessageSquare, Grid2x2, Minimize2 } from 'lucide-react';
+import { LayoutTemplate, BotMessageSquare, Grid2x2 } from 'lucide-react';
 import { SvgIconProps } from '@mui/material';
 
 const Menu = () => {
   const {
-    openSideBarObject: { openSideBar, setOpenSideBar },
+    openSideBarObject: { openSideBar },
     sideBarMenuObject: { sideBarMenu, setSideBarMenu },
-    tabsOptionsObject: {tabsOptions , setTabsOptions}
+    tabsOptionsObject: { setTabsOptions}
   } = useContextApp();
 
   const iconMap: Record<string, React.ComponentType<SvgIconProps>> = {
@@ -24,14 +24,14 @@ const Menu = () => {
       return;
     }
   
-    const updatedMenu = sideBarMenu.map((item) => ({
+    const updatedMenu = sideBarMenu.map((item: any) => ({
       ...item,
       isSelected: item.id === id
     }));
     setSideBarMenu(updatedMenu);
     if(id == 2){
-      setTabsOptions((prev) => 
-        prev.map((option) => ({
+      setTabsOptions((prev: any) => 
+        prev.map((option: any) => ({
           ...option,
           isSelected: option.id === 1 ? true : false
         }))
@@ -43,7 +43,7 @@ const Menu = () => {
   return (
     <div className='flex flex-col gap-2 items-center'>
       <div className='flex flex-col gap-6'>
-        {sideBarMenu.map((menuItem) => {
+        {sideBarMenu.map((menuItem: any) => {
           const IconComponent = iconMap[menuItem.id.toString()];
           return (
               <div key={menuItem.id} onClick={() => {

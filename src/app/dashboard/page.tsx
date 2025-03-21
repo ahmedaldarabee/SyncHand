@@ -53,7 +53,6 @@ const Main = () => {
 
         <Sidebar/>
         {selectedComponent}
-        
         </main>
     )
 }

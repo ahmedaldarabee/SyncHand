@@ -14,17 +14,17 @@ const StatusRightSide = () => {
   } = useContextApp();
 
   const {completedProjects , completedTasks , completedPercentage} = useMemo(() => {
-    let completedProjects: Project[] = [];
+    const completedProjects: Project[] = [];
     let totalTasks = 0;
     let completedTasks = 0;
 
     allProjects.forEach((project) => {
-      const projectCompleted = project.tasks.every((task) => task.status === "Completed");
+      const projectCompleted = project.tasks.every((task: any) => task.status === "Completed");
 
       if(projectCompleted)
         completedProjects.push(project);
 
-      project.tasks.forEach((task) => {
+      project.tasks.forEach((task: any) => {
         totalTasks++;
         if(task.status === "Completed")
           completedTasks++;
@@ -110,7 +110,7 @@ const ProjectList = ({completedProjects,}: {completedProjects:Project[]}) => {
             }
 
           </div>
-          {completedProjects.map((project,index) => (
+          {completedProjects.map((project: any,index: number) => (
             <div key={index}>
               <SingleProject project={project} />
               {index < completedProjects.length-1 && (
@@ -138,7 +138,7 @@ const SingleProject = ({project}: {project: Project}) => {
           );
 
         setTabsOptions((prev) =>
-          prev.map((option) => ({
+          prev.map((option: any) => ({
             ...option,
             isSelected: option.id === 2 ? true : false,
           }))

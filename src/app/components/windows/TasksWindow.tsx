@@ -184,9 +184,6 @@ export function TasksWindow() {
     ProjectWithSelection[]
   >([]);
 
-  //Add the isSelected Property to allProjects
-  //I added this useEffect, so whenever the all projects is updated
-  //we are going to add the isSelected proprety
   useEffect(() => {
     const tempAllProjects: ProjectWithSelection[] = allProjects.map(
       (project) => ({
@@ -206,7 +203,7 @@ export function TasksWindow() {
       if (chosenProject) {
         setProject(chosenProject);
         setUpdateAllProjects((prevProjects) =>
-          prevProjects.map((proj) => ({
+          prevProjects.map((proj: any) => ({
             ...proj,
             isSelected: proj.id === chosenProject.id ? true : false,
           }))
@@ -216,7 +213,7 @@ export function TasksWindow() {
       if (projectClicked) {
         setProject(projectClicked);
         setUpdateAllProjects((prevProjects) =>
-          prevProjects.map((proj) => ({
+          prevProjects.map((proj: any) => ({
             ...proj,
             isSelected: proj.id === projectClicked.id ? true : false,
           }))
@@ -235,7 +232,7 @@ export function TasksWindow() {
 
       //Update the priority list selection
       setPriorityList((prevList) =>
-        prevList.map((list) => ({
+        prevList.map((list: any) => ({
           ...list,
           isSelected: selectedTask.priority === list.name ? true : false,
         }))
@@ -340,15 +337,10 @@ export function TasksWindow() {
       return { ...error, show: false };
     });
 
-    //if the show propreties are false when the use clicks in submit
-    //Then update or add a task
     if (newErrors.every((error) => error.show === false)) {
       tasksFunction(data);
     }
-
     setSelectionErrors(newErrors);
-
-    // Add your form submission logic here
   };
 
   async function tasksFunction(data: FormData) {

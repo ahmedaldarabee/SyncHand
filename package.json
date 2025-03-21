@@ -34,8 +34,10 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
     "@types/aos": "^3.0.7",
     "@types/mongoose": "^5.11.96",
+    "@types/next-pwa": "^5.6.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -43,7 +45,8 @@
     "eslint": "^9.22.0",
     "eslint-config-next": "15.1.7",
     "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "next-pwa": "^5.6.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2"

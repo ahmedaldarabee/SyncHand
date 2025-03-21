@@ -14,7 +14,7 @@ const TasksList = () => {
         chosenProjectObject: {chosenProject},
         allProjectsObject: {allProjects},
         tabsOptionsObject: { tabsOptions },
-        allTasksObject: {allTasks, setAllTasks},
+        allTasksObject: {allTasks},
         taskSearch
     } = useContextApp();
     
@@ -23,20 +23,20 @@ const TasksList = () => {
 
         // Filter by project
         if (chosenProject) {
-        tasks = tasks.filter((task) => task.projectName === chosenProject.title);
+        tasks = tasks.filter((task: any) => task.projectName === chosenProject.title);
         }
 
         // Filter by status if "Completed" tab is selected
         if (tabsOptions[1].isSelected) {
-        tasks = tasks.filter((task) => task.status === "Completed");
+        tasks = tasks.filter((task: any) => task.status === "Completed");
         } else {
-        tasks = tasks.filter((task) => task.status === "In Progress");
+        tasks = tasks.filter((task: any) => task.status === "In Progress");
         }
 
         return tasks;
     }, [chosenProject, tabsOptions, allProjects, allTasks]);
 
-    const filterTasksBySearch = filteredTasks.filter((task) =>
+    const filterTasksBySearch = filteredTasks.filter((task: any) =>
         task.title.toLowerCase().includes(taskSearch.toLowerCase())
     );
 
@@ -62,8 +62,8 @@ const TasksList = () => {
 
 const Tabs = () => {
     const {
-        chosenProjectObject: {chosenProject, setChosenProject},
-        allProjectsObject: {allProjects, setAllProjects},
+        chosenProjectObject: {chosenProject},
+        allProjectsObject: {allProjects},
         tabsOptionsObject: { tabsOptions, setTabsOptions },
     } = useContextApp();
 
@@ -157,37 +157,6 @@ const SingleTask = ({singleTask}:{singleTask: Task}) => {
     useLayoutEffect(() => {
         setChecked(singleTask.status === "Completed");
     },[singleTask]);
-
-    function updateStatus(){
-        const newStatus = checked ? "In Progress" : "Completed";
-        const updatedProjects: Project[] = allProjects.map((project) => ({
-            ...project,
-            tasks: project.tasks.map((t) => 
-                t.id === singleTask.id ? {...t, status: newStatus} : t
-            )
-        }));
-        
-            const updatedTasks: Task[] = allTasks.map((t) => 
-                t.id === singleTask.id ? {...t, status: newStatus} : t
-            )
-
-            if(chosenProject){
-                const updateChosenProject: Project = {
-                    ...chosenProject,
-                    tasks: chosenProject.tasks.map((t) => {
-                        if(singleTask.id === t.id){
-                            return {...t,status: newStatus};
-                        }
-                        return t;
-                    }),
-                };
-                setChosenProject(updateChosenProject);
-            }
-    
-            setAllProjects(updatedProjects);
-            setAllTasks(updatedTasks);
-            setChecked(!checked);
-    }
 
     function updateStatusFunction() {
         try {
