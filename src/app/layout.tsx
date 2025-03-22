@@ -29,11 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>SyncHand</title>
         <meta name="description" content="SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams." />
       </head>
-      <ClerkProvider>
-        <ContextAppProvider>
-          <body className={poppins.variable}>{children}</body>
-        </ContextAppProvider>
-      </ClerkProvider>
+        <ClerkProvider>
+          <ContextAppProvider>
+            <body className={poppins.variable}>{children}</body>
+          </ContextAppProvider>
+        </ClerkProvider>
     </html>
   );
 }
