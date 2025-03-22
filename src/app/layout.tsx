@@ -17,12 +17,6 @@ export const metadata: Metadata = {
     "SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams.",
 };
 
-const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-if (!clerkKey) {
-  console.error("Missing Clerk Publishable Key. Make sure it's set in your environment variables.");
-}
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -31,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="description" content="SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams." />
       </head>
       <body className={`${poppins.variable} ${inter.className}`}>
-        <ClerkProvider publishableKey={clerkKey}>
+        <ClerkProvider>
           <ContextAppProvider>{children}</ContextAppProvider>
         </ClerkProvider>
       </body>
