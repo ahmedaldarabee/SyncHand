@@ -29,6 +29,7 @@
     "svix": "^1.61.3",
     "uuid": "^11.1.0",
     "uuidv4": "^6.2.13",
+    "workbox-window": "^7.3.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
