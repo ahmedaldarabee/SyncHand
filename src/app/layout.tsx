@@ -16,9 +16,7 @@ export const metadata: Metadata = {
     "SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams.",
 };
 
-const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-if (!clerkKey) {
+if (typeof window !== "undefined" && !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Clerk Publishable Key! Ensure it is set in your environment variables.");
 }
 
@@ -29,11 +27,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>SyncHand</title>
         <meta name="description" content="SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams." />
       </head>
-        <ClerkProvider>
-          <ContextAppProvider>
-            <body className={poppins.variable}>{children}</body>
-          </ContextAppProvider>
+      <body className={poppins.variable}>
+      <ContextAppProvider>
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+          {children}
         </ClerkProvider>
+      </ContextAppProvider>
+
+      </body>
     </html>
   );
 }
