@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ContextAppProvider from "./pages/contextApp";
@@ -16,7 +16,9 @@ export const metadata: Metadata = {
     "SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams.",
 };
 
-if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+if (!clerkKey) {
   throw new Error("Missing Clerk Publishable Key! Ensure it is set in your environment variables.");
 }
 
@@ -27,13 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>SyncHand</title>
         <meta name="description" content="SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams." />
       </head>
-      <body className={poppins.variable}>
-        <ContextAppProvider>
-          <ClerkProvider>
-            {children}
-          </ClerkProvider>
-        </ContextAppProvider>
-      </body>
+        <ClerkProvider>
+          <ContextAppProvider>
+            <body className={poppins.variable}>{children}</body>
+          </ContextAppProvider>
+        </ClerkProvider>
     </html>
   );
 }
