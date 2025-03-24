@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
+
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ContextAppProvider from "./pages/contextApp";
@@ -9,7 +10,6 @@ const poppins = Poppins({
   variable: "--font-poppins",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-
 
 const APP_NAME = "SyncHand";
 const APP_DEFAULT_TITLE = "SyncHand";
