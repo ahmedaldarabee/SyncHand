@@ -13,3 +13,4 @@ npm install --save-dev @types/aos
 
 npm install --save @emailjs/browser aos react-hook-form @hookform/resolvers zod @types/uuid react-hot-toast react-circular-progressbar @mui/icons-material @mui/material @emotion/styled @emotion/react @clerk/nextjs mongoose @types/mongoose @types/aos
  + npm install --save-dev @types/mongoose @types/aos
+npx @next/codemod next-image-to-legacy ./src

@@ -186,7 +186,7 @@ const About = () => {
           {
             infos.map((info,index) => (
               <div className="w-[300px] max-w-full box border hover:border-sky-600 transition-all cursor-pointer border-sky-300 flex justify-center items-center flex-col p-5 rounded-md drop-shadow-2xl" key={index}>
-                <Image className="rounded-lg" src={info.src} width={200} height={200} alt={`${info.name}`}/>
+                <Image style={{ objectFit: "cover" }} loading="lazy" className="rounded-lg" src={info.src} width={200} height={200} alt={`${info.name}`}/>
                 <h1 className="font-semibold max-sm:text-[17px] capitalize mt-5">{info.title}</h1>
                 
                 <p className="text-[18px]">{info.name}</p>
@@ -255,7 +255,7 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="max-sm:w-[100%] form border border-slate-100 w-[50%]">
+            <div className="max-sm:w-[100%] form w-[50%]">
                 <form ref={formRef} onSubmit={sendEmail} className="flex flex-col gap-5">
                   <input  required name="username" className="inputs" type="text" placeholder="Enter Full Name" />
                   <input  required name="useremail" className="inputs" type="email" placeholder="Enter Full Email" />
