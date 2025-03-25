@@ -136,26 +136,34 @@ export default function ContextAppProvider({
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                console.log("Fetching projects...");
-                const response = await fetch(`/api/projects?clerkUserId=${user?.id}`);
-                const data = await response.json();
-    
-                if (!Array.isArray(data.projects)) {
-                    throw new Error("Projects should be an array");
-                }
-    
-                setAllProjects(data.projects);
-                setAllTasks(data.projects.flatMap((project: any) => project.tasks || []));
-            } catch (error) {
-                console.error("Failed to fetch projects", error);
+        try {
+            // Fetch projects data from the API
+            const response = await fetch(`/api/projects?clerkUserId=${user?.id}`);
+            if (!response.ok) {
+            throw new Error("Failed to fetch projects");
             }
+            const data = await response.json();
+
+            // Extract all tasks from the fetched projects data
+            const extractAllTasks = data.projects.flatMap(
+            (project: any) => project.tasks
+            );
+
+            // Update the state with fetched data
+            setAllTasks(extractAllTasks);
+            setAllProjects(data.projects);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            // setIsLoading(false);
+        }
         };
-    
-        if (isLoaded && isSignedIn && user) {
+
+        if (isLoaded && isSignedIn) {
+            setLoading(false);
             fetchData();
         }
-    }, [isLoaded, isSignedIn, user]);
+    }, [user, isLoaded, isSignedIn]);
     
 
     const [projectSearch, setProjectSearch] = useState("");

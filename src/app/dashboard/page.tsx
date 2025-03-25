@@ -30,7 +30,7 @@ const Main = () => {
     }
 
     // 1 as default page!
-    const componentKey = sideBarMenu.find((item) => item.isSelected)?.id || 3;
+    const componentKey = sideBarMenu.find((item) => item.isSelected)?.id || 1;
     const selectedComponent = componentMap[componentKey] || <AllProjects/>;
 
     return (
