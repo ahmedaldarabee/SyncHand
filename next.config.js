@@ -10,9 +10,10 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
   },
   experimental: {
-    turbo: false,
+    turbo: {},
   },
 };
 
