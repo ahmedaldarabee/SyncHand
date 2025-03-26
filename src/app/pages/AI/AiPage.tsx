@@ -1,10 +1,11 @@
+import { Chatbot } from '@/components/component/chatbot'
 import React from 'react'
 
 const AiPage = () => {
     return (
-        <div className='w-full p-10 min-h-screen flex justify-center items-center'>
-            <p className='capitalize font-semibold text-[20px] cursor-pointer hover:text-sky-600 transition-all'>welcome in ai page!</p>
-        </div>
+        <main className='w-full min-h-screen flex items-center justify-center bg-slate-50'>
+          <Chatbot />
+        </main>
     )
 }
 
