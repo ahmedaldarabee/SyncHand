@@ -32,11 +32,34 @@ const Page = () => {
 
 const Navbar = () => {
   return(
-    <nav data-aos="fade-down" className="flex p-5 max-sm:p-2 max-sm:mt-3 items-center justify-between">
-      <LogoSection />
-      <ButtonsSection />
-    </nav>
+    <header className="fixed top-0 w-full bg-white/30 backdrop-blur-md z-50 cursor-pointer">
+      <nav data-aos="fade-down" className="flex max-sm:flex-col md:flex-col lg:flex-row p-5 max-sm:p-2 max-sm:mt-3 items-center justify-between">
+        <LogoSection />
+        <NavLinks/>
+        <ButtonsSection />
+      </nav>
+    </header>
   )
+
+  function NavLinks() {
+    const links = [
+      { id: 1, destination: "home" },
+      { id: 2, destination: "feature" },
+      { id: 3, destination: "about" },
+      { id: 4, destination: "contact" }
+    ];
+  
+    return (
+      <div className="flex items-center justify-center gap-2 capitalize">
+        {links.map((link, index) => (
+          <a key={index} href={`#${link.destination}`} className="hover:text-sky-600 transition-all hover:font-bold">
+            {link.destination}
+          </a>
+        ))}
+      </div>
+    );
+  }
+  
 
   function LogoSection(){
     const commonStyle = "font-bold text-sky-600 capitalize"
@@ -85,7 +108,7 @@ const Navbar = () => {
 
 const CTRSection = () => {
   return(
-    <div data-aos="fade-down" className="flex flex-col items-center mx-16 mt-[100px] gap-6">
+    <div id="home" data-aos="fade-down" className="flex flex-col items-center mx-16 mt-[100px] gap-6">
       <h2 className="text-center text-xl font-bold capitalize">
         manage your projects and tasks in smart and modularity way
         <span className="text-sky-600"> Effortlessly!</span>
@@ -127,7 +150,7 @@ const Features = () => {
     }
   ]
   return (
-    <div data-aos="fade-down" className="py-12 bg-slate-50 mt-12 px-9">
+    <div id="feature" data-aos="fade-down" className="py-12 bg-slate-50 mt-12 px-9">
       <div className="mx-auto px-4">
         <h2 className="capitalize text-2xl font-bold text-center">synchand features</h2>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-10 cursor-pointer ">
@@ -179,7 +202,7 @@ const About = () => {
     }
   ]
   return (
-    <div data-aos="fade-down" className="about-us bg-white mt-3 p-12">
+    <div id="about" data-aos="fade-down" className="about-us bg-white mt-3 p-12">
       <div className="container mx-auto">
         <h2 className="text-center font-semibold my-5 capitalize text-2xl">about us section</h2>
         <div className="boxes flex justify-center items-center gap-4 max-sm:flex-col md:flex-col lg:flex-row">
@@ -237,7 +260,7 @@ const Contact = () => {
     }
   ]
   return(
-    <div data-aos="fade-down" className="contact p-10 bg-slate-50 mt-2">
+    <div id="contact" data-aos="fade-down" className="contact p-10 bg-slate-50 mt-2">
       <div className="container mx-auto">
         <h2 className="text-center text-2xl capitalize my-4">contact us section</h2>
           <div className="flex justify-center lg:flex-row max-sm:flex-col md:flex-col items-center gap-8">
