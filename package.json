@@ -37,7 +37,7 @@
     "react-hook-form": "^7.54.2",
     "react-hot-toast": "^2.5.2",
     "react-markdown": "^10.1.0",
-    "svix": "^1.61.3",
+    "svix": "^1.62.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",
