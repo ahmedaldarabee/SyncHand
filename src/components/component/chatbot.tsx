@@ -25,7 +25,7 @@ export function Chatbot() {
         <div className="flex flex-col gap-4">
 
           {
-            messages.map((message) =>               
+            messages.map((message: any) =>               
               message.role === "assistant" ? (
 
                 <div key={message.id} className="flex items-start gap-3">
