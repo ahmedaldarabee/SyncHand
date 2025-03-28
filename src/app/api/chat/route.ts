@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
 
         const { messages }: { messages: CoreMessage[] } = await req.json();
-        console.log("Messages received:", messages);
 
         if (!messages || messages.length === 0) {
             throw new Error("No messages provided.");
