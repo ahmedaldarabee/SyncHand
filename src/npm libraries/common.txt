@@ -10,7 +10,6 @@ npm i @clerk/nextjs
 npm install mongoose
 npm install --save-dev @types/mongoose
 npm install --save-dev @types/aos
-
-npm install --save @emailjs/browser aos react-hook-form @hookform/resolvers zod @types/uuid react-hot-toast react-circular-progressbar @mui/icons-material @mui/material @emotion/styled @emotion/react @clerk/nextjs mongoose @types/mongoose @types/aos
- + npm install --save-dev @types/mongoose @types/aos
+npm i ldrs
+npm install svix
 npx @next/codemod next-image-to-legacy ./src
