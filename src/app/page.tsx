@@ -17,7 +17,8 @@ const Page = () => {
         duration: 800,
         once: false,
     })
-  }, [])
+  }, []);
+
   return (
     <div className="poppins">
         <Navbar />
