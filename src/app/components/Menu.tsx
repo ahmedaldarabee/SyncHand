@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { useContextApp } from '../pages/contextApp';
-import { LayoutTemplate, BotMessageSquare, Grid2x2, Newspaper  } from 'lucide-react';
+import { LayoutTemplate, BotMessageSquare, Grid2x2, NotebookPen  } from 'lucide-react';
 
 const Menu = () => {
   const {
@@ -14,6 +14,7 @@ const Menu = () => {
     "1": Grid2x2,
     "2": LayoutTemplate,
     "3": BotMessageSquare,
+    "4": NotebookPen,
   };
 
   const handleClickedItem = (id: number) => {

@@ -28,10 +28,11 @@ const Main = () => {
         1:<AllProjects/>,
         2:<AllTasks/>,
         3:<AiPage />,
+        4:<NotePage />
     }
 
     // 1 as default page!
-    const componentKey = sideBarMenu.find((item) => item.isSelected)?.id || 1;
+    const componentKey = sideBarMenu.find((item) => item.isSelected)?.id || 4;
     const selectedComponent = componentMap[componentKey] || <AllProjects/>;
 
     return (

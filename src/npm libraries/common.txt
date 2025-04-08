@@ -10,6 +10,7 @@ npm i @clerk/nextjs
 npm install mongoose
 npm install --save-dev @types/mongoose
 npm install --save-dev @types/aos
+npx shadcn@latest init
 npm i ldrs
 npm install svix
 npx @next/codemod next-image-to-legacy ./src
