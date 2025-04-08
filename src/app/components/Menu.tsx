@@ -14,7 +14,6 @@ const Menu = () => {
   const iconMap: Record<string, React.ComponentType<SvgIconProps>> = {
     "1": Grid2x2,
     "2": LayoutTemplate,
-    "3": BotMessageSquare,
   };
 
   const handleClickedItem = (id: number) => {
