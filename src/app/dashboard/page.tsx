@@ -14,6 +14,7 @@ import AiPage from "../pages/AI/AiPage";
 import ProjectsDropDown from "../components/DropDowns/ProjectsDropDown";
 import { TasksWindow } from "../components/windows/TasksWindow";
 import TasksDropDown from "../components/DropDowns/TasksDropDown";
+import NotePage from "../pages/Note/NotePage";
 
 const Main = () => {
     const {
@@ -26,7 +27,7 @@ const Main = () => {
     const componentMap:Record<number,React.ReactNode> = {
         1:<AllProjects/>,
         2:<AllTasks/>,
-        3:<AiPage />
+        3:<AiPage />,
     }
 
     // 1 as default page!
@@ -52,7 +53,7 @@ const Main = () => {
         )}
 
         <Sidebar/>
-        {selectedComponent}
+            {selectedComponent}
         </main>
     )
 }
