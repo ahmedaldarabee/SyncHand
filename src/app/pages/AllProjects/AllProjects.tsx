@@ -15,8 +15,8 @@ const updateSearchProject = (value: string) => {
 
 return (
     <div className="bg-slate-50 w-full min-h-screen flex justify-center flex-grow overflow-auto">
-    <AllProjectArea />
-    <StatusRightSide />
+        <AllProjectArea />
+        <StatusRightSide />
     </div>
 );
 

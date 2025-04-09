@@ -69,6 +69,14 @@ export default function ContextAppProvider({
             id:3,
             name:"sync hand ai",
             isSelected:false
+        },{
+            id:4,
+            name:"notepad app",
+            isSelected:false
+        },{
+            id:5,
+            name:"chatting app",
+            isSelected:false
         }
     ])
 
