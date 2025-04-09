@@ -13,12 +13,9 @@ const Menu = () => {
   const iconMap: Record<string, React.FC<any>> = {
     "1": Grid2x2,
     "2": LayoutTemplate,
-<<<<<<< HEAD
-=======
     "3": BotMessageSquare,
     "4": NotebookPen,
     "5": MessagesSquare
->>>>>>> emergency
   };
 
   const handleClickedItem = (id: number) => {
