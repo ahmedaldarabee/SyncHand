@@ -17,10 +17,12 @@ const NotePage = () => {
   useEffect(() => {
     const loadedNotes = loadNotes();
     setNotes(loadedNotes);
-    setIsInitialized(true); 
+    setIsInitialized(true);
+    //هيك اشارة انو البيانات تم تحميلها من لوكال ستورج
   }, []);
 
   useEffect(() => {
+    // اذا تم تحميلها قم بأعتماد التحديثات الجديدة الي صارت عليه من جديد 
     if (isInitialized) {
       saveNotes(notes);
     }
