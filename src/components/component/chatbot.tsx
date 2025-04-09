@@ -17,7 +17,7 @@ export function Chatbot() {
       <div className="flex-1 overflow-auto p-6">
         {messages.length === 0 && (
           <div className='flex flex-col justify-center items-center h-full cursor-pointer'>
-            <p className='text-lg text-muted-foreground mt-4'>Welcome to synchand ai chatbot! ask me any thing...</p>
+            <p className='text-lg text-muted-foreground mt-4 capitalize'>welcome to SyncHand AI chatbot! ask me anything...</p>
             <Image src="/SyncHand.png" alt='SyncHand Logo' width={280} height={280} />
           </div>
         )}
@@ -55,7 +55,7 @@ export function Chatbot() {
       <form onSubmit={handleSubmit} className="bg-muted/50 px-4 py-3 flex items-center gap-2">
         <div className="relative flex-1">
           <Textarea
-            placeholder="Ask sycnhand ai..."
+            placeholder="Ask SyncHand AI..."
             className="rounded-lg border pr-12 min-h-[64px] resize-none"
             rows={2}
             value={input}

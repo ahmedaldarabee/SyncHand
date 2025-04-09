@@ -1,6 +1,4 @@
 import { Note } from "./type"
-
-
 const STORAGE_KEY = "notes"
 
 export function loadNotes(): Note[] {
@@ -9,7 +7,6 @@ export function loadNotes(): Note[] {
     const savedNotes = localStorage.getItem(STORAGE_KEY)
     if (savedNotes) {
         try {
-            console.log("correct getting data from local storage.",savedNotes)
             return JSON.parse(savedNotes)
         } catch (error) {
             console.error("Failed to parse notes from localStorage", error)

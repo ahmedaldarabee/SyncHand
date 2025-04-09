@@ -64,7 +64,7 @@ function AddTask(){
                 className='bg-sky-700 transition-all hover:bg-sky-500 text-white p-2 text-[14px] rounded-md text-center flex items-center'>
 
                 <ListPlus />
-                <span className='capitalize'> add task </span>
+                <span className='capitalize cursor-pointer'> add task </span>
             </button>
 
             <div className="max-[940px]:block hidden">

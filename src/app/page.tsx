@@ -195,7 +195,7 @@ const About = () => {
     },{
       id: 2,
       name: "Mohammad Hilal",
-      title:"network engineering",
+      title:"ASP.Net Developer",
       src:"/mohammad.jpeg",
       linkedIn:"https://www.linkedin.com/in/mohammad-hilal-949561269/",
       gitHub:"https://github.com/Mohammadhilal03",
@@ -361,8 +361,8 @@ const Footer = () => {
       </div>
 
       <div className="mt-2 w-full border-t border-slate-300 bg-slate-200 p-5 text-center cursor-pointer flex flex-col gap-2">
-          <p className="hover:translate-x-2 transition-all capitalize">all rights are reserved &copy; 2025 - <span className="font-semibold text-sky-500">SyncHand</span></p>
-          <p className="text-[14px]">ahmed darabee & mohammad hilal </p>
+          <p className="hover:translate-x-2 transition-all capitalize">all rights reserved &copy; 2025 - <span className="font-semibold text-sky-500">SyncHand</span></p>
+          <p className="text-[14px] capitalize">ahmed darabee & mohammad hilal </p>
       </div>
     </div>
   )
