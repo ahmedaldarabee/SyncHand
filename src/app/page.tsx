@@ -134,7 +134,7 @@ const Features = () => {
   const features = [
     {
       id: 4,
-      name: "Smart Project and Tasks Management",
+      name: "Smart Projects and Tasks Management",
       icon: <Lightbulb className="text-sky-600 text-[32px]" />,
       description: `Create, edit, and delete projects and tasks with ease. Use sorting, filtering, and tabs to keep your workspace organized.
       `
@@ -153,7 +153,7 @@ const Features = () => {
   return (
     <div id="feature" data-aos="fade-down" className="py-12 bg-slate-50 mt-12 px-9">
       <div className="mx-auto px-4">
-        <h2 className="capitalize text-2xl font-bold text-center">synchand features</h2>
+        <h2 className="capitalize text-2xl font-bold text-center">syncHand features</h2>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-10 cursor-pointer ">
           {
             features.map((feature,index) => (
@@ -205,7 +205,7 @@ const About = () => {
   return (
     <div id="about" data-aos="fade-down" className="about-us bg-white mt-3 p-12">
       <div className="container mx-auto">
-        <h2 className="text-center font-semibold my-5 capitalize text-2xl">about us section</h2>
+        <h2 className="text-center font-semibold my-5 capitalize text-2xl">about us</h2>
         <div className="boxes flex justify-center items-center gap-4 max-sm:flex-col md:flex-col lg:flex-row">
           {
             infos.map((info,index) => (
@@ -263,7 +263,7 @@ const Contact = () => {
   return(
     <div id="contact" data-aos="fade-down" className="contact p-10 bg-slate-50 mt-2">
       <div className="container mx-auto">
-        <h2 className="text-center text-2xl capitalize my-4">contact us section</h2>
+        <h2 className="text-center text-2xl capitalize my-4">contact us</h2>
           <div className="flex justify-center lg:flex-row max-sm:flex-col md:flex-col items-center gap-8">
             <div className="max-sm:w-[100%] message-boxes w-[50%] mx-auto">
               <div className="boxes flex items-center justify-center flex-col gap-2">
@@ -332,7 +332,7 @@ const Footer = () => {
     <div data-aos="fade-down" className="w-full cursor-pointer bg-slate-100">
 
       <div className="w-full border-b border-slate-300 p-5 bg-slate-200 text-center cursor-pointer flex items-center justify-between gap-2 lg:flex-row max-sm:flex-col md:flex-col">
-          <p className="text-[18px]">Thank you for visit us</p>
+          <p className="text-[18px]">Thanks you for visiting us</p>
           <div className="flex justify-center items-center gap-3">
             {
               icons.map((icon: any) => (
