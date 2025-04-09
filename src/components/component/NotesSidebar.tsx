@@ -4,11 +4,17 @@ import EmptyScreen from '../ui/empty-statate';
 import { Note } from '@/lib/type';
 import { Trash2 } from 'lucide-react';
 import { formatingDate } from '@/lib/timestamp';
+import { Button } from '../ui/button';
 
 interface NoteProps {
     notes: Note[],
+    onSelectNote: (note: Note) => void,
+    onNewNote: () => void,
+    onDelete: (id: string) => void,
+    activeNoteId: string | undefined
 }
-const NotesSidebar = ({notes}:NoteProps) => {
+
+const NotesSidebar = ({notes,onSelectNote,onNewNote,onDelete,activeNoteId}:NoteProps) => {
 
     const dataHandler = (data: string) => {
         const mainTitle = data.substring(0,30);
@@ -18,20 +24,21 @@ const NotesSidebar = ({notes}:NoteProps) => {
 
     return (
         <>
-            <Card>
+            <Card className='h-full'>
                 <CardHeader>
                     <CardTitle className='text-center'>Projects Notes</CardTitle>
                 </CardHeader>
 
-                <CardContent>
+                <CardContent className='overflow-auto projects-bar w-full h-[400px]'>
                     {
                         notes.length === 0 ? (
-                            <EmptyScreen message='Still there are no notes' buttonTxt='create your new notes' />
+                            <EmptyScreen onButtonClick={onNewNote} message='Still there are no notes' buttonTxt='create your new notes' />
                         ) : (
                             <div>
                                 {
                                     notes.map((note: Note) => (
-                                        <div key={note.id} className='p-3 rounded-md cursor-pointer hover:bg-accent transition-all'>
+                                        <div onClick={() => onSelectNote(note)} key={note.id} 
+                                        className={`p-2 rounded-md cursor-pointer hover:bg-accent transition-all ${activeNoteId === note.id ? "bg-accent":""}`}>
                                             <div className='flex justify-between items-center gap-2'>
                                                 <div>
                                                     <h1 className='text-[22px] font-medium'>
@@ -44,10 +51,17 @@ const NotesSidebar = ({notes}:NoteProps) => {
                                                         {formatingDate(note.createdAt)}
                                                     </p>
                                                 </div>
-
-                                                <div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className='w-8 h-8 text-muted-foreground hover:text-destructive cursor-pointer'
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        onDelete(note.id);
+                                                    }}
+                                                >
                                                     <Trash2 className='w-4 h-4 hover:text-red-600 cursor-pointer transition-all hover:scale-125'/>
-                                                </div>
+                                                </Button>
                                             </div>
                                         </div>
                                     ))

@@ -44,7 +44,7 @@ const Header = ({ setOpenIconWindow }: { setOpenIconWindow: (value: boolean) => 
 const IconsArea = () => {
     return (
         <div className="w-full flex flex-col items-center mt-3">
-            <div className="projects-bar  w-[92%] h-[120px] overflow-auto rounded-md bg-slate-100">
+            <div className="projects-bar w-[92%] h-[120px] overflow-auto rounded-md bg-slate-100">
                 <AllIcons />
             </div>
         </div>

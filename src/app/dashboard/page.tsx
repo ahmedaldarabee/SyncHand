@@ -15,6 +15,7 @@ import ProjectsDropDown from "../components/DropDowns/ProjectsDropDown";
 import { TasksWindow } from "../components/windows/TasksWindow";
 import TasksDropDown from "../components/DropDowns/TasksDropDown";
 import NotePage from "../pages/Note/NotePage";
+import ChattingApp from "../pages/chat/ChattingApp";
 
 const Main = () => {
     const {
@@ -28,7 +29,8 @@ const Main = () => {
         1:<AllProjects/>,
         2:<AllTasks/>,
         3:<AiPage />,
-        4:<NotePage />
+        4:<NotePage />,
+        5:<ChattingApp />
     }
 
     // 1 as default page!
