@@ -26,7 +26,7 @@ function SearchBarTasks() {
     });
 
     return (
-        <div className=" flex  items-center">
+        <div className="flex items-center">
             <div className="border-b-2 border-sky-600 h-[39px] w-11 justify-center flex items-center">
             <SearchIcon
                 className="text-slate-400 outline-none h-4 w-4"

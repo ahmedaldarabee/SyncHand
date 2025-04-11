@@ -23,7 +23,7 @@ const NoteView = ({note, onEdit}: NoteViewProps) => {
             </CardContent>
 
             <CardFooter className='flex justify-end m-1'>
-                <Button onClick={onEdit} className='bg-sky-500 hover:bg-sky-600'> Edit </Button>
+                <Button onClick={onEdit} className='bg-sky-600 hover:bg-sky-700'> Edit </Button>
             </CardFooter>
         </Card>
     )
