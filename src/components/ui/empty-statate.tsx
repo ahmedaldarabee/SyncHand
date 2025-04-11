@@ -14,7 +14,7 @@ const EmptyScreen = ({message,buttonTxt,onButtonClick}: EmptyScreenProps) => {
             <div className='text-center p-8'>
                 <p className='text-muted-foreground mb-4'>{message}</p>
                 
-                <Button className='capitalize bg-sky-500 hover:bg-sky-600' onClick={onButtonClick}>
+                <Button className='capitalize bg-sky-600 hover:bg-sky-700' onClick={onButtonClick}>
                     <Plus className='w-4 h-4 mr-2'/>{buttonTxt}
                 </Button>
             </div>

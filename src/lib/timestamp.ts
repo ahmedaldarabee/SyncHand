@@ -3,7 +3,6 @@ const STORAGE_KEY = "notes"
 
 export function loadNotes(): Note[] {
     if (typeof window === "undefined") return []
-
     const savedNotes = localStorage.getItem(STORAGE_KEY)
     if (savedNotes) {
         try {

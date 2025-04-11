@@ -13,12 +13,14 @@ const NotePage = () => {
   const [notes,setNotes] = useState<Note[]>([]);
   const [activeNote,setActiveNote] = useState<Note | null>(null);
   const [isEditting,setIsEditting] = useState<boolean> (false);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false); // ✅ جديد
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const [search,setSearch] = useState<Note[]>([]);
 
   // first render of page - to show first status of data that be empty!
   useEffect(() => {
     const loadedNotes = loadNotes();
     setNotes(loadedNotes);
+    setSearch(loadedNotes);
     setIsInitialized(true);
     //هيك اشارة انو البيانات تم تحميلها من لوكال ستورج
   }, []);
@@ -42,11 +44,10 @@ const NotePage = () => {
 
     // as you see this [last,new] section that used just when i have new data that changed!
     // in localstorage, as you see in useEffect we provide just notes, so in this case the behaviour of system is difference 
-    setNotes([...notes,newNote]);
+    setNotes([...notes,newNote]);// update section of new notes
+    setSearch([...notes,newNote]);
     setActiveNote(newNote);
     setIsEditting(true);
-
-    // Toast Message
   }
 
   // to define active note
@@ -56,31 +57,31 @@ const NotePage = () => {
   }
 
   const onSave = (updateNote: Note) => {
-    Swal.fire({
-      title: "Do you want to save the changes?",
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: "Save",
-      denyButtonText: `Don't save`
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setNotes(notes.map((note) => (note.id === updateNote.id ? updateNote : note)))
-        setActiveNote(updateNote);
-        setIsEditting(false);
-        toast.success('Saved successfully!');
-      } else if (result.isDenied) {
-        toast.error("Unsaved Note")
-      }
-    });
+    setNotes(notes.map((note) => (note.id === updateNote.id ? updateNote : note)))
+    setActiveNote(updateNote);
+    setIsEditting(false);
+    toast.success('Saved successfully!');
   }
 
   const onCancel = () => {
     Swal.fire({
-      title: "Cancel Successfully!",
-      icon: "success",
-      draggable: true
+      title: "Are you sure?",
+      text: "Are you sure want to cancel these changes?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0284C7",
+      cancelButtonColor: "#e61b1b",
+      confirmButtonText: "Yes, cancel it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsEditting(false);
+        Swal.fire({
+          title: "Canceled!",
+          text: "Your changes have been canceled.",
+          icon: "success"
+        });
+      }
     });
-    setIsEditting(false);
   }
 
   const renderNoteContent = () => {
@@ -97,8 +98,14 @@ const NotePage = () => {
     return null;
   }
 
-  const onDelete = (id: string) => {
+  // we needed to use [ includes ] for do searching 
+  const searchNote = (data: string) => {
+    const searchValue = data.toLowerCase();
+    const filteredNotes = search.filter(note => note.title.toLowerCase().includes(searchValue));
+    setNotes(filteredNotes);
+  }
 
+  const onDelete = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text:  `Do you won't delete this note`,
@@ -118,9 +125,6 @@ const NotePage = () => {
             text: "Your file has been deleted.",
             icon: "success"
           });
-          // toast ok
-        }else{
-          // toast No!
         }
       }
     });
@@ -128,7 +132,7 @@ const NotePage = () => {
 
   return (
     <div className='w-full min-h-screen flex flex-col bg-slate-50 cursor-pointer'>
-        <Header onNewNote={onNewNote} />
+        <Header onNewNote={onNewNote} searchNote={searchNote}/>
         <div className='container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6 flex-1'>
           <div className='md:col-span-1'>
             <NotesSidebar activeNoteId={activeNote?.id} onDelete={onDelete} onNewNote={onNewNote} notes={notes} onSelectNote={onSelectNote}/>
@@ -140,5 +144,6 @@ const NotePage = () => {
     </div>
   )
 }
+
 
 export default NotePage
