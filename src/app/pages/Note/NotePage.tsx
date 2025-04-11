@@ -101,7 +101,7 @@ const NotePage = () => {
 
     Swal.fire({
       title: "Are you sure?",
-      text:  `ou won't delete this note number: ${id+1}`,
+      text:  `Do you won't delete this note`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
