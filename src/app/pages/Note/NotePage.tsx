@@ -6,6 +6,8 @@ import NoteView from '@/components/ui/note-view'
 import { loadNotes, saveNotes } from '@/lib/timestamp'
 import { Note } from '@/lib/type'
 import React, { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
+import toast, { Toaster } from 'react-hot-toast';
 
 const NotePage = () => {
   const [notes,setNotes] = useState<Note[]>([]);
@@ -27,7 +29,6 @@ const NotePage = () => {
       saveNotes(notes);
     }
   }, [notes, isInitialized]);
-  
 
   const onNewNote = () => {
     if (!notes) return;
@@ -44,6 +45,8 @@ const NotePage = () => {
     setNotes([...notes,newNote]);
     setActiveNote(newNote);
     setIsEditting(true);
+
+    // Toast Message
   }
 
   // to define active note
@@ -53,12 +56,30 @@ const NotePage = () => {
   }
 
   const onSave = (updateNote: Note) => {
-    setNotes(notes.map((note) => (note.id === updateNote.id ? updateNote : note)))
-    setActiveNote(updateNote);
-    setIsEditting(false);
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setNotes(notes.map((note) => (note.id === updateNote.id ? updateNote : note)))
+        setActiveNote(updateNote);
+        setIsEditting(false);
+        toast.success('Saved successfully!');
+      } else if (result.isDenied) {
+        toast.error("Unsaved Note")
+      }
+    });
   }
 
   const onCancel = () => {
+    Swal.fire({
+      title: "Cancel Successfully!",
+      icon: "success",
+      draggable: true
+    });
     setIsEditting(false);
   }
 
@@ -77,11 +98,32 @@ const NotePage = () => {
   }
 
   const onDelete = (id: string) => {
-    setNotes(notes.filter(note => note.id !== id));
-    if(activeNote && activeNote.id === id){
-      setActiveNote(null);
-      setIsEditting(false);
-    }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text:  `Do you won't delete this note`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setNotes(notes.filter(note => note.id !== id));
+        if(activeNote && activeNote.id === id){
+          setActiveNote(null);
+          setIsEditting(false);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+          // toast ok
+        }else{
+          // toast No!
+        }
+      }
+    });
   }
 
   return (

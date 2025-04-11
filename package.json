@@ -39,6 +39,7 @@
     "react-hot-toast": "^2.5.2",
     "react-markdown": "^10.1.0",
     "svix": "^1.62.0",
+    "sweetalert2": "^11.17.2",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",
