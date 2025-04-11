@@ -13,4 +13,6 @@ npm install --save-dev @types/aos
 npx shadcn@latest init
 npm i ldrs
 npm install svix
+npm i sweetalert2
+npm i react-toastify
 npx @next/codemod next-image-to-legacy ./src
