@@ -1,10 +1,11 @@
-import React, { ReactNode } from 'react'
-import { Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
-import EmptyScreen from '../ui/empty-statate';
+import React from 'react'
+import { Card,CardContent,CardHeader,CardTitle,} from "@/components/ui/card"
+// import EmptyScreen from '../ui/empty-statate';
 import { Note } from '@/lib/type';
 import { Trash2 } from 'lucide-react';
 import { formatingDate } from '@/lib/timestamp';
 import { Button } from '../ui/button';
+import ProjectsEmptyScreen from '@/app/EmptyScreen/ProjectsEmptyScreen';
 
 interface NoteProps {
     notes: Note[],
@@ -24,21 +25,17 @@ const NotesSidebar = ({notes,onSelectNote,onNewNote,onDelete,activeNoteId}:NoteP
 
     return (
         <>
-            <Card className='h-full'>
-                <CardHeader>
-                    <CardTitle className='text-center'>Projects Notes</CardTitle>
-                </CardHeader>
-
+            <Card className='h-full bg-slate-50 border-none'>
                 <CardContent className='overflow-auto projects-bar w-full h-[400px]'>
                     {
                         notes.length === 0 ? (
-                            <EmptyScreen onButtonClick={onNewNote} message='Still there are no notes' buttonTxt='create your new notes' />
+                        <ProjectsEmptyScreen />
                         ) : (
                             <div>
                                 {
                                     notes.map((note: Note) => (
                                         <div onClick={() => onSelectNote(note)} key={note.id} 
-                                        className={`p-2 rounded-md cursor-pointer hover:bg-accent transition-all ${activeNoteId === note.id ? "bg-accent":""}`}>
+                                        className={`p-2 rounded-md cursor-pointer hover:bg-accent transition-all ${activeNoteId === note.id ? "bg-accent":""} border border-slate-500 my-2`}>
                                             <div className='flex justify-between items-center gap-2'>
                                                 <div>
                                                     <h1 className='text-[22px] font-medium'>
