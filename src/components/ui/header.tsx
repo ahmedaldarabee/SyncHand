@@ -18,7 +18,7 @@ const Header = ({onNewNote,searchNote}: HeaderProps) => {
                 <SearchBarTasks searchNote={searchNote}/>                
                 <div className='flex gap-1'>
                     <Button onClick={onNewNote} className='cursor-pointer text-[14px] bg-sky-600 hover:bg-sky-700' size="sm">
-                        <ListPlus/>New Note
+                        <ListPlus/> Add Note
                     </Button>
                     <Menu 
                         onClick={() => setOpenSideBar(prev => !prev)}
