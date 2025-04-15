@@ -9,6 +9,7 @@ import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Swal from "sweetalert2";
 
 const Page = () => {
   
@@ -22,7 +23,7 @@ const Page = () => {
   return (
     <div className="poppins">
         <Navbar />
-        <CTRSection />
+        <IntroductionSection />
         <Features />
         <About />
         <Contact />
@@ -107,7 +108,7 @@ const Navbar = () => {
   }
 }
 
-const CTRSection = () => {
+const IntroductionSection = () => {
   return(
     <div id="home" data-aos="fade-down" className="flex flex-col items-center mx-16 mt-[100px] gap-6">
       <h2 className="text-center text-xl font-bold capitalize">
@@ -238,6 +239,11 @@ const Contact = () => {
     
     emailjs.sendForm('service_iu8olds', 'template_fgl3b2u', formRef.current, 'Q05OrSC2J27GZu9tw');
     
+    Swal.fire({
+      title: "Message Sent Successfully!",
+      icon: "success",
+      draggable: true
+    });
     const formElement = event.target as HTMLFormElement;
     formElement.reset();
   };
