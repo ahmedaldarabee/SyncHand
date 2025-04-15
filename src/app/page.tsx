@@ -9,6 +9,7 @@ import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Swal from "sweetalert2";
 
 const Page = () => {
   
@@ -21,7 +22,7 @@ const Page = () => {
   return (
     <div className="poppins">
         <Navbar />
-        <CTRSection />
+        <IntroductionSection />
         <Features />
         <About />
         <Contact />
@@ -106,7 +107,7 @@ const Navbar = () => {
   }
 }
 
-const CTRSection = () => {
+const IntroductionSection = () => {
   return(
     <div id="home" data-aos="fade-down" className="flex flex-col items-center mx-16 mt-[100px] gap-6">
       <h2 className="text-center text-xl font-bold capitalize">
@@ -237,6 +238,11 @@ const Contact = () => {
     
     emailjs.sendForm('service_iu8olds', 'template_fgl3b2u', formRef.current, 'Q05OrSC2J27GZu9tw');
     
+    Swal.fire({
+      title: "Message Sent Successfully!",
+      icon: "success",
+      draggable: true
+    });
     const formElement = event.target as HTMLFormElement;
     formElement.reset();
   };
@@ -262,7 +268,7 @@ const Contact = () => {
   return(
     <div id="contact" data-aos="fade-down" className="contact p-10 bg-slate-50 mt-2">
       <div className="container mx-auto">
-        <h2 className="text-center text-2xl capitalize my-4">contact us section</h2>
+        <h2 className="text-center text-2xl capitalize my-4">contact us</h2>
           <div className="flex justify-center lg:flex-row max-sm:flex-col md:flex-col items-center gap-8">
             <div className="max-sm:w-[100%] message-boxes w-[50%] mx-auto">
               <div className="boxes flex items-center justify-center flex-col gap-2">

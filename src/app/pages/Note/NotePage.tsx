@@ -7,7 +7,7 @@ import { loadNotes, saveNotes } from '@/lib/timestamp'
 import { Note } from '@/lib/type'
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const NotePage = () => {
   const [notes,setNotes] = useState<Note[]>([]);
