@@ -13,7 +13,7 @@ const AiPage = () => {
           <div className='self-start translate-x-5 translate-y-5'>
             <Menu
                   onClick={() => setOpenSideBar(prev => !prev)}
-                  className='text-slate-400 h-9 cursor-pointer hidden max-[940px]:block'
+                  className='text-slate-400 w-4 h-9 cursor-pointer hidden max-[940px]:block'
               />
           </div>
           <Chatbot />

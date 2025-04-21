@@ -39,24 +39,24 @@ const Main = () => {
 
     return (
         <main className="flex w-full h-screen poppins transition-all">
-        <TasksDropDown />
-        <TasksWindow />
-        <ProjectsDropDown />
-        <SortingDropDown />
-        <Toaster />
+            <TasksDropDown />
+            <TasksWindow />
+            <ProjectsDropDown />
+            <SortingDropDown />
+            <Toaster />
 
-        <ConfirmationWindow />
-        <MoreDropDown />
-        <IconWindow />
-        <ProjectWindow />
-        {/* soft layer */}
+            <ConfirmationWindow />
+            <MoreDropDown />
+            <IconWindow />
+            <ProjectWindow />
+            {/* soft layer */}
 
-        {(openSideBar) && (
-            <div className={`transition-all w-full h-full ${openProjectWindow || openConfirmationWindow ? 'z-700' : 'z-10'} bg-slate-800 fixed opacity-30`}></div>
-        )}
+            {(openSideBar) && (
+                <div className={`transition-all w-full h-full ${openProjectWindow || openConfirmationWindow ? 'z-700' : 'z-10'} bg-slate-800 fixed opacity-30`}></div>
+            )}
 
-        <Sidebar/>
-            {selectedComponent}
+            <Sidebar/>
+                {selectedComponent}
         </main>
     )
 }
