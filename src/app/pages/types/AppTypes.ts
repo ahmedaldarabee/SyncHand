@@ -155,4 +155,9 @@ export type AppType = {
     taskSearch: string;
     setProjectSearch: React.Dispatch<React.SetStateAction<string>>;
     setTaskSearch: React.Dispatch<React.SetStateAction<string>>;
+
+    userMessageObject:{
+        userMessage: string,
+        setUserMessage: React.Dispatch<React.SetStateAction<string>>;
+    }
 }

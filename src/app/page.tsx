@@ -234,7 +234,8 @@ const Contact = () => {
   const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!formRef.current) return;
+    if (!formRef.current) 
+      return;
     
     emailjs.sendForm('service_iu8olds', 'template_fgl3b2u', formRef.current, 'Q05OrSC2J27GZu9tw');
     

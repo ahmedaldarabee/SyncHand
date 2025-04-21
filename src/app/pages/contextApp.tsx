@@ -42,6 +42,7 @@ const defaultState: AppType = {
 
     taskSearch: "",
     setTaskSearch: () => {},
+    userMessageObject:{userMessage: "",setUserMessage: () => {}}
 };
 
 
@@ -136,6 +137,8 @@ export default function ContextAppProvider({
     const [selectedTask , setSelectedTask] = useState<Task | null>(null);
     const [projectClicked , setProjectClicked] = useState<Project | null>(null);
 
+    const [userMessage,setUserMessage] = useState<string>("");
+
     const {user , isLoaded , isSignedIn} = useUser();
 
     useEffect(() => {
@@ -205,6 +208,7 @@ export default function ContextAppProvider({
                 setTaskSearch,
                 projectSearch,
                 setProjectSearch,
+                userMessageObject:{userMessage,setUserMessage},
             }}>
                 {children}
             </ContextApp.Provider>
