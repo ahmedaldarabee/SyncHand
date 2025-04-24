@@ -3,7 +3,7 @@
 import { BrainCircuit, ClockArrowUp, Github, Hourglass, Instagram, Lightbulb, Linkedin, MailCheck, MonitorCheck, RefreshCcw, Repeat, ServerCrash, Target } from "lucide-react";
 import Image from "next/image";
 import emailjs from '@emailjs/browser';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
@@ -230,6 +230,7 @@ const About = () => {
 }
 
 const Contact = () => {
+  const [isClick , setIsClick] = useState<number | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null)
   
   const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
@@ -276,7 +277,8 @@ const Contact = () => {
               <div className="boxes flex items-center justify-center flex-col gap-2">
                   {
                     messagesBox.map((message: any) => (
-                      <div key={message.id} className=" cursor-pointer transition-all hover:border-sky-700 rounded-md w-[250px] text-center flex items-center justify-center flex-col box border border-sky-500 p-4 hover:bg-slate-100">
+                      // في Tailwind، الكلاسات اللي بتيجي بعد ممكن تتغلب على اللي قبل.
+                      <div onClick={() => setIsClick(message.id)} key={message.id} className={`cursor-pointer transition-all rounded-md w-[250px] text-center flex items-center justify-center flex-col box border p-4 hover:border-sky-700 hover:bg-slate-100 ${isClick === message.id ? "border-green-700 border-1" : "border-sky-500"}`}>
                         <p>{message.icon}</p>
                         <p className="capitalize font-semibold">{message.message}</p>
                         <p className="text-[16px]">{message.description}</p>
