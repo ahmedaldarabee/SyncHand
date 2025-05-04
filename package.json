@@ -6,9 +6,9 @@
     "dev": "next dev --turbopack",
     "dev:socket": "ts-node --project tsconfig.server.json server.ts",
     "build": "next build",
-    "build:socket":"next build && tsc --project tsconfig.server.json",
+    "build:socket": "next build && tsc --project tsconfig.server.json",
     "start": "next start",
-    "start:socket":"NODE_ENV=production node dist/server.mjs",
+    "start:socket": "NODE_ENV=production node dist/server.mjs",
     "lint": "next lint"
   },
   "engines": {
