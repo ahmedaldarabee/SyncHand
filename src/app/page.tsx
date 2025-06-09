@@ -314,7 +314,7 @@ const Footer = () => {
       description: "Enhance team collaboration with real-time communication, file sharing, and collaborative editing. Keep everyone connected and working together seamlessly."
     },{
       id:3,
-      name: "Reporting & Analytics",
+      name: "Hight Performance",
       description: "Gain valuable insights into project performance with comprehensive reporting and analytics. Monitor key metrics, identify trends, and make data-driven decisions to optimize your workflow."
     }
   ]
