@@ -89,7 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={poppins.variable}>
             {/* {isLoading ? (
               <div className="flex justify-center items-center h-screen">
-                <Helix size={100} speed={3} color="black" />
+                <Helix size={120} speed={3} color="black" />
               </div>
             ) : (
               children
