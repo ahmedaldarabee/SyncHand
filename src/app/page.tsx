@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import {useAuth} from '@clerk/nextjs'
 import Link from "next/link";
 import AOS from 'aos';
+// @ts-ignore
 import 'aos/dist/aos.css';
 import Swal from "sweetalert2";
 
@@ -88,10 +89,6 @@ const Navbar = () => {
           <>
             <Link href="/sign-in">
               <button className={loggingStyle}> Sign In </button>
-            </Link>
-
-            <Link href="/sign-up">
-              <button className={loggingStyle}> Sign Up </button>
             </Link>
           </>
         ) : (
