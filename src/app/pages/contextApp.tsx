@@ -139,7 +139,7 @@ export default function ContextAppProvider({
 
     const [userMessage,setUserMessage] = useState<string>("");
 
-    const {user , isLoaded , isSignedIn} = useUser();
+    const { user, isLoaded, isSignedIn } = useUser();
 
     useEffect(() => {
         setOpenSideBar(false);  

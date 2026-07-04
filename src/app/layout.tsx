@@ -58,11 +58,8 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-if (!clerkKey) {
-  throw new Error("Missing Clerk Publishable Key! Ensure it is set in your environment variables.");
-}
+const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
+const shouldUseClerk = Boolean(clerkPublishableKey);
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // const [isLoading, setIsLoading] = useState(true);
@@ -84,20 +81,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="description" content="SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams." />
       </head>
 
-        <ClerkProvider>
+        {shouldUseClerk ? (
+          <ClerkProvider publishableKey={clerkPublishableKey}>
+            <ContextAppProvider>
+              <body className={poppins.variable}>
+              {/* {isLoading ? (
+                <div className="flex justify-center items-center h-screen">
+                  <Helix size={120} speed={3} color="black" />
+                </div>
+              ) : (
+                children
+              )} */}
+              {children}
+              </body>
+            </ContextAppProvider>
+          </ClerkProvider>
+        ) : (
           <ContextAppProvider>
             <body className={poppins.variable}>
-            {/* {isLoading ? (
-              <div className="flex justify-center items-center h-screen">
-                <Helix size={120} speed={3} color="black" />
-              </div>
-            ) : (
-              children
-            )} */}
             {children}
             </body>
           </ContextAppProvider>
-        </ClerkProvider>
+        )}
 
     </html>
   );
