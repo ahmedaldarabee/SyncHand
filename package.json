@@ -12,7 +12,7 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": "24.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.3",
