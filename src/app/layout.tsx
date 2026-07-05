@@ -81,28 +81,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="description" content="SyncHand is an AI-powered project designed to enhance productivity and efficiency for individuals and teams." />
       </head>
 
-        {shouldUseClerk ? (
-          <ClerkProvider publishableKey={clerkPublishableKey}>
-            <ContextAppProvider>
-              <body className={poppins.variable}>
-              {/* {isLoading ? (
-                <div className="flex justify-center items-center h-screen">
-                  <Helix size={120} speed={3} color="black" />
-                </div>
-              ) : (
-                children
-              )} */}
-              {children}
-              </body>
-            </ContextAppProvider>
-          </ClerkProvider>
-        ) : (
-          <ContextAppProvider>
-            <body className={poppins.variable}>
+      <ClerkProvider publishableKey={clerkPublishableKey}>
+        <ContextAppProvider>
+          <body className={poppins.variable}>
             {children}
-            </body>
-          </ContextAppProvider>
-        )}
+          </body>
+        </ContextAppProvider>
+      </ClerkProvider>
 
     </html>
   );
