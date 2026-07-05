@@ -18,7 +18,7 @@ export function Chatbot() {
         {messages.length === 0 && (
           <div className='flex flex-col justify-center items-center h-full cursor-pointer'>
             <p className='text-lg text-muted-foreground mt-4 capitalize'>welcome to SyncHand AI chatbot! ask me anything...</p>
-            <Image src="/SyncHand.png" alt='SyncHand Logo' width={280} height={280} />
+            {/* <Image src="./SyncHand.png" alt='SyncHand Logo' width={280} height={280} /> */}
           </div>
         )}
 

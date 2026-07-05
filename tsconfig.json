@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
+    "module": "esnext",
     "noResolve": false,
     "noImplicitAny": false,
     "removeComments": true,
@@ -17,7 +17,7 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,

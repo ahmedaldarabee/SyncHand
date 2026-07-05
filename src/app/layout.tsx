@@ -1,12 +1,9 @@
 import { Poppins } from "next/font/google";
-import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ContextAppProvider from "./pages/contextApp";
-import 'ldrs/ring'
-// import { Helix } from 'ldrs/react'
-import 'ldrs/react/Helix.css'
-// import { useEffect, useState } from "react";
 import { Metadata, Viewport } from "next";
+import "./globals.css";
+
 
 export const viewport: Viewport = {
   themeColor: "#FFFFFF",
@@ -58,8 +55,7 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
-const shouldUseClerk = Boolean(clerkPublishableKey);
+const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // const [isLoading, setIsLoading] = useState(true);
